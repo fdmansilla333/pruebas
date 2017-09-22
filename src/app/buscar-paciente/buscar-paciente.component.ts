@@ -35,9 +35,10 @@ export class BuscarPacienteComponent implements OnInit, OnDestroy {
         this.DNIBuscado = undefined;
         this.appconfig.DNIPERSONA = undefined;
         //appconfig.title = 'Prueba de componente'; //cambiar esto desde el encabezado
-        if (!this.persona) {
+        
+        /*if (!this.persona) {
             this.persona = new Persona();
-        } 
+        } */
         /*       
         route.params.subscribe(params => {
             this.DNIBuscado = params.id;

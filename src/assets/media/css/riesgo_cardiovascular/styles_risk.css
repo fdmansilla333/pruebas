@@ -1,0 +1,488 @@
+body
+	{
+	font-family: lucida sans unicode, lucida grande, sans-serif;
+	color: #000000;
+	font-size: 12px;
+	margin: 0px;
+	line-height: 150%;
+    background-color: #faeabf;
+	}
+.page
+	{
+	margin-top: 10px;
+	margin-left: -388px;
+	position: absolute;
+	top: 0;
+	left: 50%;
+	width: 776px;
+    padding: 0px;     
+	}
+table.brd
+	{
+    border: 1px solid #333333;
+    background-color: #ffffff;
+	}     
+div
+    {
+    padding: 0px 0px 10px 0px;
+    }
+div.hdpd
+    {
+    padding: 2px 0px 4px 0px;
+    }
+div.tblpd
+    {
+    padding: 10px 0px 10px 0px;
+    }       
+div.sbhd
+    {
+    padding: 0px 0px 3px 0px;
+    }    
+div.foot
+    {
+    padding: 7px 0px 7px 5px;    
+    }
+div.btmnav
+    {
+    padding: 2px 0px 2px 25px;
+    }
+div.pgtxt
+    {
+    padding: 20px 25px 20px 25px;
+    }
+div.pgtxt2
+    {
+    padding: 20px 0px 20px 25px;
+    }    
+div.invtxt
+    {
+    width: 470px;
+    padding: 15px 15px 0px 0px;
+    clear: both;
+    }
+div.invpht
+    {
+    float: left;
+    width: 70px;
+    padding: 0px 15px 0px 0px;
+    }
+div.biotxt
+    {
+    width: 470px;
+    padding: 0px 15px 0px 0px;
+    clear: both;
+    }    
+div.biopht
+    {
+    float: left;
+    width: 70px;
+    padding: 0px 15px 75px 0px;
+    clear: both;    
+    }
+div.bioad
+    {
+    line-height: 180%;
+    }    
+.cent
+    {
+    text-align: center;
+    } 
+.rgt
+    {
+    text-align: right;
+    }                           
+/* colors */    
+.wt
+    {
+    color: #ffffff;
+    }    
+.rd
+    {
+    color: #bf0000;
+    }
+.dkblu
+    {
+    color: #145180;
+    }           
+.ltblu
+    {
+    color: #165788;
+    }
+.ywl
+    {
+    color: #ebab00;
+    }    
+.sftxt
+    {
+    font-family: times new roman, times, serif;
+    }            
+.bld
+	{
+	font-weight: bold;
+	}
+.itl
+    {
+    font-style: italic;
+    }    
+.smtxt
+    {
+    font-size: 11px;
+    }
+.txt1
+    {
+    font-size: 13px;
+    }    
+.txt2
+    {
+    font-size: 14px;
+    }
+.txt3
+    {
+    font-size: 16px;
+    }
+.txt4
+    {
+    font-size: 11px;
+    }
+.search
+    {
+    color: #000000;
+    font-size: 10px;
+    width: 100px;
+    border: 0px;    
+    }
+.searchbtn
+    {
+    color: #000000;
+    font-size: 10px;
+    width: 20px;
+    border: 0px;
+    background-color: #ebab00;    
+    }
+input.searchbtn:hover
+    {
+    color: #ffffff;
+    font-size: 10px;
+    width: 20px;
+    border: 0px;
+    background-color: #ebab00;    
+    }                        
+
+/* links */
+
+a, a:link, a:visited
+	{
+    color: #145180;
+	}
+a:hover
+    {
+    color: #ebab00;
+    }
+a.lb, a.lb:link, a.lb:visited
+	{
+    color: #165788;
+	text-decoration: none;
+	}
+a.lb:hover
+    {
+    color: #ebab00;
+	text-decoration: none;	    
+    }
+.db, a.db, a.db:link, a.db:visited
+	{
+    color: #165788;
+	text-decoration: none;	
+	}
+a.db:hover
+    {
+    color: #5c89ac;
+    }
+a.dbon, a.dbon:link, a.dbon:visited, a.dbon:hover
+    {
+    color: #5c89ac;
+    font-size: 9px;
+	text-decoration: none;
+    }
+    
+a.yl, a.yl:link, a.yl:visited
+	{
+    color: #ebab00;
+	text-decoration: none;	
+	}
+a.yl:hover
+    {
+    color: #165788;
+    }    
+a.top, a.top:link, a.top:visited
+	{
+    color: #000000;
+	text-decoration: none;	
+	}
+a.top:hover
+    {
+    color: #5c89ac;
+    }
+a.topon, a.topon:link, a.topon:visited, a.topon:hover
+	{
+    color: #5c89ac;
+	text-decoration: none;	
+	}
+a.invlnk, a.invlnk:link, a.invlnk:visited
+	{
+    color: #000000;
+    font-size: 9px;
+	line-height: 160%;    
+	text-decoration: none;	
+	}
+a.invlnk:hover
+	{
+    color: #bf0000;
+	text-decoration: none;	
+	}
+a.invlnkon, a.invlnkon:link, a.invlnkon:visited, a.invlnkon:hover
+    {
+    color: #bf0000;
+    font-size: 9px;
+    line-height: 160%;
+	text-decoration: none;    
+    }
+a.rdlnk, a.rdlnk:link, a.rdlnk:visited
+	{
+    color: #bf0000;
+    font-weight: bold;
+    font-size: 13px;
+	}
+a.rdlnk:hover
+	{
+    color: #ebab00;
+	}           
+
+/* lists */
+
+ul
+	{
+	list-style-type: none;
+	padding: 0px 0px 10px 0px;
+	margin: 0;
+	}
+li
+	{
+	background-image: url(../../images/bullet.gif);
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	padding: 0px 0px 0px 10px;
+	}
+ol
+	{
+	list-style-type: decimal;
+	padding: 0px;
+	margin: 0px 0px 0px 30px;
+    list-style-position: outside;
+	}
+ol.al
+	{
+	list-style-type: lower-alpha;
+	padding: 0px;
+	margin: 0px 0px 0px 30px;
+    list-style-position: outside;
+	}       
+li.num
+	{
+	background-image: none;
+	padding: 0px 0px 10px 0px;
+	}    
+    
+    
+/* tables */
+
+table.coht
+	{
+	border: 1px solid #165788;
+	border-spacing: 0px;
+	border-collapse: separate;
+    margin: 20px 0px 25px 0px;
+    font-size: 11px;
+	}
+table.coht td.lft
+	{
+	padding: 3px 15px 3px 5px;
+	background-color: #f7dd99;
+    text-align: left;
+	}    
+table.coht td
+	{
+	padding: 3px 15px 3px 5px;
+	background-color: #f7dd99;
+    text-align: right;
+	}
+        
+table.coht td.tp
+	{
+	padding: 3px 5px 3px 5px;
+	background-color: #f7dd99;
+	border-bottom: 1px solid #ffffff;
+    text-align: center;    
+	}
+table.coht td.btm
+	{
+	padding: 3px 5px 3px 5px;
+	background-color: #f7dd99;
+	border-top: 1px solid #ffffff;    
+	}        
+table.coht th
+	{
+	color: #ffffff;
+	padding: 3px 5px 3px 5px;
+    background-color: #5c89ac;
+	border-bottom: 1px solid #165788;
+    }
+table.coht td.subtp
+	{
+	color: #ffffff;
+    font-weight: bold;
+	padding: 3px 5px 3px 5px;
+    background-color: #5c89ac;
+	border-bottom: 1px solid #165788;
+    }
+table.inter
+	{
+	border: 1px solid #165788;
+	border-spacing: 0px;
+	border-collapse: separate;
+    margin: 20px 0px 25px 0px;
+    font-size: 11px;    
+	}
+table.inter td
+	{
+	padding: 3px 3px 3px 3px;
+	background-color: #faeabf;
+	}
+table.inter td.tp
+	{
+	padding: 3px 5px 3px 5px;
+	background-color: #faeabf;
+	border-bottom: 1px solid #ffffff;    
+	}
+table.inter td.sd
+    {
+	border-left: 1px solid #ffffff;     
+    }
+table.inter td.sd2
+    {
+	border-right: 1px solid #ffffff;     
+    }           
+table.hd
+    {
+    margin: 0px 0px 25px 0px;
+    }      
+tr.whttb, td.whttb
+    {
+    background-color: #ffffff;
+    }
+tr.ywltb, td.ywltb    
+    {
+    background-color: #f2c859;
+    }
+tr.ywl2tb, td.ywl2tb    
+    {
+    background-color: #f7dd99;
+    }
+td.btmln
+    {
+    border-bottom: 1px solid #000000;
+    }    
+/* left side*/
+
+.leftcol
+    {
+    width: 224px;
+    background-image: url(../../images/sdphotos/homelft.jpg);
+    background-repeat: no-repeat;
+    background-color: #faeabf;
+    }
+.leftcolab
+    {
+    width: 224px;
+    background-image: url(../../images/sdphotos/aboutlft.jpg);
+    background-repeat: no-repeat;
+    background-color: #faeabf;
+    }
+.leftcolpt
+    {
+    width: 224px;
+    background-image: url(../../images/sdphotos/partlft.jpg);
+    background-repeat: no-repeat;
+    background-color: #faeabf;
+    }
+.leftcolinv
+    {
+    width: 224px;
+    background-image: url(../../images/sdphotos/investlft.jpg);
+    background-repeat: no-repeat;
+    background-color: #faeabf;
+    }
+.leftcolrsk
+    {
+    width: 224px;
+    background-image: url(../../images/sdphotos/risklft.jpg);
+    background-repeat: no-repeat;
+    background-color: #faeabf;
+    }
+.leftcolbib
+    {
+    width: 224px;
+    background-image: url(../../images/sdphotos/bibliolft.jpg);
+    background-repeat: no-repeat;
+    background-color: #faeabf;
+    }
+.leftcolrsh
+    {
+    width: 224px;
+    background-image: url(../../images/sdphotos/researchlft.jpg);
+    background-repeat: no-repeat;
+    background-color: #faeabf;
+    }
+/* hdcornary table at bottom*/
+table.hdcrny
+	{
+	border: 1px solid #165788;
+	border-spacing: 0px;
+	border-collapse: separate;
+    margin: 20px 0px 25px 0px;
+    font-size: 11px;
+    width: 527px;
+	}
+table.hdcrny td.lft
+	{
+	padding: 3px 5px 3px 5px;
+	background-color: #f7dd99;
+    text-align: left;
+	}    
+table.hdcrny td
+	{
+	padding: 3px 5px 3px 5px;
+	background-color: #f7dd99;
+    text-align: right;
+	}            
+table.hdcrny td.tp
+	{
+	padding: 3px 5px 3px 5px;
+	background-color: #f7dd99;
+	border-bottom: 1px solid #ffffff;
+    text-align: center;    
+	}
+table.hdcrny td.btm
+	{
+	padding: 3px 5px 3px 5px;
+	background-color: #f7dd99;
+	border-top: 1px solid #ffffff;    
+	}        
+table.hdcrny th
+	{
+	color: #ffffff;
+	padding: 3px 5px 3px 5px;
+    background-color: #5c89ac;
+	border-bottom: 1px solid #165788;
+    }
+  
+

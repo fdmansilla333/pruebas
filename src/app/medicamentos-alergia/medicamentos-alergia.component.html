@@ -1,0 +1,41 @@
+<div *ngIf="getCantidadMedicamentosAlergia() == 0">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title"> Medicamentos a los que tiene alergia
+      </h3>
+    </div>
+    <div class="panel-body">
+      <div align="center" class="alert alert-warning">
+        <strong>No hay drogas a la que es alérgico</strong> Agregar nueva droga
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="getCantidadMedicamentosAlergia() > 0">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        Reacci&oacute;n adversa a medicamentos
+      </h3>
+    </div>
+    <div class="panel-body">
+      <div class="table-responsive">
+        <div align="center" *ngIf="getCantidadMedicamentosAlergia() > 0">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Descripci&oacute;n</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let medicamento of medicamentosAlergia">
+                <td>{{medicamento.descripcion}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <button type="submit" class="btn btn-primary">Agregar nueva droga</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

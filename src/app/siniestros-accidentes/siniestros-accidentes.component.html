@@ -1,0 +1,45 @@
+<div *ngIf="getCantidadAccidentes() == 0">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title"> Registro de internaciones, accidentes y operaciones
+      </h3>
+    </div>
+    <div class="panel-body">
+      <div class="alert alert-warning">
+        <strong>No existen accidentes cargados!</strong> Ir a agregar accidentes
+      </div>
+    </div>
+  </div>
+</div>
+<div align="center" *ngIf="getCantidadAccidentes() > 0">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title"> Registro de internaciones, accidentes y operaciones
+      </h3>
+    </div>
+    <div class="panel-body">
+      <div class="table-responsive">
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Motivo</th>
+              <th>Observacio&oacute;n</th>
+              <th> Tipo </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let accidente of accidentes">
+              <td>{{accidente.fecha}}</td>
+              <td>{{accidente.motivo}}</td>
+              <td>{{accidente.observacion}}</td>
+              <td>{{accidente.nombreTipoSiniestro}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <button type="submit" class="btn btn-primary">Agregar nuevo registro</button>
+      </div>
+    </div>
+  </div>
+</div>

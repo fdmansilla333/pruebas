@@ -1,0 +1,212 @@
+
+#top {
+  position: relative;
+  float: left;
+  width: 100%;
+  background: #294563;
+}
+
+#tabs {
+  clear: both;
+  padding-left: 10px;
+  margin: 0;
+  list-style: none;
+}
+
+#tabs li {
+  float: left;
+  background-image: url("images/rc-t-r-5-1header-2tab-unselected-3tab-unselected.png");
+  background-repeat: no-repeat;
+  background-position: top right;
+  background-color: #f4f4f4;
+  margin: 0 3px 0 0;
+  padding: 0;
+}
+
+
+
+#tabs li a {
+  float: left;
+  display: block;
+  font-family: verdana, arial, sans-serif;
+  font-weight: bold;
+  text-decoration: none;
+  color: black;
+  white-space: nowrap;
+  background-image: url("images/rc-t-l-5-1header-2tab-unselected-3tab-unselected.png");
+  background-repeat: no-repeat;
+  background-position: top left;
+  padding: 5px 15px 4px;
+  width: .1em;
+}
+
+#tabs li a:link {  color: #000066;  }
+#tabs li a:visited { color: #000066; }
+#tabs li a:hover { color: #000066; }
+
+
+#tabs > li a { width: auto; }
+
+#tabs a { float: none; }
+
+
+#top .header .current {
+  background-color: #4a6d8c;
+  background-image: url("images/rc-t-r-5-1header-2tab-selected-3tab-selected.png");
+  background-repeat: no-repeat;
+  background-position: top right;
+}
+
+#top .header .current a {
+  font-weight: bold;
+  color: #f4f4f4;
+  background-image: url("images/rc-t-l-5-1header-2tab-selected-3tab-selected.png");
+  background-repeat: no-repeat;
+  background-position: top left;
+}
+#top .header .current a:link {    color: white; }
+#top .header .current a:visited { color: white; }
+#top .header .current a:hover {   color: white; }
+
+
+
+
+
+.left {
+  background-image: url("images/FondoDeMensajeIzquierda.gif");
+  background-repeat: no-repeat;
+  background-position: top right;
+  margin: 0 0 0 0;
+  padding: 0;
+}
+
+.center {
+  background-image: url("images/FondoDeMensajeCentro.gif");
+  background-repeat: repeat;
+  background-position: top left;
+  margin: 0 0 0 0;
+  padding: 0;
+}
+
+
+
+.right {
+  background-image: url("images/FondoDeMensajeDerecha.gif");
+  background-repeat: no-repeat;
+  background-position: top left;
+  margin: 0 0 0 0;
+  padding: 0;
+}
+
+.titulo {
+
+  font-family: verdana, arial, sans-serif;
+  color: white;
+  font-size: 100%;
+}
+
+body {
+  font-family : sans-serif, Arial, Tahoma;
+  color : black;
+  font-size: 11px;
+  background-color: #f4f4f4;
+  margin: 0px;
+}
+
+td {
+  font-size : 11px;
+  font-family : sans-serif, Arial, Tahoma;
+}
+
+th {
+  font-size : 11px;
+  font-family : sans-serif, Arial, Tahoma;
+}
+
+form {
+  margin: 0px;
+}
+
+INPUT[type=submit], INPUT[type=reset], INPUT[type=button] {
+  font-size : 11px;
+}
+
+.tablaDatos {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+.tablaDatos th {
+  color: white;
+  border: solid;
+  border-width: 1px;
+  border-color: gray;
+  background-color: #1c4f88;
+  padding: 3px;
+}
+
+.tablaDatos .filasRemarcadas tr:hover {
+  background-color: #CCEEFF;
+}
+
+.tablaDatos tr.filaEspecial {
+  background-color: #CCEEFF;
+}
+
+.tablaDatos td {
+  border: solid;
+  border-width: 1px;
+  border-color: gray;
+  padding: 3px;
+}
+
+.tablaDatos td.importe, .tablaDatos td.numero {
+  text-align: right;
+}
+
+.tablaDatos td.fecha, .tablaDatos td.texto-centrado {
+  text-align: center;
+}
+
+.tablaDatosSinBordes {
+  border-spacing: 2px;
+}
+
+.tablaDatosSinBordes th {
+  padding: 3px;
+}
+
+.tablaDatosSinBordes td {
+  border-width: 0px;
+  padding: 3px;
+}
+
+.tablaBotonesDeTablaDatos {
+  border: none;
+  padding: 0;
+  margin: 0px auto;
+}
+
+.tablaBotonesDeTablaDatos th {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tablaBotonesDeTablaDatos tr {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tablaBotonesDeTablaDatos td {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+
+#contenedorGeneral {
+  clear: both;
+}
+

@@ -1,0 +1,225 @@
+/* This is the top-level menu "box" (all the menu items live in it). */
+body
+   {
+   margin: 0px;
+   }
+
+div.menu
+	{
+	font-family: times new roman, times, serif;
+	font-size: 13px;
+    line-height: 100%;
+	}   
+   
+/* This is a selection "item" in the top level menu. */ 
+
+div.menuitem1, div.menuitem5
+    {
+	background-color: #165788;
+	text-align: center;	
+	padding: 5px;
+	float: left;
+	width: 116px;
+    }
+div.menuitem1on, div.menuitem5on
+	{
+	background-color: #165788;
+	}   
+div.menuitem1:hover, div.menuitem1-hvr, div.menuitem5:hover, div.menuitem5-hvr/* This is a top-level item that has the mouse over it */
+	{
+	background-color: #165788;
+	}   
+div.menuitem2, div.menuitem3, div.menuitem4
+   {
+	background-color: #5c89ac;
+	text-align: center;	
+	padding: 5px;
+	float: left;
+	width: 116px;
+   }
+div.menuitem2on, div.menuitem3on, div.menuitem4on
+	{
+	background-color: #5c89ac;
+	}
+      
+div.menuitem2:hover, div.menuitem2-hvr, div.menuitem3:hover, div.menuitem3-hvr, div.menuitem4:hover, div.menuitem4-hvr  
+	{
+	background-color: #5c89ac;
+	}   
+
+/* This is a pop-up "submenu box" that comes up when
+   you hover over a top-level menu item. It holds
+   all of the submenu "items"  */  
+   
+div.submenu1
+   {
+	display: none; /* This is what makes it pop-up*/   
+	position: absolute;
+	top: 131px;
+	left: 11px;
+	width: 126px;
+	text-align: left;
+	margin: 0px;
+	padding: 0px;
+	background-color: #ffffff;
+	opacity:.90;
+	filter: alpha(opacity=90);             
+  }
+div.submenu2
+   {
+	display: none; /* This is what makes it pop-up*/   
+	position: absolute;
+	top: 131px;
+	left: 137px;
+	width: 126px;
+	text-align: left;
+	margin: 0px;
+	padding: 0px;
+	background-color: #ffffff;
+	opacity:.90;
+	filter: alpha(opacity=90);             
+  } 
+div.submenu3
+   {
+	display: none; /* This is what makes it pop-up*/   
+	position: absolute;
+	top: 131px;
+	left: 389px;
+	width: 126px;
+	text-align: left;
+	margin: 0px;
+	padding: 0px;
+	background-color: #ffffff;
+	opacity:.90;
+	filter: alpha(opacity=90);             
+  } 
+div.submenu4
+   {
+	display: none; /* This is what makes it pop-up*/   
+	position: absolute;
+	top: 131px;
+	left: 641px;
+	width: 126px;
+	text-align: left;
+	margin: 0px;
+	padding: 0px;
+	background-color: #ffffff;       
+	opacity:.90;
+	filter: alpha(opacity=90);    
+  }    
+  
+  /* this is for the investigators tab. Added after programming so it isn't in the same order*/
+div.submenu5
+   {
+	display: none; /* This is what makes it pop-up*/   
+	position: absolute;
+	top: 131px;
+	left: 263px;
+	width: 126px;
+	text-align: left;
+	margin: 0px;
+	padding: 0px;
+	background-color: #ffffff;       
+	opacity:.90;
+	filter: alpha(opacity=90);    
+  }     
+   
+/* This is the submenu when it's parent "menuitem" has the mouse over it */
+
+div.menuitem1:hover div.submenu1, div.menuitem1-hvr div.submenu1, div.menuitem2:hover div.submenu2, div.menuitem2-hvr div.submenu2, div.menuitem3:hover div.submenu3, div.menuitem3-hvr div.submenu3, div.menuitem4:hover div.submenu4, div.menuitem4-hvr div.submenu4, div.menuitem5:hover div.submenu5, div.menuitem5-hvr div.submenu5
+	{
+	display: block;
+    }
+        
+ 
+/* This is the submenu when the mouse is over it */
+    
+div.submenu1:hover, div.submenu1-hvr, div.submenu2:hover, div.submenu2-hvr, div.submenu3:hover, div.submenu3-hvr, div.submenu4:hover, div.submenu4-hvr, div.submenu5:hover, div.submenu5-hvr
+	{
+	display: block;
+	}	
+div.submenuon
+	{
+	display: block;
+	}
+    
+/*  An item in the submenu */
+
+div.submenuitem1
+	{
+	padding: 7px 3px 0px 15px;
+    background-image: url(../../images/slash.gif); 
+    background-repeat: no-repeat;
+    background-position: left top;   
+	}
+
+/* A submenu item with the mouse over it */
+
+div.submenuitem1:hover, div.submenuitem1-hvr
+	{
+	color: #165788;
+	}
+a.leveloneon, a.leveloneon:link, a.leveloneon:visited, a.leveloneon:hover
+	{
+	color: #F8DAA0;
+	font-size: 13px;
+    font-weight: bold;
+	text-decoration: none;         
+	}    
+a.levelone, a.levelone:link, a.levelone:visited
+	{
+	font-size: 13px;
+    font-weight: bold;  
+	color: #ffffff;
+	text-decoration: none;	    
+	}
+a.levelone:hover
+	{
+	color: #F8DAA0;
+	font-size: 13px;
+    font-weight: bold;
+	text-decoration: none;         
+	}
+.leveltwo, a.leveltwo, a.leveltwo:link, a.leveltwo:visited
+	{
+	color: #000000;
+	font-size: 13px;
+    font-weight: bold;    
+	text-decoration: none;
+    line-height: 120%;    
+   	}
+a.leveltwo:hover
+	{
+	color: #bf0000;
+	}
+/* side navigation*/   
+.sdnav
+    {
+    background-image: url(../../images/slash2.gif); 
+    background-repeat: no-repeat;
+    background-position: left top;
+	padding: 0px 3px 10px 12px;    
+    }
+a.sd, a.sd:link, a.sd:visited
+    {
+    color: #000000;
+    font-family: times new roman, times, serif;
+    font-size: 14px;
+    font-weight: bold;
+	text-decoration: none;
+    line-height: 120%;     	    
+    }
+a.sd:hover
+    {
+    color: #bf0000;    
+    }
+.sdon, a.sdon:link, a.sdon:visited, a.sdon:hover
+    {
+    color: #bf0000;
+    font-family: times new roman, times, serif;
+    font-size: 14px;
+    font-weight: bold;
+	text-decoration: none;
+    line-height: 120%;     
+    }       
+   

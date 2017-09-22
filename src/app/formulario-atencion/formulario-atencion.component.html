@@ -1,0 +1,26 @@
+<!-- Ver si dejamos esto o usamos el unificado -->
+<div class="container">
+  <h2>Agregar una atención</h2>
+  <form>
+    <div class="form-group">
+      <label for="persona">Codigo de Persona</label>
+      <input type="text" class="form-control" required [(ngModel)]="atencion.persona" name="persona">
+    </div>
+    <div class="form-group">
+      <label for="Observacion">Observación</label>
+      <input type="text" class="form-control" required [(ngModel)]="atencion.observacion" name="observacion">
+    </div>
+    <div class="form-group">
+      <label for="fecha_atencion">Fecha de atención</label>
+      <input type="date" class="form-control" required [(ngModel)]="atencion.fecha_atencion" name="fecha_atencion">
+    </div>
+    <button type="submit" class="btn btn-default">Agregar</button>
+  </form>
+
+  <div align="center">
+    <h3> Model BIND </h3>
+    <p>persona = {{atencion.persona}}</p>
+    <p>observacion = {{atencion.observacion}}</p>
+    <p>fecha_atencion = {{atencion.fecha_atencion}}</p>
+  </div>
+</div>

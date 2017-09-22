@@ -1,0 +1,124 @@
+body {
+    font-family : sans-serif, Arial, Tahoma;
+    color : black;
+    font-size: 11px;
+    background-color: #f4f4f4;
+    margin: 0px;
+}
+
+td {
+    font-size : 11px;
+    font-family : sans-serif, Arial, Tahoma;
+}
+
+th {
+    font-size : 11px;
+    font-family : sans-serif, Arial, Tahoma;
+}
+
+form {
+    margin: 0px;
+}
+
+INPUT[type=submit], INPUT[type=reset], INPUT[type=button] {
+    font-size : 11px;
+}
+
+.tablaDatos {
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+.tablaDatos th {
+    color: white;
+    border: solid;
+    border-width: 1px;
+    border-color: gray;
+    background-color: #1c4f88;
+    padding: 3px;
+}
+
+.tablaDatos .filasRemarcadas tr:hover {
+    background-color: #CCEEFF;
+}
+
+.tablaDatos tr.filaEspecial {
+    background-color: #CCEEFF;
+}
+
+.tablaDatos td {
+    border: solid;
+    border-width: 1px;
+    border-color: gray;
+    padding: 3px;
+}
+
+.tablaDatos td.importe, .tablaDatos td.numero {
+    text-align: right;
+}
+
+.tablaDatos td.fecha, .tablaDatos td.texto-centrado {
+    text-align: center;
+}
+
+.tablaDatosSinBordes {
+    border-spacing: 2px;
+}
+
+.tablaDatosSinBordes th {
+    padding: 3px;
+}
+
+.tablaDatosSinBordes td {
+    border-width: 0px;
+    padding: 3px;
+}
+
+.tablaBotonesDeTablaDatos {
+    border: none;
+    padding: 0;
+    margin: 0px auto;
+}
+
+.tablaBotonesDeTablaDatos th {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tablaBotonesDeTablaDatos tr {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tablaBotonesDeTablaDatos td {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.verdadero {
+    width: 18px;
+    height: 18px;
+    margin: auto;
+    background: url('../imagenes/verdadero.png') no-repeat;
+}
+
+.falso {
+    width: 18px;
+    height: 18px;
+    margin: auto;
+    background: url('../imagenes/falso.png') no-repeat;
+}
+
+.loading {
+    height: 18px;
+    padding-left: 18px;
+    font-weight: bold;
+    background: url('../imagenes/indicator.gif') no-repeat;
+}
+
+#contenedorGeneral {
+    clear: both;
+}

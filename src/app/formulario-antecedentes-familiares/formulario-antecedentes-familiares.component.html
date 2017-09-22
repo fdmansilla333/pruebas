@@ -1,0 +1,29 @@
+<!-- Ver si dejamos esto o usamos el unificado -->
+<base href="/antecedentes_familiares2">
+<div class="container">
+  <h2>Agregar un antecedente familiar</h2>
+  <form>
+
+    <div class="form-group">
+      <label for="atencion">Atencion</label>
+      <input type="text" class="form-control" required [(ngModel)]="antecedente.atencion" name="atencion">
+    </div>
+    <div class="form-group">
+      <label for="observacion">Observación</label>
+      <input type="text" class="form-control" required [(ngModel)]="antecedente.observacion" name="observacion">
+    </div>
+    <div class="form-group">
+      <label for="tipo_afeccion_familiar">Tipo de afección familiar</label>
+      <input type="date" class="form-control" required [(ngModel)]="antecedente.tipo_afeccion_familiar" name="tipo_afeccion_familiar">
+    </div>
+    <button type="submit" class="btn btn-default">Agregar</button>
+  </form>
+
+  <div align="center">
+    <h3> Model BIND test</h3>
+    <p>Nro Atencion = {{antecedente.atencion}}</p>
+    <p>observacion = {{antecedente.observacion}}</p>
+    <p>Tipo de afeccion familiar = {{antecedente.tipo_afeccion_familiar}}</p>
+  </div>
+</div>
+

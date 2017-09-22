@@ -1,14 +1,21 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>HistoriaClinica</title>
   <base href="/">
-
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
-<body>
-  <app-root></app-root>
+<link href="./assets/media/css/bootstrap.css" rel="stylesheet">
+<link media="screen" type="text/css" href="assets/media/css/tabs.css" rel="stylesheet">
+<script src="./assets/media/js/jquery-3.2.1.js"></script>
+<script src="./assets/media/js/bootstrap.js "></script>
+
+<app-root (ladata)="hola_mundo" [ladata2]="hola" [Name]="n">
+
+</app-root>
 </body>
+
 </html>

@@ -1,0 +1,86 @@
+.firebugHighlight {
+background-color:#3875D7;
+position:absolute;
+z-index:2147483647;
+}
+.firebugLayoutBoxParent {
+background-color:transparent;
+border-bottom:1px dashed #BBBBBB;
+border-right:1px dashed #BBBBBB;
+position:absolute;
+z-index:2147483647;
+}
+.firebugRulerH {
+background:transparent url(chrome://firebug/skin/rulerH.png) repeat-x scroll 0 0;
+border-bottom:1px solid #000000;
+border-right:1px dashed #BBBBBB;
+border-top:1px solid #BBBBBB;
+height:14px;
+left:0;
+position:absolute;
+top:-15px;
+width:100%;
+}
+.firebugRulerV {
+background:transparent url(chrome://firebug/skin/rulerV.png) repeat-y scroll 0 0;
+border-bottom:1px dashed #BBBBBB;
+border-left:1px solid #BBBBBB;
+border-right:1px solid #000000;
+height:100%;
+left:-15px;
+position:absolute;
+top:0;
+width:14px;
+}
+.overflowRulerX > .firebugRulerV {
+left:0;
+}
+.overflowRulerY > .firebugRulerH {
+top:0;
+}
+.firebugLayoutBoxOffset {
+opacity:0.8;
+position:absolute;
+z-index:2147483647;
+}
+.firebugLayoutBoxMargin {
+background-color:#EDFF64;
+}
+.firebugLayoutBoxBorder {
+background-color:#666666;
+}
+.firebugLayoutBoxPadding {
+background-color:SlateBlue;
+}
+.firebugLayoutBoxContent {
+background-color:SkyBlue;
+}
+.firebugLayoutLine {
+background-color:#000000;
+opacity:0.4;
+z-index:2147483647;
+}
+.firebugLayoutLineLeft, .firebugLayoutLineRight {
+height:100%;
+position:fixed;
+width:1px;
+}
+.firebugLayoutLineTop, .firebugLayoutLineBottom {
+height:1px;
+position:absolute;
+width:100%;
+}
+.firebugLayoutLineTop {
+border-top:1px solid #999999;
+margin-top:-1px;
+}
+.firebugLayoutLineRight {
+border-right:1px solid #999999;
+}
+.firebugLayoutLineBottom {
+border-bottom:1px solid #999999;
+}
+.firebugLayoutLineLeft {
+border-left:1px solid #999999;
+margin-left:-1px;
+}

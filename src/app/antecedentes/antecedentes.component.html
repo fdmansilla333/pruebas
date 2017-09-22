@@ -1,0 +1,46 @@
+<!--component html goes here -->
+<div class="container-fluid">
+  <div class="row">
+    <hr>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <app-antecedentes-personales></app-antecedentes-personales>
+    </div>
+      <div class="col-md-6">
+        <app-antecedentes-familiares></app-antecedentes-familiares>
+      </div>
+    </div>
+
+  <div class="row">
+    <hr>
+  </div>
+  <div class="row">
+    <app-siniestros-accidentes></app-siniestros-accidentes>
+
+  </div>
+  <div class="row">
+    <hr>
+  </div>
+  <div class="row">
+    <app-medicamentos-alergia></app-medicamentos-alergia>
+  </div>
+
+  <div class="row">
+    <hr>
+  </div>
+  <div class="row">
+    <app-medicamentos-consume></app-medicamentos-consume>
+  </div>
+
+  <div class="row">
+    <hr>
+  </div>
+  <div class="row">
+    <app-habitos></app-habitos>
+  </div>
+  <div class="row" align="center">
+    <button type="button" class="btn btn-primary">Confirmar</button>
+    <a routerLink="/buscar/{{dniPaciente}}" routerLinkActive="active"><button type="button" class="btn btn-danger">Cancelar</button></a>
+  </div>
+</div>

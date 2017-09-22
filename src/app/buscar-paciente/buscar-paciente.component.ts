@@ -30,10 +30,12 @@ export class BuscarPacienteComponent implements OnInit, OnDestroy {
     sinResultados: Boolean;
 
     public constructor(public servicio: AtencionService, public appconfig: AppComponent, public route: ActivatedRoute, public router: Router, public routlet: RouterOutlet) {
-        this.buscando = false;
+        
+        /*this.buscando = false;
         this.sinResultados = false;
         this.DNIBuscado = undefined;
         this.appconfig.DNIPERSONA = undefined;
+        */
         //appconfig.title = 'Prueba de componente'; //cambiar esto desde el encabezado
         
         /*if (!this.persona) {

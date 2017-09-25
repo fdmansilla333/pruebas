@@ -18,11 +18,13 @@ export class ConsultaComponent {
         console.log('Se instancia consulta componente');
         this.atenciones = new Array;
         this.persona = new Persona();
-        console.log('Haciendo consulta a :' + appconfig.BASEURL + ' y con la persona:' + appconfig.PERSONA);
-        serviceAtencion.getAtenciones(appconfig.BASEURL, appconfig.PERSONA)
-            .subscribe(atenciones => this.atenciones = atenciones);
-        serviceAtencion.getDatosPersona(appconfig.BASEURL, appconfig.PERSONA)
-            .subscribe(persona => this.persona = persona);
+        if (appconfig.PERSONA !== undefined) {
+            console.log('Haciendo consulta a :' + appconfig.BASEURL + ' y con la persona:' + appconfig.PERSONA);
+            serviceAtencion.getAtenciones(appconfig.BASEURL, appconfig.PERSONA)
+                .subscribe(atenciones => this.atenciones = atenciones);
+            serviceAtencion.getDatosPersona(appconfig.BASEURL, appconfig.PERSONA)
+                .subscribe(persona => this.persona = persona);
+        }
 
     }
 

@@ -1,7 +1,7 @@
 <form #f="ngForm">
     <h5>B&uacute;squeda de personas:</h5>
     <input name="busquedaPersona" type="search" ngModel required #busqueda="ngModel">
-    <button id="botonBuscar" (click)="buscar(f)">Buscar</button>
+    <button [disabled]="desactivarBoton()" id="botonBuscar" (click)="buscar(f)">Buscar</button>
 </form>
 <div *ngIf="buscandoPaciente()">
     <div class="alert alert-info">
@@ -19,57 +19,57 @@
     <hr>
     <div class="row">
         <div class="col-md-4">
-            <strong><label>Nombre:</label></strong> {{persona.nombre}}
+            <strong><label>Nombre:</label></strong> {{persona?.nombre}}
         </div>
         <div class="col-md-4">
-            <strong><label>Obra social:</label></strong> {{persona.datos_obra_social.descripcion}}
+            <strong><label>Obra social:</label></strong> {{persona?.datos_obra_social.descripcion}}
         </div>
         <div class="col-md-4">
-            <strong><label>Fecha alta ultima vigencia:</label></strong> {{persona.fecha_ultima_vigencia}}
+            <strong><label>Fecha alta ultima vigencia:</label></strong> {{persona?.fecha_ultima_vigencia}}
         </div>
     </div>
     <div class="row">
         <div class="col-md-4">
-            <strong><label>N&uacute;mero de documento:</label></strong> {{persona.numero_documento}} - {{persona.datos_tipoDocumento.descr_corta}}
+            <strong><label>N&uacute;mero de documento:</label></strong> {{persona?.numero_documento}} - {{persona?.datos_tipoDocumento.descr_corta}}
         </div>
         <div class="col-md-4">
-            <strong><label>Parentesco:</label></strong> {{persona.datos_parentesco.descripcion}}
+            <strong><label>Parentesco:</label></strong> {{persona?.datos_parentesco.descripcion}}
         </div>
         <div class="col-md-4">
-            <strong><label>Fecha baja:</label></strong> {{persona.fecha_ultima_vigencia}}
+            <strong><label>Fecha baja:</label></strong> {{persona?.fecha_ultima_vigencia}}
         </div>
     </div>
     <div class="row">
         <div class="col-md-3">
-            <strong><label>Fecha de nacimiento:</label></strong> {{persona.fecha_nacimiento}}
+            <strong><label>Fecha de nacimiento:</label></strong> {{persona?.fecha_nacimiento}}
         </div>
         <div class="col-md-3">
-            <strong><label>Sexo:</label></strong> {{persona.sexo}}
+            <strong><label>Sexo:</label></strong> {{persona?.sexo}}
         </div>
         <div class="col-md-3">
-            <strong><label>Localidad:</label></strong> {{persona.datos_localidad.nombre}}
+            <strong><label>Localidad:</label></strong> {{persona?.datos_localidad.nombre}}
         </div>
         <div class="col-md-3">
-            <strong><label>Nacionalidad:</label></strong> {{persona.datos_nacionalidad.nombre}}
+            <strong><label>Nacionalidad:</label></strong> {{persona?.datos_nacionalidad.nombre}}
         </div>
     </div>
     <div class="row">
         <div class="col-md-6">
-            <strong><label>Calle:</label></strong> {{persona.dpersonal_calle}} nro: {{persona.dpersonal_numero}}
+            <strong><label>Calle:</label></strong> {{persona?.dpersonal_calle}} nro: {{persona?.dpersonal_numero}}
         </div>
         <div class="col-md-6">
-            <strong><label>C&oacute;digo postal:</label></strong> {{persona.dpersonal_codigo_pos}}
+            <strong><label>C&oacute;digo postal:</label></strong> {{persona?.dpersonal_codigo_pos}}
         </div>
     </div>
     <div class="row">
         <div class="col-md-4">
-            <strong><label>M&oacute;vil:</label></strong> ({{persona.dpersonal_telefono_movil_codigo_area}}) - {{persona.dpersonal_telefono_movil_numero}}
+            <strong><label>M&oacute;vil:</label></strong> ({{persona?.dpersonal_telefono_movil_codigo_area}}) - {{persona?.dpersonal_telefono_movil_numero}}
         </div>
         <div class="col-md-4">
-            <strong><label>Tel&eacute;fono:</label></strong> ({{persona.dpersonal_telefono_codigo_area}}) - {{persona.dpersonal_telefono}}
+            <strong><label>Tel&eacute;fono:</label></strong> ({{persona?.dpersonal_telefono_codigo_area}}) - {{persona?.dpersonal_telefono}}
         </div>
         <div class="col-md-4">
-            <strong><label>Correo electr&oacute;nico:</label></strong> {{persona.dpersonal_email}}
+            <strong><label>Correo electr&oacute;nico:</label></strong> {{persona?.dpersonal_email}}
         </div>
     </div>
     <hr>
@@ -78,8 +78,6 @@
         <button type="button" class="btn btn-primary" routerLink="/antecedentes" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Antecedentes familiares y personales</button>
         <button type="button" class="btn btn-primary" routerLink="#" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Lista de problemas de salud</button>
         <button (click)="salir()" type="button" class="btn btn-primary" routerLink="/salir" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Terminar</button>
-        <a [routerLink]="['/antecedentes']">antecedentes</a>
-        <a [routerLink]="['/']">X</a>
     </div>
     <br>
     <hr>

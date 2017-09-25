@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { AtencionService } from './atencion.service';
 import { HttpModule } from '@angular/http';
 import { FormularioAtencionComponent } from './formulario-atencion/formulario-atencion.component';
+// tslint:disable-next-line:max-line-length
 import { FormularioAntecedentesFamiliaresComponent } from './formulario-antecedentes-familiares/formulario-antecedentes-familiares.component';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -32,9 +33,9 @@ import { NgxSmartModalModule, NgxSmartModalService } from 'ngx-smart-modal';
 /*Constantes utilizadas en la aplicación*/
 
 const appRoutes: Routes = [
-  {path: '', redirectTo: "/buscar" , pathMatch:"full"},
-  {path: 'buscar/evolucionAmbulatoria', redirectTo:"/evolucionAmbulatoria", pathMatch:"prefix"},
-  {path: 'evolucionAmbulatoria', redirectTo:"/evolucionAmbulatoria", pathMatch:"full"},
+  {path: '', redirectTo: '/buscar' , pathMatch: 'full'},
+  {path: 'buscar/evolucionAmbulatoria', redirectTo: '/evolucionAmbulatoria', pathMatch: 'prefix'},
+  {path: 'evolucionAmbulatoria', redirectTo: '/evolucionAmbulatoria', pathMatch: 'full'},
   {path: 'evolucionAmbulatoria', component: EvolucionAmbulatoriaComponent },
   {path: 'buscar', component: BuscarPacienteComponent },
   {path: 'buscar/:id', component: BuscarPacienteComponent },
@@ -58,16 +59,16 @@ const appRoutes: Routes = [
     pathMatch: 'full'
   },
   */
-  //{ path: '**', component: BuscarPacienteComponent }
+  // { path: '**', component: BuscarPacienteComponent }
    { path: '**', component: PaginaNoEncontradaComponent }
 ];
 @NgModule({
   declarations: [
     AppComponent,
+    EncabezadoComponent,
     BuscarPacienteComponent,
     FormularioAtencionComponent,
     FormularioAntecedentesFamiliaresComponent,
-    EncabezadoComponent,
     PiePaginaComponent,
     ContenedorComponent,
     FormularioAltaAtencionComponent,
@@ -84,7 +85,7 @@ const appRoutes: Routes = [
     EvolucionAmbulatoriaComponent,
     AntecedentesPerinatologicosComponent,
     SalirComponent,
-    
+
 
   ],
   imports: [
@@ -94,7 +95,7 @@ const appRoutes: Routes = [
     HttpModule,
     RouterModule.forRoot(
       appRoutes,
-       //{ enableTracing: true } // <-- debugging purposes only
+       // { enableTracing: true } // <-- debugging purposes only
     ),
   ],
   providers: [AtencionService, NgxSmartModalService],

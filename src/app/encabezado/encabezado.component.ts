@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { Injectable } from '@angular/core';
 
 @Component({
   moduleId: module.id,
@@ -7,16 +6,20 @@ import { Injectable } from '@angular/core';
   templateUrl: 'encabezado.component.html',
   styleUrls: ['encabezado.component.scss']
 })
-@Injectable()
+
 export class EncabezadoComponent {
-  @Input()titulo: String = 'Historia Clinica';
-  subtitulo: String = 'Atenciones';
+  @Input() titulo: String = 'Historia Clinica';
+  public subtitulo: String;
 
   public getTitulo(): String {
     return this.titulo;
   }
   public setTitulo(titulo: String) {
     this.titulo = titulo;
+  }
+
+  constructor() {
+    this.subtitulo = 'Atenciones';
   }
 
 }

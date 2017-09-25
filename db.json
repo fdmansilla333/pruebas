@@ -2001,4 +2001,10 @@
 {"tipo_afeccion_familiar":1,"observacion":"S40211D","atencion":6,"nombre_afeccion":"Bypass Spinal Canal to Pleural Cavity with Autologous Tissue Substitute, Percutaneous Approach","descripcion_afeccion":"Abrasion of right shoulder, subsequent encounter"},
 {"tipo_afeccion_familiar":9,"observacion":"M403","atencion":3,"nombre_afeccion":"Bypass Ileum to Cecum with Synthetic Substitute, Percutaneous Endoscopic Approach","descripcion_afeccion":"Flatback syndrome"},
 {"tipo_afeccion_familiar":4,"observacion":"P020","atencion":4,"nombre_afeccion":"Replacement of Left Knee Joint with Synthetic Substitute, Uncemented, Open Approach","descripcion_afeccion":"Newborn affected by placenta previa"}]
+,
+"persona": [
+    {"dni":33345146, "numero_documento": 33345146, "nombre":"Mansilla Damian", "codigo":12},
+    {"dni":14973430, "numero_documento": 14973430, "nombre":"Mansilla Fernando", "codigo":13}
+    ]
 }
+

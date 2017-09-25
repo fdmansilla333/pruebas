@@ -1,15 +1,15 @@
 <form #f="ngForm">
     <h5>B&uacute;squeda de personas:</h5>
     <input name="busquedaPersona" type="search" ngModel required #busqueda="ngModel">
-    <button [disabled]="desactivarBoton()" id="botonBuscar" (click)="buscar(f)">Buscar</button>
+    <button [disabled]="activarBoton()" id="botonBuscar" (click)="buscar(f)">Buscar</button>
 </form>
-<div *ngIf="buscandoPaciente()">
+<div *ngIf="buscandoPaciente()"> 
     <div class="alert alert-info">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         <strong>Buscando...!</strong> buscando paciente y consultas realizadas ....
     </div>
 </div>
-<div *ngIf="personaNoEncontrada()">
+<div *ngIf="!personaEncontrada() && !esPrimeraVez">
     <div class="alert alert-warning">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         <strong>Paciente no encontrado</strong> Vuelva a introducir un n&uacute;mero de documento v&aacute;lido...

@@ -1,4 +1,3 @@
-
 <br>
 <div class="panel panel-primary">
     <div class="panel-heading">
@@ -10,15 +9,16 @@
         <div class="row">
             <div class="col-md-6">
                 <strong><label for="Nombre/s y Apellido/s:">Nombre/s y Apellido/s:</label></strong>
-                <span> Juan Perez Alberto </span>
+                <span>{{persona?.nombre}}</span>
             </div>
             <div class="col-md-6" align="right">
                 <strong><label for="Fecha">Fecha:</label></strong>
-                <span>13 de Septiembre de 2017</span>
+                <input class="campoMediano" name="hoy" type="date" [value]="hoy" ngModel required #hoy>
             </div>
         </div>
         <hr>
-        <table class="table table-striped table-bordered table-hover" id="tablaEvolucion">
+        <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover table-condensed" id="tablaEvolucion">
             <th colspan="2">Edad</th>
             <th>Peso</th>
             <th>Talla</th>
@@ -47,24 +47,25 @@
 
             <!--TODO @DamianAgregar vinculación con los datos-->
             <tr>
-                <td>25</td>
-                <td>10</td>
-                <td>80</td>
-                <td>170</td>
-                <td>42</td>
-                <td>27.5</td>
+                <td><input type="number" min="0" name="edad" ([ngModel])="evolucionAmbulatoria.edad" value="{{evolucionAmbulatoria.edad}}" size="2" ></td>
+                <td><input type="number" min="0" name="meses" ([ngModel])="evoluionAmbulatoria.meses" value="{{evolucionAmbulatoria.meses}}" size="2">                    </td>
+                <td><input #peso type="number" min="0" name="peso" ([ngModel])="evolucionAmbulatoria.peso" value="{{evolucionAmbulatoria.peso}}" size="3">                    </td>
+                <td><input #talla type="number" min="0" name="talla" ([ngModel])="evolucionAmbulatoria.talla" value="{{evolucionAmbulatoria.talla}}" size="3"></td>
+                <td><input type="number" min="0" name="pc" ([ngModel])="evolucionAmbulatoria.pc" value="{{evolucionAmbulatoria.pc}}" size="3"></td>
+                <td> <span (click)="actualizarIMC(peso.value, talla.value)">{{evolucionAmbulatoria.imc | number:'2.1-2'}}</span></td>
                 <td>NA</td>
                 <td>NA</td>
                 <td>NA</td>
                 <td>NA</td>
-                <td>119/79</td>
-                <td>90</td>
-                <td>Si</td>
-                <td></td>
+                <td><input #presion_arterial type="number" min="0" name="presion_arterial" ([ngModel])="evolucionAmbulatoria.presion_arterial" value="{{evolucionAmbulatoria.presion_arterial}}" size="3"></td>
+                <td><input #perimetro_abdominal type="number" min="0" name="perimetro_abdominal" ([ngModel])="evolucionAmbulatoria.perimetro_abdominal" value="{{evolucionAmbulatoria.perimetro_abdominal}}" size="3"></td>
+                <td><input #vacunacion type="radio" name="vacunacion" value="true" ></td>
+                <td><input #vacunacion type="radio" name="vacunacion" value="falso" ></td>
             </tr>
 
 
         </table>
+        </div>
 
         <div class="row">
             <div class="col-md-3">
@@ -129,9 +130,8 @@
             <input class="campoLargo" type="text" name="planTratamiento">
         </div>
         <div class="row">
-            <strong><label> Solicitud de derivaci&oacute;n</label></strong>
-            Interconsulta   <input type="radio" name="derivacion" value="interconsulta"> 
-            Internaci&oacute;n   <input type="radio" name="derivacion" value="internacion"> 
+            <strong><label> Solicitud de derivaci&oacute;n</label></strong> Interconsulta <input type="radio" name="derivacion"
+                value="interconsulta"> Internaci&oacute;n <input type="radio" name="derivacion" value="internacion">
         </div>
 
         <div class="row" align="right">

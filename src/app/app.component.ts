@@ -2,11 +2,13 @@ import { Component, OnInit, Output, Input, AfterViewInit, ElementRef, Injectable
 import { Atencion } from './atencion';
 import { AtencionService } from './atencion.service';
 import { EncabezadoComponent } from './encabezado/encabezado.component';
+import { Persona } from "./modelos/Persona";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css']    
+
 })
 
 @Injectable()
@@ -17,6 +19,7 @@ export class AppComponent implements OnInit {
   public CODIGOSEROS: Number;
   public PERSONA: Number;
   public DNIPERSONA: Number;
+  OBJETO_PERSONA: Persona;
 
   constructor(
     private atencionService: AtencionService, elementRef: ElementRef) {
@@ -26,9 +29,10 @@ export class AppComponent implements OnInit {
     console.log('Localname:' + elementRef.nativeElement.getAttribute('localname'));
 
     let codigoSerosTeCuida = elementRef.nativeElement.getAttribute('CodigoSerosTeCuida');
-    // this.BASEURL = 'http://localhost:8080/SerosTeCuidaMaven/api/';
+    this.BASEURL = 'http://localhost:8080/SerosTeCuidaMaven/api/';
     // Trabajo con servidor fake
-    this.BASEURL = 'http://localhost:8080/';
+    //this.BASEURL = 'http://localhost:8080/';
+    
     if (codigoSerosTeCuida) {
       console.log('tiene algo seros te cuida:' + codigoSerosTeCuida);
       this.CODIGOSEROS = codigoSerosTeCuida;

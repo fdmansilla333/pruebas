@@ -28,15 +28,15 @@ export class BuscarPacienteComponent implements OnInit, OnDestroy {
     buscando: Boolean;
     public DNIBuscado: Number;
     sinResultados: Boolean;
+    esPrimeraVez: Boolean;
 
     public constructor(public servicio: AtencionService, public appconfig: AppComponent,
         public route: ActivatedRoute, public router: Router, public routlet: RouterOutlet) {
 
         this.buscando = false;
-        this.sinResultados = false;
+        this.sinResultados = true;
         this.DNIBuscado = undefined;
         this.appconfig.DNIPERSONA = undefined;
-        // appconfig.title = 'Prueba de componente'; //cambiar esto desde el encabezado
 
         if (!this.persona) {
             this.persona = new Persona();
@@ -65,28 +65,65 @@ export class BuscarPacienteComponent implements OnInit, OnDestroy {
     }
 
     buscarPorDni(dni: Number) {
-        // Dejar de utilizar subscribe y utilizar el pipe async debe devolver un observer
+        //Se desactiva la primera vez de la instancia para que muestre mensaje
+        this.esPrimeraVez = false;
 
         this.servicio.getDatosPersonaPorDni(this.appconfig.BASEURL, dni)
             .subscribe(datos => { // this.persona = datos,
-                this.persona.numero_documento = datos[0].numero_documento;
-                this.persona.nombre = datos[0].nombre;
-                this.persona.codigo = datos[0].codigo;
-                this.appconfig.DNIPERSONA = this.persona.numero_documento;
+
+                if (!datos) {
+                    console.log('No tienen nada....');
+                    this.sinResultados = true;
+                    
+                }else {
+                    console.log('Algo trae...');
+                    console.log(datos);
+                    this.persona.numero_documento = datos.numero_documento;
+                    this.persona.nombre = datos.nombre;
+                    this.persona.codigo = datos.codigo;
+                    this.appconfig.DNIPERSONA = this.persona.numero_documento;
+                    this.persona.cuit_cuil = datos.cuit_cuil;
+                    this.persona.dpersonal_calle = datos.dpersonal_calle;
+                    this.persona.dpersonal_codigo_pos = datos.dpersonal_codigo_pos;
+                    this.persona.dpersonal_email = datos.dpersonal_email;
+                    this.persona.dpersonal_localidad = datos.dpersonal_localidad;
+                    this.persona.dpersonal_numero = datos.dpersonal_numero;
+                    this.persona.dpersonal_telefono = datos.dpersonal_telefono;
+                    this.persona.dpersonal_telefono_codigo_area = datos.dpersonal_telefono_codigo_area;
+                    this.persona.dpersonal_telefono_movil_codigo_area = datos.dpersonal_telefono_movil_codigo_area;
+                    this.persona.dpersonal_telefono_movil_numero = datos.dpersonal_telefono_movil_numero;
+                    this.persona.fecha_nacimiento = datos.fecha_nacimiento;
+                    this.persona.fecha_ultima_vigencia = datos.fecha_ultima_vigencia;
+                    this.persona.localidad_nacimiento = datos.localidad_nacimiento;
+                    this.persona.nacionalidad = datos.nacionalidad;
+                    this.persona.obra_social = datos.obra_social;
+                    this.persona.sexo = datos.sexo;
+                    this.persona.parentesco = datos.parentesco;
+                    this.persona.tipo_documento = datos.tipo_documento;
+
+                    // para que otros componentes tengan acceso a la persona
+                    this.appconfig.PERSONA = this.persona.codigo; 
+                    this.sinResultados = false;    
+                    
+                }
+                
+
             },
             error => console.log(error),
-            () => {/*
-                this.appconfig.PERSONA = this.persona.codigo;
+            () => {
+                // Una vez finalizada la petición
+                //termine de buscar
+                this.buscando = false;
 
                 this.servicio.getLocalidad(this.appconfig.BASEURL, this.persona.dpersonal_localidad)
                     .subscribe(localidad => this.persona.datos_localidad = localidad);
-
+                
                 this.servicio.getPais(this.appconfig.BASEURL, this.persona.nacionalidad)
                     .subscribe(pais => this.persona.datos_nacionalidad = pais);
-
+                
                 this.servicio.getTipoDocumento(this.appconfig.BASEURL, this.persona.tipo_documento)
                     .subscribe(tipoDocumento => this.persona.datos_tipoDocumento = tipoDocumento);
-
+                
                 this.servicio.getAfiliado(this.appconfig.BASEURL, this.persona.numero_documento)
                     .subscribe(afiliado => this.persona.afiliado = afiliado,
                     error => console.log(error),
@@ -101,7 +138,8 @@ export class BuscarPacienteComponent implements OnInit, OnDestroy {
 
 
 
-*/
+                    //Una vez finalizado la recolección de la persona guardo datos para obtenerlo del modelo
+                    this.appconfig.OBJETO_PERSONA = this.persona;
             });
 
     }
@@ -109,67 +147,7 @@ export class BuscarPacienteComponent implements OnInit, OnDestroy {
     buscar(f: NgForm) {
         this.buscando = true;
         if (f.valid) {
-
-            this.servicio.getDatosPersonaPorDni(this.appconfig.BASEURL, f.value.busquedaPersona)
-                .subscribe(datos => {
-                    if (!datos[0]) {
-                        console.log('No tienen nada....');
-                        this.buscando = false;
-                        this.sinResultados = true;
-                    }else {
-                        console.log('Algo trae...');
-                        console.log(datos);
-                        this.persona.numero_documento = datos[0].numero_documento;
-                        this.persona.nombre = datos[0].nombre;
-                        this.persona.codigo = datos[0].codigo;
-                        this.appconfig.DNIPERSONA = this.persona.numero_documento;
-                        this.sinResultados = false;
-                        this.buscando = false;
-                    }
-
-                }
-                , error => {
-                    console.log(error);
-                    this.sinResultados = true;
-                    this.buscando = false;
-                },
-                () => {
-                    console.log('Termine de buscar....');
-                    console.log('Persona codigo:' + this.persona.codigo);
-                    /*
-                    this.appconfig.PERSONA = this.persona.codigo;
-                    this.DNIBuscado = this.persona.numero_documento; // Nuevo cambio
-                    this.appconfig.DNIPERSONA = this.persona.numero_documento;
-                    this.buscando = false; //ver donde seria la ultima llamada para que deje de mostrar buscando...
-
-                    this.servicio.getLocalidad(this.appconfig.BASEURL, this.persona.dpersonal_localidad)
-                        .subscribe(localidad => {console.log(localidad);this.persona.datos_localidad = localidad});
-
-                    this.servicio.getPais(this.appconfig.BASEURL, this.persona.nacionalidad)
-                        .subscribe(pais =>{console.log(pais); this.persona.datos_nacionalidad = pais});
-
-                    this.servicio.getTipoDocumento(this.appconfig.BASEURL, this.persona.tipo_documento)
-                        .subscribe(tipoDocumento => {console.log(tipoDocumento);this.persona.datos_tipoDocumento = tipoDocumento});
-
-                    this.servicio.getAfiliado(this.appconfig.BASEURL, this.persona.numero_documento)
-                        .subscribe(afiliado => {console.log(afiliado);this.persona.afiliado = afiliado},
-                        error => console.log(error),
-                        () => {
-                            this.servicio.getObraSocial(this.appconfig.BASEURL, this.persona.afiliado.obra_social)
-                                .subscribe(obraSocial => {console.log(obraSocial);this.persona.datos_obra_social = obraSocial});
-
-                            this.servicio.getParentesco(this.appconfig.BASEURL, this.persona.afiliado.parentesco)
-                                .subscribe(parentesco => {
-                                    console.log(parentesco);
-                                    this.persona.datos_parentesco = parentesco;
-                                });
-
-                            this.sinResultados = false;
-                        });
-                */
-                });
-                console.log(this.persona);
-
+            this.buscarPorDni(f.value.busquedaPersona);
         }
     }
 
@@ -183,28 +161,35 @@ export class BuscarPacienteComponent implements OnInit, OnDestroy {
         return false;
     }
 
-    personaNoEncontrada(): Boolean {
-        return this.sinResultados;
-    }
-
     buscandoPaciente(): Boolean {
         return this.buscando;
     }
 
     salir() {
-
-        console.log('salir...');
+        this.buscando = false;
+        this.sinResultados = true;
     }
     ngOnDestroy(): void {
-        console.log('Ng destroy explicito');
+        console.log('[Borrar] Ng destroy explicito');
     }
     ngOnInit(): void {
-        console.log('NG On init');
-
-
+        console.log('[Borrar log]NG On init');
+        this.esPrimeraVez = true;
     }
 
-    desactivarBoton(): Boolean {
-        return this.buscando;
+    activarBoton(): Boolean {
+
+        if (!this.buscando && this.sinResultados){
+        
+            return false; //activo el boton
+        }else{
+        
+            return true; //desactivo el boton
+        }
+        
     }
+
+      
+
+
 }

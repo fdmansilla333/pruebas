@@ -12,6 +12,7 @@ import { Afiliado } from '../modelos/Afiliado';
 import { AsyncPipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+import { NgModel } from '@angular/forms';
 
 
 @Component({

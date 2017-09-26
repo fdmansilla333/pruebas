@@ -30,15 +30,22 @@ export class EvolucionAmbulatoria {
   solicitud_de_derivacion: string = '';
   solicitud_de_derivacion_interconsulta = '';
   meses: Number = 0;
-
+  hipertension:boolean = false;
+  diabetes: boolean = false;
+  otras: boolean = false;
+  otrasTexto: string ='';
+  primeraVez: boolean = false;
+  consejerias: string = '';
   constructor(persona: Persona, hoy: Date) {
 
     
-    let nacimiento = new Date(persona.fecha_nacimiento); 
+    let nacimiento:Date = new Date(persona.fecha_nacimiento); 
     this.edad = hoy.getFullYear() - nacimiento.getFullYear();
     this.fecha = hoy;
-
-    this.meses = hoy.getMonth() - nacimiento.getMonth();
+    
+    
+    this.meses = hoy.getMonth()+1;
+    //Agregar calculo de meses
   
 
   }

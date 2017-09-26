@@ -3,6 +3,8 @@ import { Atencion } from './atencion';
 import { AtencionService } from './atencion.service';
 import { EncabezadoComponent } from './encabezado/encabezado.component';
 import { Persona } from "./modelos/Persona";
+import { ActivatedRoute} from '@angular/router';
+
 
 @Component({
   selector: 'app-root',
@@ -22,11 +24,12 @@ export class AppComponent implements OnInit {
   OBJETO_PERSONA: Persona;
 
   constructor(
-    private atencionService: AtencionService, elementRef: ElementRef) {
+    private atencionService: AtencionService, elementRef: ElementRef, public route: ActivatedRoute) {
 
     console.log('Codigo seros te cuida:' + elementRef.nativeElement.getAttribute('CodigoSerosTeCuida'));
     console.log('Hostname:' + elementRef.nativeElement.getAttribute('hostname'));
     console.log('Localname:' + elementRef.nativeElement.getAttribute('localname'));
+    route.params.subscribe(params => {param => console.log(param)});
 
     let codigoSerosTeCuida = elementRef.nativeElement.getAttribute('CodigoSerosTeCuida');
     this.BASEURL = 'http://localhost:8080/SerosTeCuidaMaven/api/';
@@ -40,8 +43,8 @@ export class AppComponent implements OnInit {
 
     let hostname = elementRef.nativeElement.getAttribute('hostname');
     if (hostname) {
-      this.BASEURL = 'http://' + hostname + ':8080/SerosTeCuidaMaven/api/'; // para local
-      // this.BASEURL = 'http://' + hostname + ':/SerosTeCuidaMaven/api/'; //para preproduccion
+       // this.BASEURL = 'http://' + hostname + ':8080/SerosTeCuidaMaven/api/'; // para local
+      this.BASEURL = 'http://' + hostname + '/SerosTeCuidaMaven/api/'; //para preproduccion
       console.log('Tiene algo hostname: ' + hostname);
 
     }

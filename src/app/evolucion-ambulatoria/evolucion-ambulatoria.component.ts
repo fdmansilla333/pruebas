@@ -9,6 +9,7 @@ import { OnChanges, SimpleChanges } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 
 
+
 @Component({
     moduleId: module.id,
     selector: 'evolucion-ambulatoria',
@@ -19,8 +20,8 @@ export class EvolucionAmbulatoriaComponent implements OnChanges {
   
 @Input() public dniPaciente: Number;
 @Input() public persona: Persona;
-@Input() public hoy: Date;
-@Input() public evolucionAmbulatoria: EvolucionAmbulatoria;
+public hoy: Date;
+public evolucionAmbulatoria: EvolucionAmbulatoria;
 public peso: Number = 0;
     
         constructor(app: AppComponent){
@@ -51,6 +52,14 @@ public peso: Number = 0;
               console.log(this.evolucionAmbulatoria);
               }
               
+          }
+
+          guardar(f: NgForm){
+              console.log(f.value);
+          }
+          mostrar(): boolean{
+              console.log(this.evolucionAmbulatoria.otras);
+              return this.evolucionAmbulatoria.otras;
           }
 
 }

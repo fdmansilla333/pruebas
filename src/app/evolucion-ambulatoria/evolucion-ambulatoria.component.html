@@ -6,150 +6,159 @@
         </h2>
     </div>
     <div class="panel-body">
-        <div class="row">
-            <div class="col-md-6">
-                <strong><label for="Nombre/s y Apellido/s:">Nombre/s y Apellido/s:</label></strong>
-                <span>{{persona?.nombre}}</span>
+        <form #f="ngForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label for="Nombre/s y Apellido/s:">Nombre/s y Apellido/s:</label></strong>
+                    <span>{{persona?.nombre}}</span>
+                </div>
+                <div class="col-md-6" align="right">
+                    <strong><label for="Fecha">Fecha:</label></strong>
+                    <input class="campoMediano" name="hoy" type="date" [ngModel]="hoy | date:'y-mm-d'" (ngModelChange)="updatehoy($event)">
+                </div>
             </div>
-            <div class="col-md-6" align="right">
-                <strong><label for="Fecha">Fecha:</label></strong>
-                <input class="campoMediano" name="hoy" type="date" [value]="hoy" ngModel required #hoy>
+            <hr>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered table-hover table-condensed" id="tablaEvolucion">
+                    <th colspan="2">Edad</th>
+                    <th>Peso</th>
+                    <th>Talla</th>
+                    <th>PC</th>
+                    <th>IMC</th>
+                    <th colspan="4">Percentilos</th>
+                    <th>Presi&oacute;n Arterial</th>
+                    <th>Per&iacute;metro abdominal</th>
+                    <th colspan="2">Vacunaci&oacute;n</th>
+                    <tr>
+                        <td>A&ntilde;os</td>
+                        <td>Meses</td>
+                        <td>Kg</td>
+                        <td>Cm</td>
+                        <td>Cm</td>
+                        <td></td>
+                        <td>PC/edad</td>
+                        <td>Peso/edad</td>
+                        <td>Talla/Edad</td>
+                        <td>IMC/Edad</td>
+                        <td></td>
+                        <td>Cm</td>
+                        <td>Completo</td>
+                        <td>Incompleto</td>
+                    </tr>
+
+                    <!--TODO @DamianAgregar vinculación con los datos-->
+                    <tr>
+                        <td><input type="number" min="0" name="edad" [(ngModel)]="evolucionAmbulatoria.edad"></td>
+                        <td><input type="number" min="0" name="meses" [(ngModel)]="evolucionAmbulatoria.meses"> </td>
+                        <td><input #peso type="number" min="0" name="peso" [(ngModel)]="evolucionAmbulatoria.peso" size="3">                            </td>
+                        <td><input #talla type="number" min="0" name="talla" [(ngModel)]="evolucionAmbulatoria.talla" size="3"></td>
+                        <td><input type="number" min="0" name="pc" [(ngModel)]="evolucionAmbulatoria.pc" size="3"></td>
+                        <td> <button (click)="actualizarIMC(peso.value, talla.value)" type="button" class="btn btn-sm btn-default">Calcular</button>
+                            <span>{{evolucionAmbulatoria.imc | number:'2.1-2'}}</span></td>
+                        <td>NA</td>
+                        <td>NA</td>
+                        <td>NA</td>
+                        <td>NA</td>
+                        <td><input #presion_arterial type="number" min="0" name="presion_arterial" [(ngModel)]="evolucionAmbulatoria.presion_arterial"
+                                size="3"></td>
+                        <td><input #perimetro_abdominal type="number" min="0" name="perimetro_abdominal" [(ngModel)]="evolucionAmbulatoria.perimetro_abdominal"
+                                size="3"></td>
+                        <td><input #vacunacion type="radio" name="vacunacion" value="true" [(ngModel)]="evolucionAmbulatoria.vacunacion"></td>
+                        <td><input #vacunacion type="radio" name="vacunacion" value="falso" [(ngModel)]="evolucionAmbulatoria.vacunacion"></td>
+                    </tr>
+
+
+                </table>
             </div>
-        </div>
-        <hr>
-        <div class="table-responsive">
-        <table class="table table-striped table-bordered table-hover table-condensed" id="tablaEvolucion">
-            <th colspan="2">Edad</th>
-            <th>Peso</th>
-            <th>Talla</th>
-            <th>PC</th>
-            <th>IMC</th>
-            <th colspan="4">Percentilos</th>
-            <th>Presi&oacute;n Arterial</th>
-            <th>Per&iacute;metro abdominal</th>
-            <th colspan="2">Vacunaci&oacute;n</th>
-            <tr>
-                <td>A&ntilde;os</td>
-                <td>Meses</td>
-                <td>Kg</td>
-                <td>Cm</td>
-                <td>Cm</td>
-                <td></td>
-                <td>PC/edad</td>
-                <td>Peso/edad</td>
-                <td>Talla/Edad</td>
-                <td>IMC/Edad</td>
-                <td></td>
-                <td>Cm</td>
-                <td>Completo</td>
-                <td>Incompleto</td>
-            </tr>
 
-            <!--TODO @DamianAgregar vinculación con los datos-->
-            <tr>
-                <td><input type="number" min="0" name="edad" ([ngModel])="evolucionAmbulatoria.edad" value="{{evolucionAmbulatoria.edad}}" size="2" ></td>
-                <td><input type="number" min="0" name="meses" ([ngModel])="evoluionAmbulatoria.meses" value="{{evolucionAmbulatoria.meses}}" size="2">                    </td>
-                <td><input #peso type="number" min="0" name="peso" ([ngModel])="evolucionAmbulatoria.peso" value="{{evolucionAmbulatoria.peso}}" size="3">                    </td>
-                <td><input #talla type="number" min="0" name="talla" ([ngModel])="evolucionAmbulatoria.talla" value="{{evolucionAmbulatoria.talla}}" size="3"></td>
-                <td><input type="number" min="0" name="pc" ([ngModel])="evolucionAmbulatoria.pc" value="{{evolucionAmbulatoria.pc}}" size="3"></td>
-                <td> <span (click)="actualizarIMC(peso.value, talla.value)">{{evolucionAmbulatoria.imc | number:'2.1-2'}}</span></td>
-                <td>NA</td>
-                <td>NA</td>
-                <td>NA</td>
-                <td>NA</td>
-                <td><input #presion_arterial type="number" min="0" name="presion_arterial" ([ngModel])="evolucionAmbulatoria.presion_arterial" value="{{evolucionAmbulatoria.presion_arterial}}" size="3"></td>
-                <td><input #perimetro_abdominal type="number" min="0" name="perimetro_abdominal" ([ngModel])="evolucionAmbulatoria.perimetro_abdominal" value="{{evolucionAmbulatoria.perimetro_abdominal}}" size="3"></td>
-                <td><input #vacunacion type="radio" name="vacunacion" value="true" ></td>
-                <td><input #vacunacion type="radio" name="vacunacion" value="falso" ></td>
-            </tr>
-
-
-        </table>
-        </div>
-
-        <div class="row">
-            <div class="col-md-3">
-                <strong><label>ENFERMEDADES CRONICAS:</label></strong>
-            </div>
-            <div class="col-md-6">
-                <span>
-                    <strong>  HTA  <input type="checkbox"></strong>
-                    <strong>  DB  <input type="checkbox"></strong>
-                    <strong>  Otras:  <input type="checkbox"></strong>
-                    <strong><input type="text"></strong>
+            <div class="row">
+                <div class="col-md-3">
+                    <strong><label>ENFERMEDADES CRONICAS:</label></strong>
+                </div>
+                <div class="col-md-6">
+                    <span>
+                    <strong>  HTA  <input name="HTA" type="checkbox" [(ngModel)]="evolucionAmbulatoria.hipertension"></strong>
+                    <strong>  DB  <input name="DB" type="checkbox" [(ngModel)]="evolucionAmbulatoria.diabetes"></strong>
+                    <strong>  Otras:  <input name="Otras" type="checkbox" [(ngModel)]="evolucionAmbulatoria.otras"></strong>
+                    <div *ngIf="mostrar()">
+                        <strong><input class="campoLargo" name ="campoOtras" type="text"></strong>
+                    </div>
                 </span>
+                </div>
+                <div class="col-md-3">
+                    <strong>  Primera vez  <input type="radio" name="primeraVez" ></strong>
+                    <strong>  Ulterior  <input type="radio" name="primeraVez" ></strong>
+                </div>
             </div>
-            <div class="col-md-3">
-                <strong>  Primera vez  <input type="radio" name="primeraVez"></strong>
-                <strong>  Ulterior  <input type="radio" name="primeraVez"></strong>
+
+            <div class="row">
+                <hr>
+                <strong><label> Enfermedad Actual:</label></strong>
+                <input class="campoLargo" type="text" name="enfermedadActual" >
             </div>
-        </div>
 
-        <div class="row">
-            <hr>
-            <strong><label> Enfermedad Actual:</label></strong>
-            <input class="campoLargo" type="text" name="enfermedadActual">
-        </div>
+            <div class="row">
+                <hr>
+                <strong><label> Examen f&iacute;sico:</label></strong>
+                <input class="campoLargo" type="text" name="examenFisico" >
+            </div>
+            <div class="row">
+                <hr>
+                <strong><label> Diagn&oacute;stico o Problema de salud:</label></strong>
+                <input class="campoLargo" type="text" name="examenFisico" >
+            </div>
+            <div class="row">
+                <hr>
+                <div class="col-md-6">
+                    <div class="row">
+                        <strong><label> Plan de tratamiento:</label></strong>
+                    </div>
 
-        <div class="row">
-            <hr>
-            <strong><label> Examen f&iacute;sico:</label></strong>
-            <input class="campoLargo" type="text" name="examenFisico">
-        </div>
-        <div class="row">
-            <hr>
-            <strong><label> Diagn&oacute;stico o Problema de salud:</label></strong>
-            <input class="campoLargo" type="text" name="diagnostico">
-        </div>
-        <div class="row">
-            <hr>
-            <div class="col-md-6">
-                <div class="row">
-                    <strong><label> Plan de tratamiento:</label></strong>
+                    <textarea rows="5" cols="50" ></textarea>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <strong><label> Consejer&iacute;as:</label></strong>
+                    </div>
+
+                    <textarea rows="5" cols="50" ></textarea>
                 </div>
 
-                <textarea rows="5" cols="50"></textarea>
-            </div>
-            <div class="col-md-6">
-                <div class="row">
-                    <strong><label> Consejer&iacute;as:</label></strong>
-                </div>
-
-                <textarea rows="5" cols="50"></textarea>
             </div>
 
-        </div>
+            <div class="row">
+                <hr>
+                <strong><label> Indicaci&oacute;n de Lab o Estudios complementarios:</label></strong>
+                <input class="campoLargo" type="text" name="indicacionLab">
+            </div>
+            <div class="row">
+                <strong><label> Indicaci&oacute;n de medicaci&oacute;n</label></strong>
+                <input class="campoLargo" type="text" name="indicacion_medicacion" >
+            </div>
+            <div class="row">
+                <strong><label> Solicitud de derivaci&oacute;n</label></strong> Interconsulta
+                <input type="radio" name="derivacion" value="interconsulta" >                Internaci&oacute;n
+                <input type="radio" name="derivacion" value="internacion" >
+            </div>
 
-        <div class="row">
-            <hr>
-            <strong><label> Indicaci&oacute;n de Lab o Estudios complementarios:</label></strong>
-            <input class="campoLargo" type="text" name="indicacionLab">
-        </div>
-        <div class="row">
-            <strong><label> Indicaci&oacute;n de medicaci&oacute;n</label></strong>
-            <input class="campoLargo" type="text" name="planTratamiento">
-        </div>
-        <div class="row">
-            <strong><label> Solicitud de derivaci&oacute;n</label></strong> Interconsulta <input type="radio" name="derivacion"
-                value="interconsulta"> Internaci&oacute;n <input type="radio" name="derivacion" value="internacion">
-        </div>
+            <div class="row" align="right">
 
-        <div class="row" align="right">
+                <img src='../../issys-media/issys/firma-ejemplo.jpg' class="img-responsive img-thumbnail" alt="Responsive image" height="100"
+                    width="100">
 
-            <img src='../../issys-media/issys/firma-ejemplo.jpg' class="img-responsive img-thumbnail" alt="Responsive image" height="100"
-                width="100">
+                <input id="sello" type="text" name="prestador" value="Sello o Nombre del Prestador" height="200px" width="100px">
 
-            <input id="sello" type="text" name="prestador" value="Sello o Nombre del Prestador" height="200px" width="100px">
+            </div>
+            <div class="row" align="right">
+                <strong><label padding-right="100px">Firma:</label></strong>
+                <strong><label>Sello / Aclaraci&oacute;n</label></strong>
+            </div>
+            <div class="row" align="center">
+                <button type="button" class="btn btn-primary" id="botonGuardar" (click)="guardar(f)">>Confirmar</button>
+                <button type="button" class="btn btn-primary" routerLink="/buscar/{{dniPaciente}}" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Cancelar</button>
+            </div>
+        </form>
 
-        </div>
-        <div class="row" align="right">
-            <strong><label padding-right="100px">Firma:</label></strong>
-            <strong><label>Sello / Aclaraci&oacute;n</label></strong>
-        </div>
-        <div class="row" align="center">
-            <button type="button" class="btn btn-primary">Confirmar</button>
-            <button type="button" class="btn btn-primary" routerLink="/buscar/{{dniPaciente}}" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Cancelar</button>
-        </div>
     </div>
 </div>
 <hr>

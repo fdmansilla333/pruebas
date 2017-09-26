@@ -42,6 +42,8 @@ const appRoutes: Routes = [
   {path: 'antecedentes_perinatologicos', component: AntecedentesPerinatologicosComponent },
   {path: 'antecedentes', component: AntecedentesComponent },
   {path: 'salir', component: SalirComponent },
+  {path: 'HistoriaClinica', redirectTo: '/buscar', pathMatch: 'prefix'},
+  {path: 'ng', redirectTo: '/buscar', pathMatch: 'prefix'},
   // match con cualquier path, acceso desde afuera
  /* { path: ':id', component: BuscarPacienteComponent },
   { path: '', component: BuscarPacienteComponent },

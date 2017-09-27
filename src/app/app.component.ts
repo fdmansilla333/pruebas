@@ -43,8 +43,8 @@ export class AppComponent implements OnInit {
 
     let hostname = elementRef.nativeElement.getAttribute('hostname');
     if (hostname) {
-       // this.BASEURL = 'http://' + hostname + ':8080/SerosTeCuidaMaven/api/'; // para local
-      this.BASEURL = 'http://' + hostname + '/SerosTeCuidaMaven/api/'; //para preproduccion
+       this.BASEURL = 'http://' + hostname + ':8080/SerosTeCuidaMaven/api/'; // para local
+      // this.BASEURL = 'http://' + hostname + '/SerosTeCuidaMaven/api/'; //para preproduccion
       console.log('Tiene algo hostname: ' + hostname);
 
     }

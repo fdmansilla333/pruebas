@@ -30,6 +30,8 @@ import { SalirComponent } from './salir/salir.component';
 import { AntecedentesPerinatologicosComponent } from './antecedentes-perinatologicos/antecedentes-perinatologicos.component';
 import { BuscarPacienteComponent } from './buscar-paciente/buscar-paciente.component';
 import { NgxSmartModalModule, NgxSmartModalService } from 'ngx-smart-modal';
+import {HttpClientModule} from '@angular/common/http';
+
 /*Constantes utilizadas en la aplicación*/
 
 const appRoutes: Routes = [
@@ -95,6 +97,7 @@ const appRoutes: Routes = [
     NgxSmartModalModule.forRoot(),
     FormsModule,
     HttpModule,
+    HttpClientModule,
     RouterModule.forRoot(
       appRoutes,
        // { enableTracing: true } // <-- debugging purposes only

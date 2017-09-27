@@ -7,6 +7,9 @@ import { EvolucionAmbulatoria } from "../modelos/EvolucionAmbulatoria";
 import { NgModel } from '@angular/forms';
 import { OnChanges, SimpleChanges } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
+import { Atencion } from "../atencion";
+import { AtencionService } from "../atencion.service";
+
 
 
 
@@ -24,7 +27,7 @@ public hoy: Date;
 public evolucionAmbulatoria: EvolucionAmbulatoria;
 public peso: Number = 0;
     
-        constructor(app: AppComponent){
+        constructor(public app: AppComponent, public servicio: AtencionService){
             if(app.DNIPERSONA){
                 this.dniPaciente = app.DNIPERSONA;
                 //console.log(app.OBJETO_PERSONA);
@@ -49,16 +52,26 @@ public peso: Number = 0;
               this.evolucionAmbulatoria.peso = peso;
               this.evolucionAmbulatoria.talla = talla;
               this.evolucionAmbulatoria.calcularIMC();
-              console.log(this.evolucionAmbulatoria);
               }
               
           }
 
           guardar(f: NgForm){
-              console.log(f.value);
+             // console.log('Se deberia enviar lo sgte:');
+              //console.log(f.value);
+              //console.log('Comparar con...');
+              //console.log(this.evolucionAmbulatoria);
+
+              //console.log('Enviando una nueva atencion:');
+              let atencion:Atencion = new Atencion(new Date, 'observacion de prueba', this.persona.codigo, 'internacion');
+              console.log(atencion);
+
+              this.servicio.setAtencion(this.app.BASEURL, atencion).subscribe(resultado => console.log(resultado), error=>console.log(error));
+
+              
+
           }
           mostrar(): boolean{
-              console.log(this.evolucionAmbulatoria.otras);
               return this.evolucionAmbulatoria.otras;
           }
 

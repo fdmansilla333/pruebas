@@ -15,7 +15,7 @@ export class EvolucionAmbulatoria {
   percentilos_peso_edad: Number = 0;
   percentilos_talla_edad: Number = 0;
   percentilos_imc_edad: Number = 0;
-  presion_arterial: Number = 0;
+  presion_arterial: String = '';
   perimetro_abdominal: Number = 0;
   vacunacion: boolean = false;
   enfermedades_cronicas: string = '';

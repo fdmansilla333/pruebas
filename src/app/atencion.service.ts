@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http } from '@angular/http';
+import { Http } from '@angular/http';
+import { HttpHeaders } from '@angular/common/http';
+import {Headers} from '@angular/http';
+
+
 
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
@@ -13,6 +17,7 @@ import { ObraSocial } from "./modelos/ObraSocial";
 import { Pais } from "./modelos/Pais";
 import { Parentesco } from "./modelos/Parentesco";
 import { TipoDocumento } from "./modelos/TipoDocumento";
+import { HttpClient } from "@angular/common/http";
 
 @Injectable()
 export class AtencionService {
@@ -20,7 +25,7 @@ export class AtencionService {
   private atencionURL: string;
   private atencion: Promise<[Atencion]>;
   public codigoPersonaConsultado: Number;
-  constructor(private http: Http) { }
+  constructor(private http: Http, private http2: HttpClient) { }
 
   getAtencion(): Promise<Atencion[]> {
 
@@ -100,6 +105,32 @@ export class AtencionService {
   setCodigoPersona(codigo:Number){
     console.log('Cambiando codigo a:' + codigo);
     this.codigoPersonaConsultado = codigo;
+  }
+
+  setAtencion(URL: string, atencion: Atencion){
+    
+  
+    //let headers = new Headers({ 'Access-Control-Allow-Origin': '*' });
+    //headers.append('Access-Control-Allow-Origin', '*');    
+    //headers.append('Access-Control-Allow-Credentials', 'true');    
+    //headers.append('Content-Type','application/json ' );
+    //headers.append('Accept','text/plain');
+    
+    
+    //headers.append('Accept','Accept');
+    //headers.append('Access-Control-Allow-Origin', '*');
+    //headers.append('Access-Control-Allow-Credentials', 'true');
+    //headers.append('Content-Type','application/json ');
+    
+    const cabecera = new HttpHeaders().set('Accept','text/plain');
+    //cabecera.set('Accept', 'text/plain');
+    //cabecera.set('Access-Control-Allow-Origin', '*');
+    //cabecera.set('Access-Control-Allow-Credentials', 'true');
+    //cabecera.set('Content-Type','application/json');
+    return this.http2.post(URL + 'atencion', atencion, {
+      headers: cabecera
+    });
+
   }
 
 

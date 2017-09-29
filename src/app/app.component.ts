@@ -32,9 +32,10 @@ export class AppComponent implements OnInit {
     route.params.subscribe(params => {param => console.log(param)});
 
     let codigoSerosTeCuida = elementRef.nativeElement.getAttribute('CodigoSerosTeCuida');
-    this.BASEURL = 'http://localhost:8080/SerosTeCuidaMaven/api/';
+    //this.BASEURL = 'http://localhost:8080/SerosTeCuidaMaven/api/';
     // Trabajo con servidor fake
     //this.BASEURL = 'http://localhost:8080/';
+    this.BASEURL = '/api' // configurado el proxy para que apunte a localhost:8080/SerosTeCuidaMaven/api/
     
     if (codigoSerosTeCuida) {
       console.log('tiene algo seros te cuida:' + codigoSerosTeCuida);
@@ -43,6 +44,7 @@ export class AppComponent implements OnInit {
 
     let hostname = elementRef.nativeElement.getAttribute('hostname');
     if (hostname) {
+      
        this.BASEURL = 'http://' + hostname + ':8080/SerosTeCuidaMaven/api/'; // para local
       // this.BASEURL = 'http://' + hostname + '/SerosTeCuidaMaven/api/'; //para preproduccion
       console.log('Tiene algo hostname: ' + hostname);

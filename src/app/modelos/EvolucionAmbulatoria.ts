@@ -5,7 +5,7 @@ export class EvolucionAmbulatoria {
   atencion: Number = 0;
   antecedente_personal: Number = 0;
 
-  fecha: Date = new Date();
+  fecha: Date;
   peso: Number = 0;
   talla: Number = 0;
   pc: Number = 0;
@@ -40,10 +40,11 @@ export class EvolucionAmbulatoria {
 
     
     let nacimiento:Date = new Date(persona.fecha_nacimiento); 
-    this.edad = hoy.getFullYear() - nacimiento.getFullYear();
+    this.edad = hoy.getFullYear() - nacimiento.getFullYear() - 1; // TODO ver esto, dado que se necesita ver la cantidad de años y meses
     this.fecha = hoy;
-    
-    
+    // agregando slice
+    // "2017-09-28 17:10:24"
+    // this.fecha = "'"+hoy.toISOString().slice(0, 10)+"'";
     this.meses = hoy.getMonth()+1;
     //Agregar calculo de meses
   

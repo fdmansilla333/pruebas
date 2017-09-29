@@ -17,7 +17,7 @@
               <td>{{atencion.observacion}}</td>
               <td>
                 <button type="button" class="btn btn-primary">Modificar</button>
-                <button type="button" class="btn btn-danger" id="{{atencion.codigo}}" data-toggle="modal" data-target="#myModalAnular">Anular</button>
+                <button class="delete" (click)="delete(atencion); $event.stopPropagation()">Anular</button>
               </td>
             </tr>
           </table>

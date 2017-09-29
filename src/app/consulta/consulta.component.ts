@@ -14,7 +14,7 @@ export class ConsultaComponent {
     @Input() atenciones: Atencion[];
     @Input() persona: Persona;
 
-    constructor(appconfig: AppComponent, serviceAtencion: AtencionService) {
+    constructor(public appconfig: AppComponent, public serviceAtencion: AtencionService) {
         console.log('Se instancia consulta componente');
         this.atenciones = new Array;
         this.persona = new Persona();
@@ -35,4 +35,14 @@ export class ConsultaComponent {
     getCantidadAtenciones(): Number {
         return this.atenciones.length;
     }
+
+    delete(atencion: Atencion): void {
+        this.serviceAtencion.deleteAtencion(this.appconfig.BASEURL, atencion.codigo).subscribe(res => console.log(res)
+        ,error=> console.log(error)
+        ,() => {
+            //Saco de la coleccion de atenciones la atencion eliminada.
+            this.atenciones = this.atenciones.filter(a => a !== atencion);
+            alert("La atención a sido anulada");
+        });
+      }
 }

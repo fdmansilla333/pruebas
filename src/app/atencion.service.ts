@@ -17,6 +17,8 @@ import { ObraSocial } from "./modelos/ObraSocial";
 import { Pais } from "./modelos/Pais";
 import { Parentesco } from "./modelos/Parentesco";
 import { TipoDocumento } from "./modelos/TipoDocumento";
+import {Tipo_presentacion} from './modelos/Tipo_presentacion';
+import {Tipo_terminacion} from './modelos/Tipo_terminacion';
 import { HttpClient } from "@angular/common/http";
 import { EvolucionAmbulatoria } from "./modelos/EvolucionAmbulatoria";
 import { AntecedentePerinatologico } from "./modelos/AntecedentePerinatologico";
@@ -131,7 +133,20 @@ export class AtencionService {
     return this.http.get(URL + '/antecedentePerinatologico/' + codigoAtencion).map(res => res.json());
     ;
   }
+
+  getTipoPresentacion(URL: string, codigo): Observable<Tipo_presentacion> {
+    return this.http.get(URL + '/tipo_presentacion/' + codigo)
+    .map(res => res.json());   
+  }
+
+  getTipoTerminacion(URL: string, codigo): Observable<Tipo_presentacion> {
+    return this.http.get(URL + '/tipo_terminacion/' + codigo)
+    .map(res => res.json());   
+  }
     
+  setAntecedentePerinatologico(URL: string, antecedentePerinatologico: AntecedentePerinatologico){
+    return this.http.post(URL + '/antecedentePerinatologico', antecedentePerinatologico);
+  }
 
 
 }

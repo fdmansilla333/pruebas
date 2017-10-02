@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, InjectionToken } from '@angular/core';
 import { FormsModule } from '@angular/forms'; // <-- NgModel lives here
+import { CustomFormsModule } from 'ng2-validation' // <-- agregado para validaciones no implementadas  https://github.com/yuyang041060120/ng2-validation
 import { AppComponent } from './app.component';
 import { AtencionService } from './atencion.service';
 import { HttpModule } from '@angular/http';
@@ -96,6 +97,7 @@ const appRoutes: Routes = [
     BrowserModule,
     NgxSmartModalModule.forRoot(),
     FormsModule,
+    CustomFormsModule, // Agregado para validaciones especificas
     HttpModule,
     HttpClientModule,
     RouterModule.forRoot(

@@ -1,4 +1,5 @@
 <br>
+
 <div class="panel panel-primary">
     <div class="panel-heading">
         <h2 class="panel-title" align="center">
@@ -6,132 +7,241 @@
         </h2>
     </div>
     <div class="panel-body">
-        <div class="row">
-            <div class="col-md-3">
-                <strong><label>Controles adecuados en el embarazo</label></strong>
-                <br> Si <input type="radio" name="controlesAdecuados" [(ngModel)]="antecedentePerinatologico.controles_adecuados_embarazo"
-                    value="true"> No <input type="radio" name="controlesAdecuados" value="false" [(ngModel)]="antecedentePerinatologico.controles_adecuados_embarazo">
+        <!--Si tiene antecedentes se muestra un listado sino se muestra el form-->
+        <div *ngIf="tieneAntecedentePerinatologico">
+            <div class="row">
+                <div class="col-md-3">
+                    <strong><label>Controles adecuados en el embarazo</label></strong>
+                    <span *ngIf="antecedentePerinatologico?.controles_adecuados_embarazo"> SI</span>
+                    <span *ngIf="!antecedentePerinatologico?.controles_adecuados_embarazo"> NO</span>
+                </div>
+                <div class="col-md-3">
+                    <strong><label>Nacimiento m&uacute;ltiple:</label></strong>
+                    <span *ngIf="antecedentePerinatologico?.nacimiento_multiple"> SI</span>
+                    <span *ngIf="!antecedentePerinatologico?.nacimiento_multiple"> NO</span>
+                </div>
+                <div class="col-md-3">
+                    <strong><label>Presentaci&oacute;n: {{antecedentePerinatologico.descripcion_tipo_presentacion}}</label></strong>
+                </div>
+                <div class="col-md-3">
+                    <strong><label>Terminaci&oacute;n: {{antecedentePerinatologico.descripcion_tipo_terminacion}}</label></strong>
+                </div>
             </div>
-            <div class="col-md-3">
-                <strong><label>Nacimiento m&uacute;ltiple</label></strong>
-                <br> Si <input type="radio" name="nacimientoMultiple" value="1" [(ngModel)]="antecedentePerinatologico.nacimiento_multiple">                No <input type="radio" name="nacimientoMultiple" value="0" [(ngModel)]="antecedentePerinatologico.nacimiento_multiple">
-            </div>
-            <div class="col-md-3">
+            <div class="row">
+                <hr>
+                <strong><label>Lugar de parto: {{antecedentePerinatologico.lugar_de_parto}}</label></strong>
 
-                <strong><label>Presentaci&oacute;n</label></strong>
-                <br> Cef&aacute;lica <input type="radio" name="presentacion" value="3" [(ngModel)]="antecedentePerinatologico.tipo_presentacion">                Pod&aacute;lica <input type="radio" name="presentacion" value="2" [(ngModel)]="antecedentePerinatologico.tipo_presentacion">                Transversa <input type="radio" name="presentacion" value="1" [(ngModel)]="antecedentePerinatologico.tipo_presentacion">
             </div>
-            <div class="col-md-3">
-                <strong><label>Terminaci&oacute;n</label></strong>
-                <br> Espont&aacute;nea <input type="radio" name="terminacion" value="3" [(ngModel)]="antecedentePerinatologico.tipo_terminacion">                Forceps <input type="radio" name="terminacion" value="2" [(ngModel)]="antecedentePerinatologico.tipo_terminacion">                C&eacute;sarea <input type="radio" name="terminacion" value="1" [(ngModel)]="antecedentePerinatologico.tipo_terminacion">
+            <div class="row">
+                <hr>
+                <strong><label>Motivo: {{antecedentePerinatologico.motivo_terminacion}}</label></strong>
             </div>
-        </div>
-        <!--
-        <div class="row">
+            <div class="row">
+                <hr>
+                <div class="col-md-2">
+                    <strong><label>PESO: {{antecedentePerinatologico.peso}} KG</label></strong>
+
+                </div>
+
+                <div class="col-md-2">
+                    <strong><label>Talla: {{antecedentePerinatologico.talla}}  cm</label></strong>
+
+                </div>
+
+                <div class="col-md-2">
+                    <strong><label>PC: {{antecedentePerinatologico.perimetro_cefalico}} cm</label></strong>
+                </div>
+
+                <div class="col-md-2">
+                    <strong><label>EG: {{antecedentePerinatologico.edad_gestacional}} semanas</label></strong>
+
+                </div>
+
+                <div class="col-md-2">
+                    <strong><label>APGAR 1':{{antecedentePerinatologico.test_apgar}}</label></strong>
+                    <strong><label>APGAR 5':{{antecedentePerinatologico.test_apgar2}}</label></strong>
+                </div>
+
+                <div class="col-md-2">
+                    <table class="table table-striped table-bordered table-hover" id="tablaPerinatologicosOEA">
+                        <th *ngIf="antecedentePerinatologico.otoemisiones_acusticas"><strong><label>OEA:Si</label></strong></th>
+                        <th *ngIf="!antecedentePerinatologico.otoemisiones_acusticas"><strong><label>OEA:No</label></strong></th>
+                        <th *ngIf="antecedentePerinatologico.otoemisiones_acusticas_resultado"><strong><label>Resultado: Si</label></strong></th>
+                        <th *ngIf="!antecedentePerinatologico.otoemisiones_acusticas_resultado"><strong><label>Resultado: No</label></strong></th>
+                    </table>
+                </div>
+
+                <div class="col-md-2">
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label>Grupo y factor: {{antecedentePerinatologico.grupo_y_factor}}</label></strong>
+                </div>
+                <div class="col-md-4">
+                    <strong><label *ngIf="antecedentePerinatologico.internacion">Internaci&oacute;n:SI</label></strong>
+                    <strong><label *ngIf="!antecedentePerinatologico.internacion">Internaci&oacute;n:NO</label></strong>
+                </div>
+                <div class="col-md-4">
+                    <table class="table table-striped table-bordered table-hover" id="tablaPerinatologicos">
+                        <th><strong><label >Pesquisa Enf. Cong&eacute;nitas Metab&oacute;licas</label></strong></th>
+                        <th><strong><label>Resultado pesquisa:</label></strong></th>
+                        <tr>
+                            <td *ngIf="antecedentePerinatologico.pesquisa_enf_congenitas_metabolicas">Normal</td>
+                            <td *ngIf="!antecedentePerinatologico.pesquisa_enf_congenitas_metabolicas">Anormal</td>
+                            <td *ngIf="antecedentePerinatologico.pesquisa_enf_congenitas_metabolicas_resultado">Normal</td>
+                            <td *ngIf="!antecedentePerinatologico.pesquisa_enf_congenitas_metabolicas_resultado">Anormal</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
             <hr>
-            <strong><label>Lugar de parto:</label></strong>
-            <input class="campoLargo" type="text" name="lugar_parto" placeholder="Ingrese el lugar del parto" [(ngModel)]="antecedentePerinatologico.lugar_de_parto">
         </div>
-        <div class="row">
-            <hr>
-            <strong><label>Motivo:</label></strong>
-            <input class="campoLargo" type="text" name="motivo" placeholder="Ingrese el motivo" minlength="1" [(ngModel)]="antecedenteperinatologico.motivo_terminacion">
-        </div>
-        <div class="row">
-            <hr>
-            <div class="col-md-2">
-                <strong><label>PESO:</label></strong>
-                <input class="campoChico" type="number" name="peso" min="0" max="10" placeholder="kg" [(ngModel)]="antecedentePerinatologico.peso">
-            </div>
+        <!--No posee antecedentes perinatologicos debe hacerse la carga -->
+        <div *ngIf="!tieneAntecedentePerinatologico">
+            <div *ngIf="antecedentePerinatologico">
+                <form #f="ngForm" (ngSubmit)="guardar()">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <strong><label>Controles adecuados en el embarazo</label></strong>
+                            <br> Si <input type="radio" name="controlesAdecuados" [(ngModel)]="antecedentePerinatologico.controles_adecuados_embarazo"
+                                value="1"> No <input type="radio" name="controlesAdecuados" value="0" [(ngModel)]="antecedentePerinatologico.controles_adecuados_embarazo">
+                        </div>
+                        <div class="col-md-3">
+                            <strong><label>Nacimiento m&uacute;ltiple</label></strong>
+                            <br> Si <input type="radio" name="nacimientoMultiple" value="1" [(ngModel)]="antecedentePerinatologico.nacimiento_multiple">                            No <input type="radio" name="nacimientoMultiple" value="0" [(ngModel)]="antecedentePerinatologico.nacimiento_multiple">
+                        </div>
+                        <div class="col-md-3">
 
-            <div class="col-md-2">
-                <strong><label>Talla:</label></strong>
-                <input class="campoChico" type="number" name="talla" min="0" max="100" placeholder="cm" [(ngModel)]="antecedentePerinatologico.talla">
-            </div>
+                            <strong><label>Presentaci&oacute;n</label></strong>
+                            <br> Cef&aacute;lica <input type="radio" name="presentacion" value="3" [(ngModel)]="antecedentePerinatologico.tipo_presentacion">                            Pod&aacute;lica <input type="radio" name="presentacion" value="2" [(ngModel)]="antecedentePerinatologico.tipo_presentacion">                            Transversa <input type="radio" name="presentacion" value="1" [(ngModel)]="antecedentePerinatologico.tipo_presentacion">
+                        </div>
+                        <div class="col-md-3">
+                            <strong><label>Terminaci&oacute;n</label></strong>
+                            <br> Espont&aacute;nea <input type="radio" name="terminacion" value="3" [(ngModel)]="antecedentePerinatologico.tipo_terminacion">                            Forceps <input type="radio" name="terminacion" value="2" [(ngModel)]="antecedentePerinatologico.tipo_terminacion">                            C&eacute;sarea <input type="radio" name="terminacion" value="1" [(ngModel)]="antecedentePerinatologico.tipo_terminacion">
+                        </div>
+                    </div>
 
-            <div class="col-md-2">
-                <strong><label>PC:</label></strong>
-                <input class="campoChico" type="number" name="PC" min="0" max="100" placeholder="cm" [(ngModel)]="antecedentePerinatologico.perimetro_cefalico">
-            </div>
+                    <div class="row">
+                        <hr>
+                        <strong><label>Lugar de parto:</label></strong>
+                        <input class="campoLargo" type="text" name="lugar_parto" placeholder="Ingrese el lugar del parto" [(ngModel)]="antecedentePerinatologico.lugar_de_parto"
+                            required #lugar_parto="ngModel">
 
-            <div class="col-md-2">
-                <strong><label>EG:</label></strong>
-                <input class="campoChico" type="number" name="EG" min="0" max="50" placeholder="Semanas" [(ngModel)]="antecedentePerinatologico.edad_gestacional">
-            </div>
-
-            <div class="col-md-2">
-                <strong><label>APGAR:</label></strong>
-                <input class="campoChico" type="number" name="apgar1" min="1" max="10" [(ngModel)]="antecedentePerinatologico.test_apgar">                <label>1'</label>
-                <input class="campoChico" type="number" name="apgar2" min="1" max="10" [(ngModel)]="antecedentePerinatologico.test_apgar2">                <label>5'</label>
-            </div>
-
-            <div class="col-md-2">
-                <table class="table table-striped table-bordered table-hover" id="tablaPerinatologicosOEA">
-                    <th><strong><label>OEA:</label></strong></th>
-                    <th><strong><label>Resultado:</label></strong></th>
-                    <tr>
-                        <td>N <input type="radio" name="OEA" value="1" [(ngModel)]="antecedentePerinatologico.otoemisiones_acusticas">
-                            <br> A <input type="radio" name="OEA" value="0" [(ngModel)]="antecedentePerinatologico.otoemisiones_acusticas"></td>
-
-                        <td>N <input type="radio" name="resultadoOEA" value="1" [(ngModel)]="antecedentePerinatologico.otoemisiones_acusticas_resultado">
-                            <br> A <input type="radio" name="resultadoOEA" value="0" [(ngModel)]="antecedentePerinatologico.otoemisiones_acusticas_resultado"></td>
-
-                    </tr>
+                        <div [hidden]="lugar_parto.valid || lugar_parto.pristine" class="alert alert-danger">
+                            El lugar de parto debe ser suministrado
+                        </div>
 
 
+                    </div>
+                    <div class="row">
+                        <hr>
+                        <strong><label>Motivo:</label></strong>
+                        <input class="campoLargo" type="text" name="motivo" placeholder="Ingrese el motivo" minlength="1" [(ngModel)]="antecedentePerinatologico.motivo_terminacion">
+                    </div>
+                    <div class="row">
+                        <hr>
+                        <div class="col-md-2">
+                            <strong><label>PESO:</label></strong>
+                            <input class="campoChico" type="number" name="peso" min="0" max="10" placeholder="kg" [(ngModel)]="antecedentePerinatologico.peso"
+                                required #peso="ngModel" [min]="0" [max]="10">
 
-                </table>
-            </div>
+                            <div [hidden]="peso.valid || peso.pristine" class="alert alert-danger">
+                                    <div *ngIf="peso.errors?.required">
+                                El peso es requerido para completar el formulario
+                                    </div>
+                                <div *ngIf="peso.errors?.min" class="alert alert-danger">
+                                    El peso debe encontrarse por encima de 0 kilogramos
+                                </div>
+                                <div *ngIf="peso.errors?.max" class="alert alert-danger">
+                                        El peso debe encontrarse por debajo de 10 kilogramos
+                                    </div>
+                            </div>
+                        </div>
 
-            <div class="col-md-2">
-            </div>
+                        <div class="col-md-2">
+                            <strong><label>Talla:</label></strong>
+                            <input class="campoChico" type="number" name="talla" min="0" max="100" placeholder="cm" [(ngModel)]="antecedentePerinatologico.talla">
+                        </div>
 
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <strong><label>Grupo y factor:</label></strong>
-                <select>
-                    <option value="AB+" [(ngModel)]="antecedentePerinatologico.grupo_y_factor">AB Positivo</option>
-                    <option value="B+" [(ngModel)]="antecedentePerinatologico.grupo_y_factor">B Positivo</option>
-                    <option value="A+" [(ngModel)]="antecedentePerinatologico.grupo_y_factor">A Positivo</option>
-                    <option value="0+"[(ngModel)]="antecedentePerinatologico.grupo_y_factor">Cero Positivo</option>
-                    <option value="AB-"[(ngModel)]="antecedentePerinatologico.grupo_y_factor">AB Negativo</option>
-                    <option value="B-"[(ngModel)]="antecedentePerinatologico.grupo_y_factor">B Negativo</option>
-                    <option value="A-"[(ngModel)]="antecedentePerinatologico.grupo_y_factor">A Negativo</option>
-                    <option value="0-"[(ngModel)]="antecedentePerinatologico.grupo_y_factor">Cero Negativo</option>
+                        <div class="col-md-2">
+                            <strong><label>PC:</label></strong>
+                            <input class="campoChico" type="number" name="PC" min="0" max="100" placeholder="cm" [(ngModel)]="antecedentePerinatologico.perimetro_cefalico">
+                        </div>
+
+                        <div class="col-md-2">
+                            <strong><label>EG:</label></strong>
+                            <input class="campoChico" type="number" name="EG" min="0" max="50" placeholder="Semanas" [(ngModel)]="antecedentePerinatologico.edad_gestacional">
+                        </div>
+
+                        <div class="col-md-2">
+                            <strong><label>APGAR:</label></strong>
+                            <br>
+                            <input class="campoChico" type="number" name="apgar1" min="1" max="10" [(ngModel)]="antecedentePerinatologico.test_apgar"><label>1'</label>
+                            <input class="campoChico" type="number" name="apgar2" min="1" max="10" [(ngModel)]="antecedentePerinatologico.test_apgar2"><label>5'</label>
+                        </div>
+
+                        <div class="col-md-2">
+                            <table class="table table-striped table-bordered table-hover" id="tablaPerinatologicosOEA">
+                                <th><strong><label>OEA:</label></strong></th>
+                                <th><strong><label>Resultado:</label></strong></th>
+                                <tr>
+                                    <td>Normal <input type="radio" name="OEA" value="1" [(ngModel)]="antecedentePerinatologico.otoemisiones_acusticas">
+                                        <br> Anormal <input type="radio" name="OEA" value="0" [(ngModel)]="antecedentePerinatologico.otoemisiones_acusticas"></td>
+
+                                    <td>Normal <input type="radio" name="resultadoOEA" value="1" [(ngModel)]="antecedentePerinatologico.otoemisiones_acusticas_resultado">
+                                        <br> Anormal <input type="radio" name="resultadoOEA" value="0" [(ngModel)]="antecedentePerinatologico.otoemisiones_acusticas_resultado"></td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="col-md-2">
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <strong><label>Grupo y factor:</label></strong>
+                            <select name="grupofactor" [(ngModel)]="antecedentePerinatologico.grupo_y_factor">
+                    <option   value="AB+">AB Positivo</option>
+                    <option  value="B+">B Positivo</option>
+                    <option   value="A+">A Positivo</option>
+                    <option   value="0+">Cero Positivo</option>
+                    <option   value="AB-">AB Negativo</option>
+                    <option   value="B-" >B Negativo</option>
+                    <option   value="A-">A Negativo</option>
+                    <option  value="0-" >Cero Negativo</option>
                   </select>
+                        </div>
+                        <div class="col-md-4">
+                            <strong><label>Internaci&oacute;n:</label></strong> Si <input type="radio" name="internacion"
+                                value="1" [(ngModel)]="antecedentePerinatologico.internacion"> No <input type="radio" name="internacion"
+                                value="0" [(ngModel)]="antecedentePerinatologico.internacion">
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-striped table-bordered table-hover" id="tablaPerinatologicos">
+                                <th><strong><label>Pesquisa Enf. Cong&eacute;nitas Metab&oacute;licas:</label></strong></th>
+                                <th><strong><label>Resultado pesquisa:</label></strong></th>
+                                <tr>
+                                    <td>Si <input type="radio" name="pesquisa" value="1" [(ngModel)]="antecedentePerinatologico.pesquisa_enf_congenitas_metabolicas">                                        No <input type="radio" name="pesquisa" value="0" [(ngModel)]="antecedentePerinatologico.pesquisa_enf_congenitas_metabolicas"></td>
+                                    <td>Normal <input type="radio" name="resultadoPesquisa" value="1" [(ngModel)]="antecedentePerinatologico.pesquisa_enf_congenitas_metabolicas_resultado">                                        Anormal <input type="radio" name="resultadoPesquisa" value="0" [(ngModel)]="antecedentePerinatologico.pesquisa_enf_congenitas_metabolicas_resultado"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row" align="center">
+                        <button class="btn btn-primary" type="submit" [disabled]="!f.form.valid" id="botonGuardar">Confirmar</button>
+                        <a routerLink="/buscar/{{dniPaciente}}" routerLinkActive="active"><button type="button" class="btn btn-primary">Cancelar</button></a>
+                    </div>
 
+                </form>
             </div>
-            <div class="col-md-4">
-
-                <strong><label>Internaci&oacute;n:</label></strong> Si <input type="radio" name="internacion" value="1" [(ngModel)]="antecedentePerinatologico.internacion">                No <input type="radio" name="internacion" value="0" [(ngModel)]="antecedentePerinatologico.internacion">
-            </div>
-            <div class="col-md-4">
-                <table class="table table-striped table-bordered table-hover" id="tablaPerinatologicos">
-                    <th><strong><label>Pesquisa Enf. Cong&eacute;nitas Metab&oacute;licas:</label></strong></th>
-                    <th><strong><label>Resultado pesquisa:</label></strong></th>
-                    <tr>
-                        <td>Si <input type="radio" name="pesquisa" value="1" [(ngModel)]="antecedentePerinatologico.pesquisa_enf_congenitas_metabolicas"> No <input type="radio" name="pesquisa" value="0" [(ngModel)]="antecedentePerinatologico.pesquisa_enf_congenitas_metabolicas"></td>
-                        <td>Si <input type="radio" name="resultadoPesquisa" value="1" [(ngModel)]="antecedentePerinatologico.pesquisa_enf_congenitas_metabolicas_resultado" > No <input type="radio" name="resultadoPesquisa"
-                                value="0" [(ngModel)]="antecedentePerinatologico.pesquisa_enf_congenitas_metabolicas_resultado"></td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-        <hr>
-        Activando renglones con bindeo
-    -->
-        <div *ngIf="!tieneAntecedentePerinatologico" align="center">
-            <button id="botonGuardar" (click)="guardar(f)">Confirmar</button>
-            <a routerLink="/buscar/{{dniPaciente}}" routerLinkActive="active"><button type="button" class="btn btn-primary">Cancelar</button></a>
         </div>
 
         <div *ngIf="tieneAntecedentePerinatologico" align="center">
             <a routerLink="/buscar/{{dniPaciente}}" routerLinkActive="active"><button type="button" class="btn btn-primary">Volver</button></a>
         </div>
-
-
-
-
     </div>
 </div>

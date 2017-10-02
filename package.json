@@ -27,6 +27,7 @@
     "bootstrap": "^3.3.7",
     "core-js": "^2.4.1",
     "jquery": "^3.2.1",
+    "ng2-validation": "^4.2.0",
     "ngx-smart-modal": "^2.0.4",
     "rxjs": "^5.4.2",
     "web-animations-js": "^2.3.1",

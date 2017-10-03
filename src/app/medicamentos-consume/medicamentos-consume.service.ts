@@ -9,17 +9,13 @@ import {AppComponent} from '../app.component';
 @Injectable()
 export class MedicamentosConsumeService {
 
-  // TODO @Damián hacer el path context para colocar rutas relativas
-  private URLBASE = 'http://localhost:8080/SerosTeCuidaMaven/api/';
-  constructor(private http: Http, appconfig: AppComponent) {
-    if (appconfig.BASEURL){
-      this.URLBASE = appconfig.BASEURL;
-    }
+  constructor(private http: Http, public appconfig: AppComponent) {
+    
    }
 
   /*Devuelve todas las tipos de afecciones que existen */
   getMedicamentosConsume(persona: Number): any {
-    return this.http.get(this.URLBASE + 'medicamento_consume/' + persona)
+    return this.http.get(this.appconfig.BASEURL + '/medicamento_consume/' + persona)
       // .do(x => console.log(x))
       .map(res => res.json());
   }

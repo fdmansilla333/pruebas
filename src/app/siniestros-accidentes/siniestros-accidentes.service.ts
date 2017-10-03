@@ -8,29 +8,25 @@ import 'rxjs/add/operator/do';
 @Injectable()
 export class SiniestrosAccidentesService {
 
-  // TODO @Damián hacer el path context para colocar rutas relativas
-  private URLBASE = 'http://localhost:8080/SerosTeCuidaMaven/api/';
-  constructor(private http: Http, appconfig: AppComponent) { 
-    if (appconfig.BASEURL){
-      this.URLBASE = appconfig.BASEURL;
-    }
+  constructor(private http: Http, public appconfig: AppComponent) { 
+   
   }
 
   /*Devuelve todas las tipos de affecciones que existen */
   getAccidentes(): any {
-    return this.http.get(this.URLBASE + 'siniestros')
+    return this.http.get(this.appconfig.BASEURL + '/siniestros')
       // .do(x => console.log(x))
       .map(res => res.json());
   }
 
   getAccidentesPorPersona(persona: Number): any {
-    return this.http.get(this.URLBASE + 'siniestros/' + persona)
+    return this.http.get(this.appconfig.BASEURL + '/siniestros/' + persona)
     // .do(x => console.log(x))
     .map(res => res.json());
   }
 
   getTipoAccidentes(codigoTipoAccidente: Number): any {
-    return this.http.get(this.URLBASE + 'antecedente_tipo_siniestro/' + codigoTipoAccidente)
+    return this.http.get(this.appconfig.BASEURL + '/antecedente_tipo_siniestro/' + codigoTipoAccidente)
     // .do(x => console.log(x))
     .map(res => res.json());
   }

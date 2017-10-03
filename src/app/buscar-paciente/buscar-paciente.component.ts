@@ -141,6 +141,7 @@ export class BuscarPacienteComponent implements OnInit, OnDestroy {
 
                     //Una vez finalizado la recolección de la persona guardo datos para obtenerlo del modelo
                     this.appconfig.OBJETO_PERSONA = this.persona;
+                    this.appconfig.codigoAtencion = 0; //TODO ver este nuevo cambio, seteado para que genere una neuva atencion
             });
 
     }

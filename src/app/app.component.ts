@@ -22,6 +22,7 @@ export class AppComponent implements OnInit {
   public PERSONA: Number;
   public DNIPERSONA: Number;
   OBJETO_PERSONA: Persona;
+  public codigoAtencion: Number=0; //Codigo de la atencion generado donde se necesite, y reutilizado en todos los componentes, por cada sesion
 
   constructor(
     private atencionService: AtencionService, elementRef: ElementRef, public route: ActivatedRoute) {

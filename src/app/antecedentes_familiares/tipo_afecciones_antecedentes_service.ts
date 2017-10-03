@@ -12,23 +12,20 @@ import {AppComponent} from '../app.component';
 @Injectable()
 export class TipoAfeccionesAntecedentesService {
 
-  // TODO @Damián hacer el path context para colocar rutas relativas
-  private URLBASE = 'http://localhost:8080/SerosTeCuidaMaven/api/';
+
   private CODIGOSEROS;
-  constructor( compPrincipal: AppComponent,  private http: Http) {
+  constructor( public compPrincipal: AppComponent,  private http: Http) {
     
-    if (compPrincipal.BASEURL){
-      this.URLBASE = compPrincipal.BASEURL;
-    }
+   
     if (compPrincipal.CODIGOSEROS){
       this.CODIGOSEROS = compPrincipal.CODIGOSEROS;
     }
-    console.log('URLBASE:'+ this.URLBASE + ' codigo seros:' + this.CODIGOSEROS);
+    
   }
 
   /*Devuelve todas las tipos de affecciones que existen */
   getTiposAfeccionesFamiliares(): any {
-    return this.http.get(this.URLBASE + 'tipos_afecciones_familiares')
+    return this.http.get(this.compPrincipal.BASEURL + '/tipos_afecciones_familiares')
        .do(x => console.log(x))
       .map(res => res.json());
   }
@@ -42,21 +39,21 @@ export class TipoAfeccionesAntecedentesService {
   /**Sentencias atomicas no funcionan en cascada */
   /*Devuelve todas las atenciones que tiene una persona*/
   public getAtencionPersona(persona: Number): Promise<Atencion[]> {
-    return this.http.get(this.URLBASE + 'atencion?persona=' + persona)
+    return this.http.get(this.compPrincipal.BASEURL + '/atencion?persona=' + persona)
       .toPromise()
       .then(response => response.json())
       .catch(this.handleError);
   }
   /*Devuelve e */
   public getAntecedentePorAtencion(atencion: Number): Promise<AntecedenteFamiliar> {
-    return this.http.get(this.URLBASE + 'antecedentes_familiares?atencion=' + atencion)
+    return this.http.get(this.compPrincipal.BASEURL + '/antecedentes_familiares?atencion=' + atencion)
       .toPromise()
       .then(response => response.json())
       .catch(this.handleError);
   }
 
   public getTipoAfeccionPorAntecedente(codigo_tipo_afeccion_familiar: Number): Promise<TipoAfeccionFamiliar> {
-    return this.http.get(this.URLBASE + 'tipo_afeccion_familiar/' + codigo_tipo_afeccion_familiar)
+    return this.http.get(this.compPrincipal.BASEURL + '/tipo_afeccion_familiar/' + codigo_tipo_afeccion_familiar)
       .toPromise()
       .then(response => response.json())
       .catch(this.handleError);
@@ -64,9 +61,21 @@ export class TipoAfeccionesAntecedentesService {
 
   public getTipoAfeccionesQuePoseePersona(persona: Number): any {
 
-    return this.http.get(this.URLBASE + 'tipos_afecciones_familiares/' + persona)
+    return this.http.get(this.compPrincipal.BASEURL + '/tipos_afecciones_familiares/' + persona)
        .do(x => console.log(x))
       .map(res => res.json());
+  }
+
+  public setTipoAtencionFamiliar(codigoAtencion: Number, tipoAfeccionFamiliar: TipoAfeccionFamiliar){
+    tipoAfeccionFamiliar.atencion = codigoAtencion;
+    return this.http.post(this.compPrincipal.BASEURL + '/antecedentes_familiares',tipoAfeccionFamiliar);
+
+  }
+
+  public putTipoAtencionFamiliar(tipoAfeccionFamiliar: TipoAfeccionFamiliar){
+    
+    return this.http.put(this.compPrincipal.BASEURL + '/antecedentes_familiares/', tipoAfeccionFamiliar);
+
   }
 
 

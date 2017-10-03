@@ -5,8 +5,8 @@ import { TipoAfeccionesAntecedentesService } from './tipo_afecciones_antecedente
 import { Atencion } from './../atencion';
 import { AntecedenteFamiliar } from '../modelos/AntecedenteFamiliar';
 import { Observable } from 'rxjs/Observable';
-import {AtencionService} from '../atencion.service';
-import {AppComponent} from '../app.component';
+import { AtencionService } from '../atencion.service';
+import { AppComponent } from '../app.component';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
 
@@ -24,13 +24,13 @@ export class AntecedentesFamiliaresComponent implements OnInit {
   @Input() faltanTiposAfeccionesFamiliares: TipoAfeccionFamiliar[];
 
 
-  constructor(servicesTiposAfeccionesFamiliares: TipoAfeccionesAntecedentesService,
-  atencionService: AtencionService, app:AppComponent) {
+  constructor(public servicesTiposAfeccionesFamiliares: TipoAfeccionesAntecedentesService,
+    public atencionService: AtencionService, public app: AppComponent) {
     this.todosTiposAfeccionesFamiliares = new Array<TipoAfeccionFamiliar>();
     this.poseeTiposAfeccionesFamiliares = new Array<TipoAfeccionFamiliar>();
     this.faltanTiposAfeccionesFamiliares = new Array<TipoAfeccionFamiliar>();
 
-    
+
     console.log('Codigo de persona antencedente familiar:' + app.PERSONA);
     servicesTiposAfeccionesFamiliares.getTiposAfeccionesFamiliares()
       .subscribe(objeto => {
@@ -38,15 +38,19 @@ export class AntecedentesFamiliaresComponent implements OnInit {
       },
       error => console.log(error),
       () => {
-        console.log('Finalizado todosTiposAfeccionesFamiliares');
         servicesTiposAfeccionesFamiliares.getTipoAfeccionesQuePoseePersona(app.PERSONA)
           .subscribe(objeto => {
-            objeto.map(afeccion => this.poseeTiposAfeccionesFamiliares.push(afeccion));
+            console.log(objeto);
+            objeto.map(afeccion => {
+              console.log(afeccion);
+              afeccion.activado = true; //TODO ver este nuevo cambio
+              this.poseeTiposAfeccionesFamiliares.push(afeccion)
+            });
           },
           error => console.log(error),
           () => {
             this.faltanTiposAfeccionesFamiliares =
-            this.verificarDuplicados(this.todosTiposAfeccionesFamiliares, this.poseeTiposAfeccionesFamiliares);
+              this.verificarDuplicados(this.todosTiposAfeccionesFamiliares, this.poseeTiposAfeccionesFamiliares);
           });
 
       });
@@ -78,5 +82,82 @@ export class AntecedentesFamiliaresComponent implements OnInit {
 
   getCantidadTodosTiposAfeccioneFamiliares(): Number {
     return this.todosTiposAfeccionesFamiliares.length;
+  }
+
+  /**
+   * Almacena los datos del formulario llamando al post de antecedenteFamiliar
+   */
+  guardar() {
+    console.log('Guardando...');
+    //TODO resolver las atenciones si son una unica instancia
+    if (this.app.codigoAtencion === 0) {
+      // Se debe generar una nueva atencion
+      let atencion = new Atencion(new Date(), 'Antecedentes familiares', this.app.PERSONA, '');
+      let codigoObtenido;
+      this.atencionService.setAtencion(this.app.BASEURL, atencion)
+        .subscribe(res => codigoObtenido = res,
+        error => console.log(error),
+        () => {
+          this.app.codigoAtencion = codigoObtenido;
+          this.enviarAntecedentesFamiliares();
+        }
+        );
+    } else {
+      //Se utiliza el proporcionado... por la app
+      this.enviarAntecedentesFamiliares();
+    }
+  }
+
+  /**
+   * Metodo que se encarga de enviar todos los cambios realizados en la interfaz
+   */
+  enviarAntecedentesFamiliares() {
+
+    let errorPosee = false;
+    let errorFalta = false;
+
+    this.poseeTiposAfeccionesFamiliares.forEach(antecFamiliar => {
+      //envia aquellos que se encuentra desactivados (anulados) para dar de baja
+      if (!antecFamiliar.activado) {
+
+        this.servicesTiposAfeccionesFamiliares.putTipoAtencionFamiliar(antecFamiliar)
+          .subscribe(res => console.log(res), error => errorPosee = true, () => {
+            if (errorPosee) {
+              alert("No se pudo procesar satisfactoriamente los cambios");
+            } else {
+              //quitar este elemento
+              this.poseeTiposAfeccionesFamiliares = this.poseeTiposAfeccionesFamiliares.filter(a => a !== antecFamiliar);
+              //agregarlo a la otra coleccion
+              this.faltanTiposAfeccionesFamiliares.push(antecFamiliar);
+
+            }
+          });
+      }
+    });
+
+    this.faltanTiposAfeccionesFamiliares.forEach(element => {
+      //Si se selecciona un elemento que se agrega como antecedente se quita de la lista de los que no posee
+      //y se agrega a la lista de los que posee para que la UI lo sepa.
+      if (element.activado) {
+
+        this.servicesTiposAfeccionesFamiliares.setTipoAtencionFamiliar(this.app.codigoAtencion, element)
+          .subscribe(res => console.log(res), error => errorFalta = true, () => {
+            if (errorFalta) {
+              alert("No se pudo procesar satisfactoriamente los cambios");
+            } else {
+              //quitar este elemento
+              this.faltanTiposAfeccionesFamiliares = this.faltanTiposAfeccionesFamiliares.filter(a => a !== element);
+              //agregarlo a la otra coleccion
+              this.poseeTiposAfeccionesFamiliares.push(element);
+
+            }
+          });
+      }
+    });
+
+    if (errorPosee || errorFalta) {
+      alert("Error al procesar los antecedentes familiares...");
+    }
+
   }
 }

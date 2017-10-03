@@ -4,20 +4,20 @@
   </div>
   <div class="panel-body">
     <div class="row" align="center">
-      <form>
+      <form #f="ngForm" (ngSubmit)="guardar()">
         <div>
           <div *ngFor="let afeccion of todosTiposAfeccionesPersonales">
             <div class="row text-left" style="padding-left: 20px">
               <div class="checkbox">
                 <label>
-              <input type="checkbox" value="{{afeccion.nombre}}">
+              <input type="checkbox" name="activado" [(ngModel)]="afeccion.activado">
               {{afeccion.descripcion}}
             </label>
               </div>
             </div>
           </div>
         </div>
-        <button type="submit" class="btn btn-primary">Modificar antecedentes personales</button>
+        <button class="btn btn-primary" type="submit" [disabled]="!f.form.valid" id="botonGuardar">Modificar antecedentes Personales</button>
       </form>
     </div>
   </div>

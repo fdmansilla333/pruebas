@@ -4,6 +4,8 @@ export class TipoAfeccionFamiliar {
   public nombre: String;
   public descripcion: String;
   public activado: boolean;
+  public posee: boolean=false;
+  codigoAntecedenteFamiliar: any;
 
   constructor(codigo: Number, nombre: String, descripcion: String) {
     this.codigo = codigo;

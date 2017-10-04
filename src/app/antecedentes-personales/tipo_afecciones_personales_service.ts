@@ -36,15 +36,15 @@ export class TipoAfeccionesPersonalService {
           .map(res => res.json());
       }
     
-      public setTipoAtencionFamiliar(codigoAtencion: Number, tipoAfeccionPersonal: TipoAfeccionPersonal){
+      public setTipoAfeccionPersonal(codigoAtencion: Number, tipoAfeccionPersonal: TipoAfeccionPersonal){
         tipoAfeccionPersonal.atencion = codigoAtencion;
-        return this.http.post(this.appconf.BASEURL + '/antecedentes_personales',tipoAfeccionPersonal);
+        return this.http.post(this.appconf.BASEURL + '/antecedentes_personal',tipoAfeccionPersonal);
     
       }
     
-      public putTipoAtencionFamiliar(tipoAfeccionPersonal: TipoAfeccionPersonal){
+      public putTipoAfeccionPersonal(tipoAfeccionPersonal: TipoAfeccionPersonal){
         
-        return this.http.put(this.appconf.BASEURL + '/antecedentes_personales/', tipoAfeccionPersonal);
+        return this.http.put(this.appconf.BASEURL + '/antecedentes_personal/', tipoAfeccionPersonal);
     
       }
 

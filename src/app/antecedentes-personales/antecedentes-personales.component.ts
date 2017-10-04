@@ -5,6 +5,7 @@ import { TipoAfeccionesPersonalService } from './tipo_afecciones_personales_serv
 import { Atencion } from './../atencion';
 import { AntecedentePersonal } from '../modelos/AntecedentePersonal';
 import { AppComponent } from '../app.component';
+import { AtencionService } from "../atencion.service";
 
 
 @Component({
@@ -18,7 +19,7 @@ export class AntecedentesPersonalesComponent {
   @Input() todosTiposAfeccionesPersonales: TipoAfeccionPersonal[];
   poseeTiposAfeccionesPersonales: TipoAfeccionPersonal[];
 
-  constructor(app: AppComponent, servicesTiposAfeccionesPersonales: TipoAfeccionesPersonalService) {
+  constructor(public app: AppComponent, public atencionService: AtencionService, public servicesTiposAfeccionesPersonales: TipoAfeccionesPersonalService) {
     this.todosTiposAfeccionesPersonales = new Array<TipoAfeccionPersonal>();
 
     servicesTiposAfeccionesPersonales.getTiposAfeccionesPersonales()
@@ -26,23 +27,85 @@ export class AntecedentesPersonalesComponent {
         objeto.map(afeccion => this.todosTiposAfeccionesPersonales.push(afeccion));
       });
 
-    console.log('Buscando en antecedentes personales:');
     servicesTiposAfeccionesPersonales.getTipoAfeccionesQuePoseePersona(app.PERSONA)
       .subscribe(res => this.poseeTiposAfeccionesPersonales = res, error => console.log(error), () => {
         //Una vez finalizado el proceso busco en la lista de los que posee
         //TODO agregar los elementos no duplicados...
         this.poseeTiposAfeccionesPersonales.map(
           elemento => {
-            console.log('Finalizando....');
-            //Saco los elementos que se encuentran en poseeTipos en todos
-            this.todosTiposAfeccionesPersonales = this.todosTiposAfeccionesPersonales.filter(e => e.codigo !== elemento.codigo);
+
+            //Saco los elementos que se encuentran que tiene el paciente como antecedentes
+            //del conjunto de todos los posibles y los activo para visualizarlos en la UI
+            this.todosTiposAfeccionesPersonales = this.todosTiposAfeccionesPersonales.filter(e => e.nombre !== elemento.nombre);
             elemento.activado = true; //para visualizarlo
+            elemento.posee = true;
             this.todosTiposAfeccionesPersonales.push(elemento);
           }
 
         );
-      });
+      }); 
 
+
+  }
+
+  /**
+   * Este metodo es accionado como evento cuando se realiza el submmit 
+   * Recorre la coleccion todos tipos de afecciones personales
+   * Por cada check que se encuentra marcado, se actualiza en BD, si se encontraba marcado
+   * y se desmarca actualiza el campo con anulación
+   */
+  guardar() {
+    console.log(this.todosTiposAfeccionesPersonales);
+    //Se verifica que se posea atencion, sino se crea una.
+    if (this.app.codigoAtencion === 0) {
+      let atencion = new Atencion(new Date(), 'Antecedentes Personales', this.app.PERSONA, '');
+      let codigoObtenido;
+      this.atencionService.setAtencion(this.app.BASEURL, atencion)
+        .subscribe(res => codigoObtenido = res,
+        error => console.log(error),
+        () => { //Cuando finaliza
+          this.app.codigoAtencion = codigoObtenido;
+          this.enviarTiposAntecedentesPersonales();
+        }
+        );
+    } else {
+      this.enviarTiposAntecedentesPersonales();
+    }
+
+  }
+
+  /**
+   * Se encarga de enviar todos los tipos de antecedentes personales que se encuentran modificados
+   * en la coleccion
+   */
+  enviarTiposAntecedentesPersonales() {
+
+    //por cada afeccion controlo y envío los cambios
+    this.todosTiposAfeccionesPersonales.map(a => {
+      //Caso en que desmarca
+      //Se actualiza la atencion
+      if (!a.activado && a.posee) {
+        console.log('actualizando...');
+        console.log(a);
+        this.servicesTiposAfeccionesPersonales.putTipoAfeccionPersonal(a)
+          .subscribe(res => { console.log(res); a.posee = false }, error => { a.activado = true; alert('Hubo error al procesar ' + a.descripcion) });
+
+      } else {
+
+        //caso en que marca uno nuevo
+        //se genera un nuevo registro en antecedentes personales
+        if (a.activado && !a.posee) {
+          console.log('Agregando...');
+          console.log(a);
+          //Al agregar uno nuevo se debe traer el nuevo id.
+          this.servicesTiposAfeccionesPersonales.setTipoAfeccionPersonal(this.app.codigoAtencion, a)
+            .subscribe(res => { console.log(res); a.posee = true; a.codigoAntecedentePersonal = res.json().codigo }, error => { a.activado = false; alert('Hubo error al procesar ' + a.descripcion) });
+            console.log('queda:');
+            console.log(a);
+        }
+      }
+
+    });
 
   }
 

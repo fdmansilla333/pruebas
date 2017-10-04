@@ -4,9 +4,9 @@
   </div>
   <div class="panel-body">
     <div class="row" align="center">
-      <form  #f="ngForm" (ngSubmit)="guardar()">
+      <form #f="ngForm" (ngSubmit)="guardar()">
         <div>
-          <div *ngFor="let afeccion of poseeTiposAfeccionesFamiliares">
+          <div *ngFor="let afeccion of todosTiposAfeccionesFamiliares">
             <div class="row text-left" style="padding-left: 20px">
               <div class="checkbox">
                 <label>
@@ -16,6 +16,7 @@
               </div>
             </div>
           </div>
+          <!--
           <div *ngFor="let afeccion of faltanTiposAfeccionesFamiliares">
             <div class="row text-left" style="padding-left: 20px">
               <div class="checkbox">
@@ -26,6 +27,7 @@
               </div>
             </div>
           </div>
+        -->
         </div>
         <button class="btn btn-primary" type="submit" [disabled]="!f.form.valid" id="botonGuardar">Modificar antecedentes familiares</button>
       </form>

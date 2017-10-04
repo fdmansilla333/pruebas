@@ -18,7 +18,7 @@ import 'rxjs/add/operator/filter';
   styleUrls: ['antecedentes-familiares.component.scss'],
   providers: [TipoAfeccionesAntecedentesService, AtencionService],
 })
-export class AntecedentesFamiliaresComponent implements OnInit {
+export class AntecedentesFamiliaresComponent  {
   @Input() todosTiposAfeccionesFamiliares: TipoAfeccionFamiliar[];
   @Input() poseeTiposAfeccionesFamiliares: TipoAfeccionFamiliar[];
   @Input() faltanTiposAfeccionesFamiliares: TipoAfeccionFamiliar[];
@@ -31,11 +31,11 @@ export class AntecedentesFamiliaresComponent implements OnInit {
     this.faltanTiposAfeccionesFamiliares = new Array<TipoAfeccionFamiliar>();
 
 
-    console.log('Codigo de persona antencedente familiar:' + app.PERSONA);
     servicesTiposAfeccionesFamiliares.getTiposAfeccionesFamiliares()
       .subscribe(objeto => {
         objeto.map(afeccion => this.todosTiposAfeccionesFamiliares.push(afeccion));
-      },
+      }); // nuevo cambio adaptandolo equivalente al personal
+      /*,
       error => console.log(error),
       () => {
         servicesTiposAfeccionesFamiliares.getTipoAfeccionesQuePoseePersona(app.PERSONA)
@@ -53,14 +53,32 @@ export class AntecedentesFamiliaresComponent implements OnInit {
               this.verificarDuplicados(this.todosTiposAfeccionesFamiliares, this.poseeTiposAfeccionesFamiliares);
           });
 
-      });
+      });*/
+
+
+      //cambio traido de antecedentes personales
+      servicesTiposAfeccionesFamiliares.getTipoAfeccionesQuePoseePersona(app.PERSONA)
+      .subscribe(res => this.poseeTiposAfeccionesFamiliares = res, error => console.log(error), () => {
+        //Una vez finalizado el proceso busco en la lista de los que posee
+        //TODO agregar los elementos no duplicados...
+        this.poseeTiposAfeccionesFamiliares.map(
+          elemento => {
+
+            //Saco los elementos que se encuentran que tiene el paciente como antecedentes
+            //del conjunto de todos los posibles y los activo para visualizarlos en la UI
+            this.todosTiposAfeccionesFamiliares = this.todosTiposAfeccionesFamiliares.filter(e => e.nombre !== elemento.nombre);
+            elemento.activado = true; //para visualizarlo
+            elemento.posee = true;
+            this.todosTiposAfeccionesFamiliares.push(elemento);
+          }
+
+        );
+      }); 
 
   }
 
 
-  ngOnInit() {
-
-  }
+ 
 
   verificarDuplicados(origen: TipoAfeccionFamiliar[], comparador: TipoAfeccionFamiliar[]): any {
     return origen.filter(x => !this.buscarObjeto(comparador, x.codigo));
@@ -85,7 +103,7 @@ export class AntecedentesFamiliaresComponent implements OnInit {
   }
 
   /**
-   * Almacena los datos del formulario llamando al post de antecedenteFamiliar
+   * Almacena los datos del formulario llamando al post/put de antecedenteFamiliar
    */
   guardar() {
     console.log('Guardando...');
@@ -99,18 +117,19 @@ export class AntecedentesFamiliaresComponent implements OnInit {
         error => console.log(error),
         () => {
           this.app.codigoAtencion = codigoObtenido;
-          this.enviarAntecedentesFamiliares();
+          this.enviarAntecedentesFamiliares2();
         }
         );
     } else {
       //Se utiliza el proporcionado... por la app
-      this.enviarAntecedentesFamiliares();
+      this.enviarAntecedentesFamiliares2();
     }
   }
 
   /**
    * Metodo que se encarga de enviar todos los cambios realizados en la interfaz
    */
+  /*
   enviarAntecedentesFamiliares() {
 
     let errorPosee = false;
@@ -159,5 +178,35 @@ export class AntecedentesFamiliaresComponent implements OnInit {
       alert("Error al procesar los antecedentes familiares...");
     }
 
+  }
+  */
+
+  enviarAntecedentesFamiliares2(){
+     //por cada afeccion controlo y envío los cambios
+     this.todosTiposAfeccionesFamiliares.map(a => {
+      //Caso en que desmarca
+      //Se actualiza la atencion
+      if (!a.activado && a.posee) {
+        console.log('actualizando...');
+        console.log(a);
+        this.servicesTiposAfeccionesFamiliares.putTipoAtencionFamiliar(a)
+          .subscribe(res => { console.log(res); a.posee = false }, error => { a.activado = true; alert('Hubo error al procesar ' + a.descripcion) });
+
+      } else {
+
+        //caso en que marca uno nuevo
+        //se genera un nuevo registro en antecedentes personales
+        if (a.activado && !a.posee) {
+          console.log('Agregando...');
+          console.log(a);
+          //Al agregar uno nuevo se debe traer el nuevo id.
+          this.servicesTiposAfeccionesFamiliares.setTipoAtencionFamiliar(this.app.codigoAtencion, a)
+            .subscribe(res => { console.log(res); a.posee = true; a.codigoAntecedenteFamiliar = res.json().codigo }, error => { a.activado = false; alert('Hubo error al procesar ' + a.descripcion) });
+            console.log('queda:');
+            console.log(a);
+        }
+      }
+
+    });
   }
 }

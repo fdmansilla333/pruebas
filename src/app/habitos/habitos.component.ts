@@ -5,6 +5,7 @@ import { AsyncPipe } from '@angular/common';
 import { AppComponent } from '../app.component';
 import { NgxSmartModalService } from "ngx-smart-modal";
 import { NgForm } from "@angular/forms/src/forms";
+import { TipoHabito } from "../modelos/TipoHabito";
 @Component({
   moduleId: module.id,
   selector: 'app-habitos',
@@ -14,8 +15,19 @@ import { NgForm } from "@angular/forms/src/forms";
 })
 export class HabitosComponent {
   @Input() habitos: Habitos[];
+  public codigoHabitoSeleccionado: number;
+  public descripcion: string;
+  public tipoHabitosDisponibles: TipoHabito[];
 
   constructor(habitoService: HabitosService, appconfig: AppComponent, public ngxSmartModalService: NgxSmartModalService) {
+
+    //Inicio de prueba de carga de datos
+    this.tipoHabitosDisponibles = new Array<TipoHabito>();
+
+    this.tipoHabitosDisponibles.push(new TipoHabito(1,"Fuma", "Algo ams"));
+    this.tipoHabitosDisponibles.push(new TipoHabito(2,"Alcohol", "Algo ams"));
+    this.tipoHabitosDisponibles.push(new TipoHabito(3,"Actividad fisica", "Algo ams"));
+    //Fin de prueba de carga de datos
 
     this.habitos = new Array<Habitos>();
     habitoService.getHabitos(appconfig.PERSONA)
@@ -38,6 +50,24 @@ export class HabitosComponent {
     if (f.valid) {
       console.log(f.value);
     }
+  }
+
+  public log(msg: string) {
+    console.log(msg);
+    console.log(this.tipoHabitosDisponibles);
+  }
+
+  mostrar() {
+    this.ngxSmartModalService.closeLatestModal();
+  }
+
+  guardar(){
+    this.ngxSmartModalService.closeLatestModal();
+    console.log(this.codigoHabitoSeleccionado);
+    console.log(this.descripcion);
+    //TODO actualizar lista de los antecedentes de siniestros.
+
+    //TODO una vez guardado limpiar el modelo...
   }
 
 }

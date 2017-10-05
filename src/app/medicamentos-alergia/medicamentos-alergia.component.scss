@@ -1,1 +1,38 @@
 // component css goes here
+// component css goes here
+table#tablaEvolucion {
+    width: 100%; 
+    border: 1 px;
+    align-content: center;
+    align-self: auto;
+    text-align: center;
+}
+th {
+    text-align: center;
+}
+td {
+    border-block-end: 1 px;
+}
+input#sello {
+    height: 100px;
+    width: 200px;
+}
+.campoLargo {
+    width: 95%;
+    padding-left: 5%;
+    padding-right: 5%;
+    
+}
+.campoMediano {
+    width: 40%;
+    padding-left: 5%;
+    padding-right: 5%;
+    
+}
+label{
+    padding-left: 1%;
+    padding-right: 1%;
+}
+input {
+    width: 50px;
+}

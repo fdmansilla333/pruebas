@@ -1,6 +1,6 @@
 export class TipoHabito {
-  codigo: Number;
-  nombre_corto: String;
-  descripcion: String;
-    constructor(codigo: Number, nombre_corto: String, descripcion: String) {}
+    constructor(
+      public codigo: Number, 
+      public nombre_corto: String, 
+      public descripcion: String) {}
   }

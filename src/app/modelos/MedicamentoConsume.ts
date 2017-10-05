@@ -1,4 +1,6 @@
 export class MedicamentoConsume {
 
-  constructor(codigo: Number, atencion: Number, producto: Number, observacion: String = '') {}
+  constructor(public codigo: Number, public atencion: Number, 
+    public producto: Number, public observacion: String = '', 
+    public presentacion:String, public dosificacion:String, public nombre:string) {}
 }

@@ -29,7 +29,7 @@ export class BuscarPacienteComponent implements OnInit, OnDestroy {
     buscando: Boolean;
     public DNIBuscado: Number;
     sinResultados: Boolean;
-    esPrimeraVez: Boolean;
+    @Input() esPrimeraVez: Boolean=true;
 
     public constructor(public servicio: AtencionService, public appconfig: AppComponent,
         public route: ActivatedRoute, public router: Router, public routlet: RouterOutlet) {

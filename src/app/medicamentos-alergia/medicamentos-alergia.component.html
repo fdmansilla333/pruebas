@@ -6,7 +6,10 @@
     </div>
     <div class="panel-body">
       <div align="center" class="alert alert-warning">
-        <strong>No hay drogas a la que es alérgico</strong> Agregar nueva droga
+        <strong>No hay drogas a la que es alérgico</strong>
+      </div>
+      <div class="row" align="center">
+        <button class="btn btn-primary" (click)="ngxSmartModalService.getModal('drogaModal').open()">Agregar nueva droga</button>
       </div>
     </div>
   </div>
@@ -25,17 +28,43 @@
             <thead>
               <tr>
                 <th>Descripci&oacute;n</th>
+                <th>Droga </th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let medicamento of medicamentosAlergia">
-                <td>{{medicamento.descripcion}}</td>
+                <td align="center">{{medicamento.descripcion}}</td>
+                <td align="center">{{medicamento.drogaDescripcion}}</td>
               </tr>
             </tbody>
           </table>
-          <button type="submit" class="btn btn-primary">Agregar nueva droga</button>
+          <button class="btn btn-primary" (click)="ngxSmartModalService.getModal('drogaModal').open()">Agregar nueva droga</button>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+
+<ngx-smart-modal #drogaModal [identifier]="'drogaModal'" (onOpen)="log('Modal opened!')" (onClose)="log('Modal closed!')"
+  (onDismiss)="log('Modal dismissed!')">
+
+  <h5>Medicamentos a los que tiene alergia</h5>
+  <form #FormAlergia="ngForm">
+    <div class="form-group">
+      <label>Ingrese una descripción o motivo relacionados con la alergia a la droga:</label>
+      <input class="campoLargo" name="descripcion" type="text" [(ngModel)]="descripcion" required>
+    </div>
+    <div class="form-group">
+      <select name="seleccionado" [(ngModel)]="codigoDrogaSeleccionado" required>
+      <option value="" selected>Seleccione una droga</option>
+    <option value={{d.codigo}} *ngFor="let d of drogas">{{d.descripcion}}
+    </option>
+    </select>
+    </div>
+
+    <button [disabled]="!FormAlergia.form.valid" (click)="guardar()">Guardar</button>
+    <button (click)="drogaModal.close()">Cerrar</button>
+
+  </form>
+</ngx-smart-modal>

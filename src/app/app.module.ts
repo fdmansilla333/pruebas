@@ -32,7 +32,7 @@ import { AntecedentesPerinatologicosComponent } from './antecedentes-perinatolog
 import { BuscarPacienteComponent } from './buscar-paciente/buscar-paciente.component';
 import { NgxSmartModalModule, NgxSmartModalService } from 'ngx-smart-modal';
 import {HttpClientModule} from '@angular/common/http';
-
+import {SearchFilterPipe} from './medicamentos-consume/medicamentos.filter';
 /*Constantes utilizadas en la aplicación*/
 
 const appRoutes: Routes = [
@@ -90,6 +90,7 @@ const appRoutes: Routes = [
     EvolucionAmbulatoriaComponent,
     AntecedentesPerinatologicosComponent,
     SalirComponent,
+    SearchFilterPipe,//agregado para filtrar en grandes busquedas
 
 
   ],

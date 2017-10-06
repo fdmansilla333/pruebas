@@ -7,6 +7,7 @@ import { Atencion } from '../../app/atencion';
 import { AppComponent } from '../app.component';
 import { Observable } from "rxjs/Observable";
 import { Producto } from "../modelos/Producto";
+import { MedicamentoConsume } from "../modelos/MedicamentoConsume";
 
 @Injectable()
 export class MedicamentosConsumeService {
@@ -25,6 +26,17 @@ export class MedicamentosConsumeService {
   getMedicamentos(): Observable<Producto[]> {
     return this.http.get(this.appconfig.BASEURL + '/productos')
       .map(res => res.json());
+  }
+
+  setMedicamentosConsume(medicamento: MedicamentoConsume): Observable <MedicamentoConsume> {
+  return this.http.post(this.appconfig.BASEURL + '/medicamento_consume', medicamento)
+  .map(res => res.json());
+  }
+
+  getProductoPorCodigo(codigo: Number): Observable <Producto>{
+    return this.http.get(this.appconfig.BASEURL + '/producto/' + codigo)
+    .map(res => res.json());
+
   }
 
 }

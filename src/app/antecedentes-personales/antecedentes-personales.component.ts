@@ -43,7 +43,7 @@ export class AntecedentesPersonalesComponent {
           }
 
         );
-      }); 
+      });
 
 
   }
@@ -57,13 +57,14 @@ export class AntecedentesPersonalesComponent {
   guardar() {
     console.log(this.todosTiposAfeccionesPersonales);
     //Se verifica que se posea atencion, sino se crea una.
-    if (this.app.codigoAtencion === 0) {
+    if (this.app.codigoAtencion === undefined) {
       let atencion = new Atencion(new Date(), 'Antecedentes Personales', this.app.PERSONA, '');
       let codigoObtenido;
       this.atencionService.setAtencion(this.app.BASEURL, atencion)
         .subscribe(res => codigoObtenido = res,
         error => console.log(error),
         () => { //Cuando finaliza
+          console.log('Atencion codigo:' + codigoObtenido);
           this.app.codigoAtencion = codigoObtenido;
           this.enviarTiposAntecedentesPersonales();
         }
@@ -100,8 +101,8 @@ export class AntecedentesPersonalesComponent {
           //Al agregar uno nuevo se debe traer el nuevo id.
           this.servicesTiposAfeccionesPersonales.setTipoAfeccionPersonal(this.app.codigoAtencion, a)
             .subscribe(res => { console.log(res); a.posee = true; a.codigoAntecedentePersonal = res.json().codigo }, error => { a.activado = false; alert('Hubo error al procesar ' + a.descripcion) });
-            console.log('queda:');
-            console.log(a);
+          console.log('queda:');
+          console.log(a);
         }
       }
 

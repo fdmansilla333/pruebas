@@ -25,14 +25,16 @@
         <table class="table">
           <thead>
             <tr>
-              <th>Dosificaci&oacute;n</th>
-              <th>Principio activo del medicamento </th>
+              <th>Nombre</th>
+              <th>Presentacion </th>
+              <th> Observacion </th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let medicamento of medicamentosConsume">
-              <td>{{medicamento.dosificacion}} </td>
-              <td>{{medicamento.medicamentos_principio_activo}} </td>
+              <td>{{medicamento.nombre}} </td>
+              <td>{{medicamento.presentacion}} </td>
+              <td>{{medicamento.observacion}} </td>
             </tr>
           </tbody>
         </table>
@@ -60,11 +62,10 @@
     <hr>
     <div class="form-group">
       <label>Realice una busqueda de los medicamentos</label>
-      <input #txtFname type="search" name="busqueda" [(ngModel)]="busqueda">
-
+      <input #txtFname type="search" name="busqueda" placeholder="Ingrese al menos 3 caracteres" [(ngModel)]="busqueda">
+     
     </div>
     <hr>
-    <!-- <div *ngIf="getResultadosMedicamentos() > 0"> -->
 
       <label>Seleccione un medicamento que consume:</label>
       <br>
@@ -72,28 +73,18 @@
         <select name="seleccionado" [(ngModel)]="seleccionado" required>
           
     <option value="" selected >Seleccione un medicamento</option>
-    <option value={{m.codigo}} *ngFor="let m of medicamentos | searchfilter: 'nombre' : txtFname.value" >
-      {{m.nombre}} - {{m.presentacion}}
+    <option value={{m.codigo}} *ngFor="let m of medicamentos | searchfilter: 'nombre' : txtFname.value : 3" >
+      {{m.nombre}} -- {{m.presentacion}}
     </option>
         </select>
-      
-      <input #txtFname2 placeholder="Buscar" />
-      <tr *ngFor="let m of medicamentos | searchfilter: 'nombre' : txtFname2.value">
-        <td>
-          {{m.nombre}}
-        </td>
-        <td>
-          {{m.presentacion}}
-        </td>
-      </tr>
+  
 
 
-      <!--</div> -->
-    <div class="row" align="center">
-      <button [disabled]="!FormMedicamento.form.valid" (click)="guardar()">Guardar</button>
+    
+      <button class="btn btn-primary" [disabled]="!FormMedicamento.form.valid" (click)="guardar()">Guardar</button>
 
-      <button (click)="medicamentoModal.close()">Cerrar</button>
-    </div>
+      <button class="btn btn-danger" (click)="medicamentoModal.close()">Cerrar</button>
+    
 
   </form>
 </ngx-smart-modal>

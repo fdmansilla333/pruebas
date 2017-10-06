@@ -6,39 +6,66 @@ import { AppComponent } from '../app.component';
 import { NgxSmartModalService } from "ngx-smart-modal";
 import { NgForm } from "@angular/forms/src/forms";
 import { TipoHabito } from "../modelos/TipoHabito";
+import { AtencionService } from '../atencion.service';
+import { Atencion } from "../atencion";
+
 @Component({
   moduleId: module.id,
   selector: 'app-habitos',
   templateUrl: 'habitos.component.html',
   styleUrls: ['habitos.component.scss'],
-  providers: [HabitosService],
+  providers: [HabitosService, AtencionService],
 })
 export class HabitosComponent {
   @Input() habitos: Habitos[];
   public codigoHabitoSeleccionado: number;
-  public descripcion: string;
+  public observacion: string;
   public tipoHabitosDisponibles: TipoHabito[];
+  public atencion: any;
+  public cantidad: number;
 
-  constructor(habitoService: HabitosService, appconfig: AppComponent, public ngxSmartModalService: NgxSmartModalService) {
+  constructor(public atencionService: AtencionService, public habitoService: HabitosService, public appconfig: AppComponent, public ngxSmartModalService: NgxSmartModalService) {
 
-    //Inicio de prueba de carga de datos
     this.tipoHabitosDisponibles = new Array<TipoHabito>();
-
-    this.tipoHabitosDisponibles.push(new TipoHabito(1,"Fuma", "Algo ams"));
-    this.tipoHabitosDisponibles.push(new TipoHabito(2,"Alcohol", "Algo ams"));
-    this.tipoHabitosDisponibles.push(new TipoHabito(3,"Actividad fisica", "Algo ams"));
-    //Fin de prueba de carga de datos
+    habitoService.getTiposHabitos().subscribe(res => this.tipoHabitosDisponibles = res);
 
     this.habitos = new Array<Habitos>();
+    /*
     habitoService.getHabitos(appconfig.PERSONA)
       .subscribe(habitos => habitos.map(habito => {
         if (habito.tipo_habito !== null) {
           habitoService.getTipoHabitos(habito.tipo_habito)
-            .subscribe(tipoHabito => habito.tipo_habito_dato = tipoHabito);
+            .subscribe(tipoHabito => {
+              console.log('Tipo de habito:' + tipoHabito);
+              habito.tipo_habito = new TipoHabito(1,'',''); // TODO ver de desacoplar
+              habito.tipo_habito_dato = tipoHabito});
         }
         this.habitos.push(habito);
       }));
+      */
+   /*
+      habitoService.getHabitos(appconfig.PERSONA)
+      .subscribe(habitos => this.habitos = habitos, error=> console.log(error), () =>{
+        //una vez que finalice hay que recorrer los habitos y solicitar los tipo de habitos.
+        this.habitos.map(h => habitoService.getTipoHabitos(h.tipo_habito).subscribe(res => res))
+      });
+*/
+
     console.log(this.habitos);
+
+
+    //TODO subir al app conf obtener la atencion...
+    if (this.appconfig.codigoAtencion == undefined) { //TODO verificar que los post no se realicen con path undefined 
+      console.log('Pidiendo...');
+      //se debe crear una atencion
+      this.atencionService.setAtencion(this.appconfig.BASEURL, new Atencion(new Date(), 'Habito', this.appconfig.PERSONA, ''))
+        .subscribe(res => { console.log(this.atencion); this.atencion = res; });
+      this.appconfig.codigoAtencion = this.atencion;
+      //TODO chequear....
+    } else {
+      this.atencion = this.appconfig.codigoAtencion;
+    }
+    console.log('Usando atencion:' + this.atencion);
 
   }
 
@@ -61,13 +88,30 @@ export class HabitosComponent {
     this.ngxSmartModalService.closeLatestModal();
   }
 
-  guardar(){
-    this.ngxSmartModalService.closeLatestModal();
-    console.log(this.codigoHabitoSeleccionado);
-    console.log(this.descripcion);
-    //TODO actualizar lista de los antecedentes de siniestros.
+  actualizar() {
+    this.habitos.map(m => this.habitos.pop());
+    this.habitoService.getHabitos(this.appconfig.PERSONA)
+      .subscribe(habitos => habitos.map(habito => {
+        if (habito.tipo_habito !== null) {
+          this.habitoService.getTipoHabitos(habito.tipo_habito)
+            .subscribe(tipoHabito => habito.tipo_habito_dato = tipoHabito);
+        }
+        this.habitos.push(habito);
+      }));
+  }
 
-    //TODO una vez guardado limpiar el modelo...
+  guardar() {
+    this.ngxSmartModalService.closeLatestModal();
+    if (this.atencion) {
+      let h = new Habitos(null, this.codigoHabitoSeleccionado, this.atencion, this.observacion, this.cantidad, new TipoHabito(null,null,null));
+      console.log(h);
+      this.habitoService.setHabito(h).subscribe(res => console.log(res), error => console.log(error), () => {
+        this.actualizar();
+      })
+    } else {
+      console.log('No se posee atencion asociada');
+    }
+
   }
 
 }

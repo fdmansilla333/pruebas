@@ -108,7 +108,7 @@ export class AntecedentesFamiliaresComponent  {
   guardar() {
     console.log('Guardando...');
     //TODO resolver las atenciones si son una unica instancia
-    if (this.app.codigoAtencion === 0) {
+    if (this.app.codigoAtencion === undefined) {
       // Se debe generar una nueva atencion
       let atencion = new Atencion(new Date(), 'Antecedentes familiares', this.app.PERSONA, '');
       let codigoObtenido;

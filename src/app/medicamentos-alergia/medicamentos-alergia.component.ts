@@ -45,7 +45,21 @@ export class MedicamentosAlergiaComponent {
       });
 
     maService.getDrogas()
-      .subscribe(res => this.drogas = res); //TODO ver retardo
+      .subscribe(res => this.drogas = res, error=> console.log(error), () => {
+        //Uppercase y Ordenamiento por descripcion
+        this.drogas = this.drogas.map(e => {
+          e.descripcion = e.descripcion.toUpperCase();
+          return e;
+        }
+        );
+        this.drogas.sort((d1,d2) => {
+          if (d1.descripcion < d2.descripcion){ return -1 }else{
+            if (d1.descripcion > d2.descripcion){return 1}else{
+              return 0;
+            }
+          }
+        });
+      }); //TODO ver retardo
 
     //TODO subir al app conf obtener la atencion...
     if (this.appconfig.codigoAtencion == undefined) { //TODO verificar que los post no se realicen con path undefined 

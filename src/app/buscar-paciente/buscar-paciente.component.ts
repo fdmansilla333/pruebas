@@ -79,6 +79,7 @@ export class BuscarPacienteComponent implements OnInit, OnDestroy {
                 }else {
                     console.log('Algo trae...');
                     console.log(datos);
+                    datos = datos[0]; //TODO sacar esta linea en prerpoduccion
                     this.persona.numero_documento = datos.numero_documento;
                     this.persona.nombre = datos.nombre;
                     this.persona.codigo = datos.codigo;

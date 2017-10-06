@@ -35,9 +35,10 @@ export class AppComponent implements OnInit {
     let codigoSerosTeCuida = elementRef.nativeElement.getAttribute('CodigoSerosTeCuida');
     //this.BASEURL = 'http://localhost:8080/SerosTeCuidaMaven/api/';
     // Trabajo con servidor fake
-    //this.BASEURL = 'http://localhost:8080/';
-    this.BASEURL = '/api' // configurado el proxy para que apunte a localhost:8080/SerosTeCuidaMaven/api/
+    //this.BASEURL = 'http://localhost:8080';
     
+    this.BASEURL = '/api'; // configurado el proxy para que apunte a localhost:8080/SerosTeCuidaMaven/api/  
+    //this.BASEURL = ''; servidor fake2
     if (codigoSerosTeCuida) {
       console.log('tiene algo seros te cuida:' + codigoSerosTeCuida);
       this.CODIGOSEROS = codigoSerosTeCuida;

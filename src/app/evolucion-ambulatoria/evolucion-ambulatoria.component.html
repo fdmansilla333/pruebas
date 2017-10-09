@@ -40,7 +40,7 @@
                         <td>Peso/edad</td>
                         <td>Talla/Edad</td>
                         <td>IMC/Edad</td>
-                        <td></td>
+                        <td>mm Hg</td>
                         <td>Cm</td>
                         <td>Completo</td>
                         <td>Incompleto</td>
@@ -54,16 +54,22 @@
                         <td><input type="number" min="0" name="pc" [(ngModel)]="evolucionAmbulatoria.pc" size="3"></td>
                         <td> <button (click)="actualizarIMC(peso.value, talla.value)" type="button" class="btn btn-sm btn-primary">Calcular</button>
                             <span>{{evolucionAmbulatoria.imc | number:'2.1-2'}}</span></td>
-                        <td>NA</td>
-                        <td>NA</td>
-                        <td>NA</td>
-                        <td>NA</td>
-                        <td><input #presion_arterial type="number" min="0" name="presion_arterial" [(ngModel)]="evolucionAmbulatoria.presion_arterial"
-                                size="3"></td>
+                        <td><input type="number" min="0" name="percentilos_pc_edad" [(ngModel)]="evolucionAmbulatoria.percentilos_pc_edad"></td>
+                        <td><input type="number" min="0" name="percentilos_peso_edad" [(ngModel)]="evolucionAmbulatoria.percentilos_peso_edad"></td>
+                        <td><input type="number" min="0" name="percentilos_talla_edad" [(ngModel)]="evolucionAmbulatoria.percentilos_talla_edad"></td>
+                        <td><input type="number" min="0" name="percentilos_imc_edad" [(ngModel)]="evolucionAmbulatoria.percentilos_imc_edad"></td>
+
+                        <td><input #presion_arterial_num type="number" min="0" name="presion_arterial_num" [(ngModel)]="evolucionAmbulatoria.presion_arterial"
+                                size="3" required> /
+                            <input #presion_arterial_den type="number" min="=" name="presion_arterial_den" [(ngModel)]="evolucionAmbulatoria.presion_arterial_den"
+                                required>
+                        </td>
                         <td><input #perimetro_abdominal type="number" min="0" name="perimetro_abdominal" [(ngModel)]="evolucionAmbulatoria.perimetro_abdominal"
                                 size="3"></td>
-                        <td><input #vacunacion type="radio" name="vacunacion" value="true" [(ngModel)]="evolucionAmbulatoria.vacunacion"></td>
-                        <td><input #vacunacion type="radio" name="vacunacion" value="falso" [(ngModel)]="evolucionAmbulatoria.vacunacion"></td>
+                        <td><input #vacunacion type="radio" name="vacunacion" value="true" [(ngModel)]="evolucionAmbulatoria.vacunacion"
+                                required></td>
+                        <td><input #vacunacion type="radio" name="vacunacion" value="falso" [(ngModel)]="evolucionAmbulatoria.vacunacion"
+                                required></td>
                     </tr>
 
 
@@ -91,7 +97,7 @@
             <div class="row">
                 <hr>
                 <strong><label> Motivo de la consulta:</label></strong>
-                <input class="campoLargo" type="text" name="motivoConsulta" [(ngModel)]="evolucionAmbulatoria.motivo_de_consulta">
+                <input class="campoLargo" type="text" name="motivoConsulta" [(ngModel)]="evolucionAmbulatoria.motivo_de_consulta" required>
             </div>
             <div class="row">
                 <hr>
@@ -107,7 +113,8 @@
             <div class="row">
                 <hr>
                 <strong><label> Diagn&oacute;stico o Problema de salud:</label></strong>
-                <input class="campoLargo" type="text" name="diagn_problema_salud" [(ngModel)]="evolucionAmbulatoria.diagn_problema_salud">
+                <input class="campoLargo" type="text" name="diagn_problema_salud" [(ngModel)]="evolucionAmbulatoria.diagn_problema_salud"
+                    required>
             </div>
             <div class="row">
                 <hr>
@@ -135,12 +142,12 @@
             </div>
             <div class="row">
                 <strong><label> Indicaci&oacute;n de medicaci&oacute;n</label></strong>
-                <input class="campoLargo" type="text" name="indicacion_medicacion"[(ngModel)]="evolucionAmbulatoria.indicacion_medicacion" >
+                <input class="campoLargo" type="text" name="indicacion_medicacion" [(ngModel)]="evolucionAmbulatoria.indicacion_medicacion">
             </div>
             <div class="row">
                 <strong><label> Solicitud de derivaci&oacute;n</label></strong> Interconsulta
-                <input type="radio" name="derivacion" value="interconsulta" [(ngModel)]="evolucionAmbulatoria.solicitud_de_derivacion">Internaci&oacute;n
-                <input type="radio" name="derivacion" value="internacion" [(ngModel)]="evolucionAmbulatoria.solicitud_de_derivacion">
+                <input type="checkbox" name="interconsulta" [(ngModel)]="evolucionAmbulatoria.interconsulta">Internaci&oacute;n
+                <input type="checkbox" name="internacion" [(ngModel)]="evolucionAmbulatoria.internacion">
             </div>
 
             <div class="row" align="right">

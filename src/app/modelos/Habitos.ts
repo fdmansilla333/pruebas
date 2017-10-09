@@ -5,7 +5,7 @@ export class Habitos {
   atencion: Number;
   observacion: String;
   cantidad: Number;
-  tipo_habito_dato;
+  tipo_habito_dato: TipoHabito
   constructor(codigo: Number, habito: Number, atencion: Number, observacion: String, cantidad: Number, datosTipoHabito: TipoHabito) {
     this.atencion = atencion;
     this.cantidad = cantidad;

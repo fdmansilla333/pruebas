@@ -16,6 +16,7 @@ export class EvolucionAmbulatoria {
   percentilos_talla_edad: Number = 0;
   percentilos_imc_edad: Number = 0;
   presion_arterial: String = '';
+  presion_arterial_den: String = '';
   perimetro_abdominal: Number = 0;
   vacunacion: boolean = false;
   enfermedades_cronicas: string = '';
@@ -36,6 +37,8 @@ export class EvolucionAmbulatoria {
   otrasTexto: string ='';
   primeraVez: boolean = false;
   consejerias: string = '';
+  interconsulta: boolean = false;
+  internacion: boolean = false;
   constructor(persona: Persona, hoy: Date) {
 
     

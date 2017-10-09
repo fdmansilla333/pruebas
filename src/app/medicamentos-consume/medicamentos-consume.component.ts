@@ -33,45 +33,36 @@ export class MedicamentosConsumeComponent {
     mcService.getMedicamentos()
       .subscribe(res => this.medicamentos = res);
 
-    mcService.getMedicamentosConsume(appconfig.PERSONA) 
+    mcService.getMedicamentosConsume(appconfig.PERSONA)
       .subscribe(x => x.map(y => y.map(z =>
-        this.medicamentosConsume.push(z))),error => console.log(error), () => {
+        this.medicamentosConsume.push(z))), error => console.log(error), () => {
           //Al finalizar la incorporacion de los productos que consume la persona,
           //se trae la presentacion, dosificacion
-         //Se recorre todos los medicamentos
-         this.medicamentosConsume = this.medicamentosConsume.map( m => {
-           this.mcService.getProductoPorCodigo(m.producto)
-           .subscribe(res => {
-             //esto me devuelve un producto
-             m.nombre = res.nombre;
-             m.presentacion = res.presentacion;
-             
+          //Se recorre todos los medicamentos
+          this.medicamentosConsume = this.medicamentosConsume.map(m => {
+            this.mcService.getProductoPorCodigo(m.producto)
+              .subscribe(res => {
+                //esto me devuelve un producto
+                m.nombre = res.nombre;
+                m.presentacion = res.presentacion;
 
-           });
-           return m;
-         });
+
+              });
+            return m;
+          });
         });
 
-    //TODO subir al app conf obtener la atencion...
-    if (this.appconfig.codigoAtencion == undefined) { //TODO verificar que los post no se realicen con path undefined 
-      console.log('Pidiendo...');
-      //se debe crear una atencion
-      this.atencionService.setAtencion(this.appconfig.BASEURL, new Atencion(new Date(), 'Medicamentos Consume', this.appconfig.PERSONA, ''))
-        .subscribe(res => { console.log(this.atencion); this.atencion = res; });
-      this.appconfig.codigoAtencion = this.atencion;
-      //TODO chequear....
-    } else {
-      this.atencion = this.appconfig.codigoAtencion;
-    }
+    this.atencion = this.appconfig.codigoAtencion;
+
     console.log(this.medicamentosConsume);
     console.log('Usando atencion:' + this.atencion);
   }
   actualizar() {
     this.medicamentosConsume.map(m => this.medicamentosConsume.pop());
 
-    this.mcService.getMedicamentosConsume(this.appconfig.PERSONA) 
-    .subscribe(x => x.map(y => y.map(z =>
-      this.medicamentosConsume.push(z))));
+    this.mcService.getMedicamentosConsume(this.appconfig.PERSONA)
+      .subscribe(x => x.map(y => y.map(z =>
+        this.medicamentosConsume.push(z))));
   }
 
   getCantidadMedicamentosConsume(): Number {
@@ -97,14 +88,25 @@ export class MedicamentosConsumeComponent {
 
   guardar() {
     this.ngxSmartModalService.closeLatestModal();
-    if (this.atencion) {
-      let medicamento = new MedicamentoConsume(null, this.atencion, this.seleccionado,this.descripcion,null,null,null )
+    if (this.atencion == this.appconfig.SINCODIGOATENCION) {
+      //Se genera una nueva atencion
+      this.atencionService.setAtencion(this.appconfig.BASEURL, new Atencion(new Date(), 'Medicamentos Consume', this.appconfig.PERSONA, ''))
+        .subscribe(res => this.appconfig.codigoAtencion = res, error => console.log(error), () => {
+          this.atencion = this.appconfig.codigoAtencion;
+          let medicamento = new MedicamentoConsume(null, this.atencion, this.seleccionado, this.descripcion, null, null, null)
+          this.mcService.setMedicamentosConsume(medicamento)
+            .subscribe(res => console.log(res), error => console.log(error), () => {
+              this.actualizar();
+            });
+        });
+
+    } else {
+      //Si poseo atencion se realiza directamente.
+      let medicamento = new MedicamentoConsume(null, this.atencion, this.seleccionado, this.descripcion, null, null, null)
       this.mcService.setMedicamentosConsume(medicamento)
-      .subscribe(res => console.log(res), error=> console.log(error), ()=>{
-        this.actualizar();
-      });
-    }else{
-      console.log('No se proporciono una atencion');
+        .subscribe(res => console.log(res), error => console.log(error), () => {
+          this.actualizar();
+        });
     }
   }
 }

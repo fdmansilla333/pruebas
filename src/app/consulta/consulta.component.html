@@ -12,17 +12,19 @@
             <th>Observaci&oacute;n</th>
             <th>Acciones</th>
             <tr *ngFor="let atencion of atenciones">
-              <td>{{atencion.codigo}}</td> 
-              <td>{{atencion.fecha_atencion | date:'d MMM y jms'}}</td>
-              <td>{{atencion.observacion}}</td>
-              <td>
-                <button type="button" class="btn btn-primary">Modificar</button>
-                <button class="delete" (click)="delete(atencion); $event.stopPropagation()">Anular</button>
-              </td>
+              <div *ngIf="atencion.observacion === 'Evolucion Ambulatoria' ">
+                <td>{{atencion.codigo}}</td>
+                <td>{{atencion.fecha_atencion | date:'d MMM y jms'}}</td>
+                <td>{{atencion.observacion}}</td>
+                <td>
+                  <button type="button" class="btn btn-primary">Modificar</button>
+                  <button class="delete" (click)="delete(atencion); $event.stopPropagation()">Anular</button>
+                </td>
+              </div>
             </tr>
           </table>
           <!-- <button type="button" class="btn btn-primary" routerLink="/evolucionAmbulatoria" routerLinkActive="active" [routerLinkActiveOptions]="c">Agregar nueva atenci&oacute;n</button> -->
-          
+
         </div>
         <a routerLink="/evolucionAmbulatoria" routerLinkActive="active"><button type="button" class="btn btn-primary">Nueva Atenci&oacute;n</button></a>
         <hr>

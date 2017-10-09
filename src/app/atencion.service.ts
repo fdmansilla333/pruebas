@@ -111,12 +111,12 @@ export class AtencionService {
     this.codigoPersonaConsultado = codigo;
   }
 
-  setAtencion(URL: string, atencion: Atencion){
+  setAtencion(URL: string, atencion: Atencion): Observable<any>{
        
     const cabecera = new HttpHeaders().set('Accept','text/plain');
     return this.http2.post(URL + '/atencion', atencion, {
       headers: cabecera
-    });
+    })
 
   }
   // @TODO Mudar este servicio a uno propio de evolucion ambulatoria

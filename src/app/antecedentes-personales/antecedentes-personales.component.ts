@@ -57,7 +57,7 @@ export class AntecedentesPersonalesComponent {
   guardar() {
     console.log(this.todosTiposAfeccionesPersonales);
     //Se verifica que se posea atencion, sino se crea una.
-    if (this.app.codigoAtencion === undefined) {
+    if (this.app.codigoAtencion == this.app.SINCODIGOATENCION) {
       let atencion = new Atencion(new Date(), 'Antecedentes Personales', this.app.PERSONA, '');
       let codigoObtenido;
       this.atencionService.setAtencion(this.app.BASEURL, atencion)

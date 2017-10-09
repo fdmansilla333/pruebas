@@ -45,34 +45,23 @@ export class MedicamentosAlergiaComponent {
       });
 
     maService.getDrogas()
-      .subscribe(res => this.drogas = res, error=> console.log(error), () => {
+      .subscribe(res => this.drogas = res, error => console.log(error), () => {
         //Uppercase y Ordenamiento por descripcion
         this.drogas = this.drogas.map(e => {
           e.descripcion = e.descripcion.toUpperCase();
           return e;
         }
         );
-        this.drogas.sort((d1,d2) => {
-          if (d1.descripcion < d2.descripcion){ return -1 }else{
-            if (d1.descripcion > d2.descripcion){return 1}else{
+        this.drogas.sort((d1, d2) => {
+          if (d1.descripcion < d2.descripcion) { return -1 } else {
+            if (d1.descripcion > d2.descripcion) { return 1 } else {
               return 0;
             }
           }
         });
-      }); //TODO ver retardo
+      });
 
-    //TODO subir al app conf obtener la atencion...
-    if (this.appconfig.codigoAtencion == undefined) { //TODO verificar que los post no se realicen con path undefined 
-      console.log('Pidiendo...');
-      //se debe crear una atencion
-      this.atencionService.setAtencion(this.appconfig.BASEURL, new Atencion(new Date(), 'Medicamentos alergia', this.appconfig.PERSONA, ''))
-        .subscribe(res => {console.log(this.atencion);this.atencion = res;});
-      this.appconfig.codigoAtencion = this.atencion;
-      //TODO chequear....
-    } else {
-      this.atencion = this.appconfig.codigoAtencion;
-    }
-
+    this.atencion = this.appconfig.codigoAtencion;
     console.log('Usando atencion:' + this.atencion);
   }
 
@@ -115,11 +104,28 @@ export class MedicamentosAlergiaComponent {
   guardar() {
     this.ngxSmartModalService.closeLatestModal();
 
-    if (this.atencion) { //Si no poseo atencion no puedo dar de alta medicacion alergia
+    if (this.atencion == this.appconfig.SINCODIGOATENCION) { //Si no poseo atencion no puedo dar de alta medicacion alergia
+      //TODO subir al app conf obtener la atencion...
+      if (this.appconfig.codigoAtencion == undefined) { //TODO verificar que los post no se realicen con path undefined 
+        this.atencionService.setAtencion(this.appconfig.BASEURL, new Atencion(new Date(), 'Medicamentos alergia', this.appconfig.PERSONA, ''))
+          .subscribe(res => this.appconfig.codigoAtencion = res, error => console.log(error), () => {
+            this.atencion = this.appconfig.codigoAtencion;
+            let mAlergia = new MedicamentoAlergia(0, this.atencion, this.descripcion, this.codigoDrogaSeleccionado, 0);
+            let errorMedicamentoAlergia = false;
+
+            this.maService.setAlergiaDroga(mAlergia).
+              subscribe(res => console.log(res), error => errorMedicamentoAlergia = true, () => {
+                if (!errorMedicamentoAlergia) {
+                  this.actualizar();
+                }
+              });
+          });
+      }
+    } else {
+      //si poseo atecion genero el nuevo
       let mAlergia = new MedicamentoAlergia(0, this.atencion, this.descripcion, this.codigoDrogaSeleccionado, 0);
       let errorMedicamentoAlergia = false;
 
-      console.log(mAlergia);
       this.maService.setAlergiaDroga(mAlergia).
         subscribe(res => console.log(res), error => errorMedicamentoAlergia = true, () => {
           if (!errorMedicamentoAlergia) {

@@ -24,50 +24,35 @@ export class HabitosComponent {
   public atencion: any;
   public cantidad: number;
 
-  constructor(public atencionService: AtencionService, public habitoService: HabitosService, public appconfig: AppComponent, public ngxSmartModalService: NgxSmartModalService) {
+  constructor(public atencionService: AtencionService, public habitoService: HabitosService,
+    public appconfig: AppComponent, public ngxSmartModalService: NgxSmartModalService) {
 
     this.tipoHabitosDisponibles = new Array<TipoHabito>();
     habitoService.getTiposHabitos().subscribe(res => this.tipoHabitosDisponibles = res);
-
     this.habitos = new Array<Habitos>();
-    /*
-    habitoService.getHabitos(appconfig.PERSONA)
-      .subscribe(habitos => habitos.map(habito => {
-        if (habito.tipo_habito !== null) {
-          habitoService.getTipoHabitos(habito.tipo_habito)
-            .subscribe(tipoHabito => {
-              console.log('Tipo de habito:' + tipoHabito);
-              habito.tipo_habito = new TipoHabito(1,'',''); // TODO ver de desacoplar
-              habito.tipo_habito_dato = tipoHabito});
-        }
-        this.habitos.push(habito);
-      }));
-      */
-   /*
-      habitoService.getHabitos(appconfig.PERSONA)
-      .subscribe(habitos => this.habitos = habitos, error=> console.log(error), () =>{
-        //una vez que finalice hay que recorrer los habitos y solicitar los tipo de habitos.
-        this.habitos.map(h => habitoService.getTipoHabitos(h.tipo_habito).subscribe(res => res))
-      });
-*/
-
-    console.log(this.habitos);
-
-
-    //TODO subir al app conf obtener la atencion...
-    if (this.appconfig.codigoAtencion == undefined) { //TODO verificar que los post no se realicen con path undefined 
-      console.log('Pidiendo...');
-      //se debe crear una atencion
-      this.atencionService.setAtencion(this.appconfig.BASEURL, new Atencion(new Date(), 'Habito', this.appconfig.PERSONA, ''))
-        .subscribe(res => { console.log(this.atencion); this.atencion = res; });
-      this.appconfig.codigoAtencion = this.atencion;
-      //TODO chequear....
-    } else {
-      this.atencion = this.appconfig.codigoAtencion;
+    this.atencion = this.appconfig.codigoAtencion;
+    if (this.atencion === undefined) {
+      console.log('La atencion no se encuentra intanciada');
     }
-    console.log('Usando atencion:' + this.atencion);
+
+    if (this.appconfig.PERSONA !== null) {
+      habitoService.getHabitos(this.appconfig.PERSONA)
+        .subscribe(res => this.habitos = res, error => console.log(error), () => {
+          //cuando finalice el buscar se recorre nuevamente tomando los datos de tipo de habito para cada habito que psoea la pesona
+          this.habitos.map(h => {
+            h.tipo_habito_dato = new TipoHabito(null, null, null); //TODO probar
+            habitoService.getTipoHabitos(h.tipo_habito).subscribe(res => h.tipo_habito_dato = res);
+          });
+        })
+
+    } else {
+      console.log('No es posible buscar sin el codigo de la persona ');
+    }
+
 
   }
+
+
 
   getCantidadHabitos(): Number {
     return this.habitos.length;
@@ -91,27 +76,51 @@ export class HabitosComponent {
   actualizar() {
     this.habitos.map(m => this.habitos.pop());
     this.habitoService.getHabitos(this.appconfig.PERSONA)
-      .subscribe(habitos => habitos.map(habito => {
-        if (habito.tipo_habito !== null) {
-          this.habitoService.getTipoHabitos(habito.tipo_habito)
-            .subscribe(tipoHabito => habito.tipo_habito_dato = tipoHabito);
-        }
-        this.habitos.push(habito);
-      }));
+      .subscribe(res => this.habitos = res, error => console.log(error), () => {
+        //cuando finalice el buscar se recorre nuevamente tomando los datos de tipo de habito para cada habito que psoea la pesona
+        this.habitos.map(h => {
+          h.tipo_habito_dato = new TipoHabito(null, null, null); //TODO probar
+          this.habitoService.getTipoHabitos(h.tipo_habito).subscribe(res => h.tipo_habito_dato = res);
+        });
+      })
+
   }
 
   guardar() {
     this.ngxSmartModalService.closeLatestModal();
-    if (this.atencion) {
-      let h = new Habitos(null, this.codigoHabitoSeleccionado, this.atencion, this.observacion, this.cantidad, new TipoHabito(null,null,null));
-      console.log(h);
-      this.habitoService.setHabito(h).subscribe(res => console.log(res), error => console.log(error), () => {
-        this.actualizar();
-      })
+    //Si no tengo una atencion se genera una para poder almacenar la nueva modificacion
+    if (!this.atencion) {
+      console.log('DEBUG: Enviando desde habito sin atencion');
+      //this.appconfig.nuevaAtencion('Habito', 'Nuevo habito');
+      //setTimeout(() => {// La implementacion de setTimeout no sirve dado que nos obliga a colocar un parametro de tiempo.
+      //cada componente, puede generar una nueva atencion.
+      this.atencionService.setAtencion(this.appconfig.BASEURL, new Atencion(new Date, 'Habito nuevo', this.appconfig.PERSONA, ''))
+        .subscribe(res => res => this.appconfig.codigoAtencion = res, error => console.log(error), () => {
+          this.atencion = this.appconfig.codigoAtencion;
+          let h = new Habitos(null, this.codigoHabitoSeleccionado, this.atencion, this.observacion, this.cantidad, new TipoHabito(this.codigoHabitoSeleccionado, null, null));
+          h.tipo_habito = this.codigoHabitoSeleccionado;
+          if (h.tipo_habito !== null) {
+            this.habitoService.setHabito(h).subscribe(res => console.log(res), error => console.log(error), () => {
+              this.actualizar();
+            })
+          }
+        });
     } else {
-      console.log('No se posee atencion asociada');
+      //al poseer la atencion, se setea el nuevo habito
+      console.log('DEBUG: Enviando desde habito con atencion');
+      let h = new Habitos(null, this.codigoHabitoSeleccionado, this.atencion, this.observacion, this.cantidad, new TipoHabito(this.codigoHabitoSeleccionado, null, null));
+      h.tipo_habito = this.codigoHabitoSeleccionado;
+      if (h.tipo_habito !== null) {
+        this.habitoService.setHabito(h).subscribe(res => console.log(res), error => console.log(error), () => {
+          this.actualizar();
+        })
+      }
     }
+    //}, 500);
+
 
   }
+
+
 
 }

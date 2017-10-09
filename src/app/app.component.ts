@@ -22,11 +22,13 @@ export class AppComponent implements OnInit {
   public PERSONA: Number;
   public DNIPERSONA: Number;
   OBJETO_PERSONA: Persona;
+  public SINCODIGOATENCION: Number = 0;
   public codigoAtencion: Number=0; //Codigo de la atencion generado donde se necesite, y reutilizado en todos los componentes, por cada sesion
 
   constructor(
     private atencionService: AtencionService, elementRef: ElementRef, public route: ActivatedRoute) {
 
+    this.codigoAtencion = this.SINCODIGOATENCION;
     console.log('Codigo seros te cuida:' + elementRef.nativeElement.getAttribute('CodigoSerosTeCuida'));
     console.log('Hostname:' + elementRef.nativeElement.getAttribute('hostname'));
     console.log('Localname:' + elementRef.nativeElement.getAttribute('localname'));
@@ -88,7 +90,17 @@ export class AppComponent implements OnInit {
     this.PERSONA = codigo;
   }
 
-
+  public nuevaAtencion(descripcion: string, observacion:string): any {
+    if (this.codigoAtencion == undefined) { //TODO verificar que los post no se realicen con path undefined 
+      //se debe crear una atencion
+      this.atencionService.setAtencion(this.BASEURL, new Atencion(new Date(), descripcion, this.PERSONA, observacion))
+        .subscribe(res => this.codigoAtencion = res, error => console.log(error), () => {
+          console.log('codigo de atencion obtenido: ' + this.codigoAtencion);
+        });
+      
+      //TODO chequear....
+    } 
+  }
 
 
 

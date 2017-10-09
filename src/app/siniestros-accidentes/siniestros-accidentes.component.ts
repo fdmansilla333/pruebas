@@ -42,15 +42,8 @@ export class SiniestrosAccidentesComponent {
         }
         );
       });
-    if (this.appconfig.codigoAtencion === 0) {
-      //se debe crear una atencion
-      this.atencionService.setAtencion(this.appconfig.BASEURL, new Atencion(new Date(), 'Antecedentes siniestro', this.appconfig.PERSONA, ''))
-        .subscribe(res => this.atencion = res);
-      this.appconfig.codigoAtencion = this.atencion;
-      //TODO chequear....
-    } else {
-      this.atencion = this.appconfig.codigoAtencion;
-    }
+    this.atencion = this.appconfig.codigoAtencion;
+
   }
 
   public log(msg: string) {
@@ -67,9 +60,9 @@ export class SiniestrosAccidentesComponent {
           this.accidentesService.getTipoAccidentes(accidente.tipo_antecedente_siniestro)
             .subscribe(tipoSiniestro => accidente.nombreTipoSiniestro = tipoSiniestro.descripcion);
           //agregar el accidente que no se encuentre en la coleccion
-           
-            this.accidentes.push(accidente);
-          
+
+          this.accidentes.push(accidente);
+
         }
         );
       });
@@ -84,25 +77,41 @@ export class SiniestrosAccidentesComponent {
   //Guarda los datos del modal
   guardar() {
     this.ngxSmartModalService.closeLatestModal();
+    if (this.atencion === this.appconfig.SINCODIGOATENCION) {
+      //se debe crear una atencion
+      this.atencionService.setAtencion(this.appconfig.BASEURL, new Atencion(new Date(), 'Antecedentes siniestro', this.appconfig.PERSONA, ''))
+        .subscribe(res => this.atencion = res, error => console.log(error), () => {
+          this.appconfig.codigoAtencion = this.atencion;
+          let tipoAntecedenteSiniestro = new TipoAntecedenteSiniestro(this.hoy, this.motivo, this.atencion, this.codigoTipoSiniestroSeleccionado);
+          let errorAntecedente = false;
+          this.accidentesService.setTipoAntecedenteSiniestro(tipoAntecedenteSiniestro)
+            .subscribe(res => console.log(res), error => errorAntecedente = true,
+            () => {
+              // al finalizar, si no hubo errores coloco el nuevo antecedentes en la coleccion
+              if (!errorAntecedente) {
+                this.actualizar();
+              }
+            });
+        });
 
-    let tipoAntecedenteSiniestro = new TipoAntecedenteSiniestro(this.hoy, this.motivo, this.atencion, this.codigoTipoSiniestroSeleccionado);
-    console.log('Enviando...');
-    console.log(tipoAntecedenteSiniestro);
-    let errorAntecedente = false;
-    this.accidentesService.setTipoAntecedenteSiniestro(tipoAntecedenteSiniestro)
-      .subscribe(res => console.log(res), error => errorAntecedente = true,
-      () => {
-        // al finalizar, si no hubo errores coloco el nuevo antecedentes en la coleccion
-        if (!errorAntecedente) {
-          this.actualizar();
-        }
-      });
-    //TODO actualizar lista de los antecedentes de siniestros.
+
+    } else {
+      let tipoAntecedenteSiniestro = new TipoAntecedenteSiniestro(this.hoy, this.motivo, this.atencion, this.codigoTipoSiniestroSeleccionado);
+      let errorAntecedente = false;
+      this.accidentesService.setTipoAntecedenteSiniestro(tipoAntecedenteSiniestro)
+        .subscribe(res => console.log(res), error => errorAntecedente = true,
+        () => {
+          // al finalizar, si no hubo errores coloco el nuevo antecedentes en la coleccion
+          if (!errorAntecedente) {
+            this.actualizar();
+          }
+        });
+    }
 
 
   }
 
-  updatehoy(event: Date){
+  updatehoy(event: Date) {
     console.log(event);
     this.hoy = event;
   }

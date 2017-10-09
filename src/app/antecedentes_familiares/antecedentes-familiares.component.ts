@@ -126,61 +126,6 @@ export class AntecedentesFamiliaresComponent  {
     }
   }
 
-  /**
-   * Metodo que se encarga de enviar todos los cambios realizados en la interfaz
-   */
-  /*
-  enviarAntecedentesFamiliares() {
-
-    let errorPosee = false;
-    let errorFalta = false;
-
-    this.poseeTiposAfeccionesFamiliares.forEach(antecFamiliar => {
-      //envia aquellos que se encuentra desactivados (anulados) para dar de baja
-      if (!antecFamiliar.activado) {
-
-        this.servicesTiposAfeccionesFamiliares.putTipoAtencionFamiliar(antecFamiliar)
-          .subscribe(res => console.log(res), error => errorPosee = true, () => {
-            if (errorPosee) {
-              alert("No se pudo procesar satisfactoriamente los cambios");
-            } else {
-              //quitar este elemento
-              this.poseeTiposAfeccionesFamiliares = this.poseeTiposAfeccionesFamiliares.filter(a => a !== antecFamiliar);
-              //agregarlo a la otra coleccion
-              this.faltanTiposAfeccionesFamiliares.push(antecFamiliar);
-
-            }
-          });
-      }
-    });
-
-    this.faltanTiposAfeccionesFamiliares.forEach(element => {
-      //Si se selecciona un elemento que se agrega como antecedente se quita de la lista de los que no posee
-      //y se agrega a la lista de los que posee para que la UI lo sepa.
-      if (element.activado) {
-
-        this.servicesTiposAfeccionesFamiliares.setTipoAtencionFamiliar(this.app.codigoAtencion, element)
-          .subscribe(res => console.log(res), error => errorFalta = true, () => {
-            if (errorFalta) {
-              alert("No se pudo procesar satisfactoriamente los cambios");
-            } else {
-              //quitar este elemento
-              this.faltanTiposAfeccionesFamiliares = this.faltanTiposAfeccionesFamiliares.filter(a => a !== element);
-              //agregarlo a la otra coleccion
-              this.poseeTiposAfeccionesFamiliares.push(element);
-
-            }
-          });
-      }
-    });
-
-    if (errorPosee || errorFalta) {
-      alert("Error al procesar los antecedentes familiares...");
-    }
-
-  }
-  */
-
   enviarAntecedentesFamiliares2(){
      //por cada afeccion controlo y envío los cambios
      this.todosTiposAfeccionesFamiliares.map(a => {

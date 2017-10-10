@@ -22,6 +22,7 @@ import {Tipo_terminacion} from './modelos/Tipo_terminacion';
 import { HttpClient } from "@angular/common/http";
 import { EvolucionAmbulatoria } from "./modelos/EvolucionAmbulatoria";
 import { AntecedentePerinatologico } from "./modelos/AntecedentePerinatologico";
+import { Diagnostico } from "./modelos/Diagnostico";
 
 @Injectable()
 export class AtencionService {
@@ -146,6 +147,11 @@ export class AtencionService {
     
   setAntecedentePerinatologico(URL: string, antecedentePerinatologico: AntecedentePerinatologico){
     return this.http.post(URL + '/antecedentePerinatologico', antecedentePerinatologico);
+  }
+
+  getDiagnosticos(URL : string): Observable <Diagnostico[]> {
+    return this.http.get(URL + '/diagnosticos')
+    .map(res => res.json());
   }
 
 

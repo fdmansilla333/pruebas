@@ -1,0 +1,10 @@
+historia-clinica@0.0.0 /home/fdmansilla/NetBeansProjects/Historia_clinica/src/main/historiaClinica
+├── UNMET PEER DEPENDENCY @angular/common@4.4.4
+├── UNMET PEER DEPENDENCY @angular/core@4.4.4
+├── UNMET PEER DEPENDENCY @angular/forms@4.4.4
+├─┬ react@16.0.0 
+│ ├─┬ fbjs@0.8.16 
+│ │ └── core-js@1.2.7 
+│ └── prop-types@15.6.0 
+└── UNMET PEER DEPENDENCY rxjs@5.4.3
+

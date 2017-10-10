@@ -33,6 +33,11 @@ import { BuscarPacienteComponent } from './buscar-paciente/buscar-paciente.compo
 import { NgxSmartModalModule, NgxSmartModalService } from 'ngx-smart-modal';
 import {HttpClientModule} from '@angular/common/http';
 import {SearchFilterPipe} from './medicamentos-consume/medicamentos.filter';
+import {SearchFilter2Pipe} from './medicamentos-consume/medicamentos.filter2';
+import {NgxMagicSearchComponent} from  'ngx-magicsearch';
+import { AngularFontAwesomeModule } from 'angular-font-awesome/angular-font-awesome';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { NguiAutoCompleteModule } from '@ngui/auto-complete';
 /*Constantes utilizadas en la aplicación*/
 
 const appRoutes: Routes = [
@@ -91,6 +96,9 @@ const appRoutes: Routes = [
     AntecedentesPerinatologicosComponent,
     SalirComponent,
     SearchFilterPipe,//agregado para filtrar en grandes busquedas
+    SearchFilter2Pipe, //agregado para dos parametros
+    NgxMagicSearchComponent,
+    
 
 
   ],
@@ -99,6 +107,9 @@ const appRoutes: Routes = [
     NgxSmartModalModule.forRoot(),
     FormsModule,
     CustomFormsModule, // Agregado para validaciones especificas
+    NguiAutoCompleteModule, // autocomplete module
+    AngularFontAwesomeModule,//iconografia
+    Ng2SearchPipeModule,
     HttpModule,
     HttpClientModule,
     RouterModule.forRoot(

@@ -12,7 +12,7 @@
             <th>Observaci&oacute;n</th>
             <th>Acciones</th>
             <tr *ngFor="let atencion of atenciones">
-              <div *ngIf="atencion.observacion === 'Evolucion Ambulatoria' ">
+              <div *ngIf="atencion.observacion === 'Evolucion Ambulatoria' "> <!--Ver esto-->
                 <td>{{atencion.codigo}}</td>
                 <td>{{atencion.fecha_atencion | date:'d MMM y jms'}}</td>
                 <td>{{atencion.observacion}}</td>

@@ -10,6 +10,7 @@ import { DecimalPipe } from '@angular/common';
 import { Atencion } from "../atencion";
 import { AtencionService } from "../atencion.service";
 import { Router } from "@angular/router";
+import { Diagnostico } from "../modelos/Diagnostico";
 
 
 
@@ -27,6 +28,11 @@ export class EvolucionAmbulatoriaComponent implements OnChanges {
     public hoy: Date;
     public evolucionAmbulatoria: EvolucionAmbulatoria;
     public peso: Number = 0;
+    public diagnosticos: Diagnostico[];
+    public choices = [];
+    public seleccionado: any;
+    public myData: any;
+    public fuente = [];
 
     constructor(public app: AppComponent, public servicio: AtencionService, public router: Router) {
         if (app.DNIPERSONA) {
@@ -35,13 +41,32 @@ export class EvolucionAmbulatoriaComponent implements OnChanges {
             this.persona = app.OBJETO_PERSONA;
             this.hoy = new Date();
             this.evolucionAmbulatoria = new EvolucionAmbulatoria(this.persona, this.hoy);
+            this.diagnosticos = new Array;
+            this.servicio.getDiagnosticos(this.app.BASEURL)
+                .subscribe(res => this.diagnosticos = res, error => console.log(error), () => {
+                    this.diagnosticos.map(d => {
+                        this.fuente.push(d.codigo + " " + d.descripcion);
+                        /*let item =  {
+                            'name': d.descripcion,
+                            'label': d.descripcion,
+                            'options': [
+                              {'key': d.id, 'label': d.codigo}
+                              
+                            ]
+                          };
+                          
+                        this.choices.push(item);
+                        */
+                    });
+                });
+
+
         }
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         console.log('Cambios detectados');
     }
-
 
 
     onKey(value: string) {
@@ -62,30 +87,42 @@ export class EvolucionAmbulatoriaComponent implements OnChanges {
         let codigoAtencionDevuelto;
         let atencion: Atencion = new Atencion(new Date, 'Evolucion Ambulatoria', this.persona.codigo, 'Aten');
         this.servicio.setAtencion(this.app.BASEURL, atencion).subscribe(resultado => { console.log(resultado); codigoAtencionDevuelto = resultado }
-        ,error => console.log(error), 
-        () => {
-            if (codigoAtencionDevuelto){ // si tengo un codigo valido de inserción, inserto la atencion ambulatoria
-            console.log('El codigo generado por la atencion es:' + codigoAtencionDevuelto);
-            this.evolucionAmbulatoria.atencion = codigoAtencionDevuelto;
-            console.log(this.evolucionAmbulatoria);
-            this.servicio.setEvolucionAmbulatoria(this.app.BASEURL, this.evolucionAmbulatoria)
-                .subscribe(resultado => console.log(resultado)
-                ,error => {
-                    console.log(error);
-                    //TODO Damian Falta llamar a eliminar la atencion con el codigo proporcionado
-                    alert("hubo problemas al procesar la evolución ambulatoria");
-                });
-            }else{
-                alert("No se pudo generar la atención");
-            }
+            , error => console.log(error),
+            () => {
+                if (codigoAtencionDevuelto) { // si tengo un codigo valido de inserción, inserto la atencion ambulatoria
+                    console.log('El codigo generado por la atencion es:' + codigoAtencionDevuelto);
+                    this.evolucionAmbulatoria.atencion = codigoAtencionDevuelto;
+                    console.log(this.evolucionAmbulatoria);
+                    this.servicio.setEvolucionAmbulatoria(this.app.BASEURL, this.evolucionAmbulatoria)
+                        .subscribe(resultado => console.log(resultado)
+                        , error => {
+                            console.log(error);
+                            //TODO Damian Falta llamar a eliminar la atencion con el codigo proporcionado
+                            alert("hubo problemas al procesar la evolución ambulatoria");
+                        });
+                } else {
+                    alert("No se pudo generar la atención");
+                }
 
-        });
+            });
 
-        this.router.navigateByUrl('/buscar/'+this.dniPaciente);
+        this.router.navigateByUrl('/buscar/' + this.dniPaciente);
 
     }
     mostrar(): boolean {
         return this.evolucionAmbulatoria.otras;
     }
+
+    configuracion = { remove: 'Remove facet', cancel: 'cancelar', prompt: 'Ingrese los diagnosticos por código o por descripcion', text: 'Ingresar diagnosticos' };
+    
+  
+
+    searchUpdated(terms) {
+        console.log(terms);
+    };
+
+    textSearch(customTerm) {
+        console.log(customTerm);
+    };
 
 }

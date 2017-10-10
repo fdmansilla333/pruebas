@@ -10,8 +10,9 @@ export class SearchFilterPipe implements PipeTransform {
     if (!items) return [];
     if (value.length < canMinima) return [];
     return items.filter(it => {
-      return it[field].startsWith(value.toUpperCase(), 0)
-    } //TODO ver esto de cumplimentar
+      
+      return it[field].indexOf(value.toUpperCase()) ==0;
+    }
     ); /// == value
   }
 

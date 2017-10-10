@@ -85,6 +85,9 @@
                     <strong>  DB  <input name="DB" type="checkbox" [(ngModel)]="evolucionAmbulatoria.diabetes"></strong>
                     <strong>  Otras:  <input name="Otras" type="checkbox" [(ngModel)]="evolucionAmbulatoria.otras"></strong>
                     <div *ngIf="mostrar()">
+                        <br>
+                        <hr>
+                        <label> Ingrese otro antecedente no listado: </label>
                         <strong><input class="campoLargo" name ="campoOtras" type="text"></strong>
                     </div>
                 </span>
@@ -110,12 +113,40 @@
                 <strong><label> Examen f&iacute;sico:</label></strong>
                 <input class="campoLargo" type="text" name="examenFisico" [(ngModel)]="evolucionAmbulatoria.examen_fisico">
             </div>
+            
+            <!--
             <div class="row">
                 <hr>
                 <strong><label> Diagn&oacute;stico o Problema de salud:</label></strong>
                 <input class="campoLargo" type="text" name="diagn_problema_salud" [(ngModel)]="evolucionAmbulatoria.diagn_problema_salud"
                     required>
+
+
             </div>
+        -->
+           <!-- <div class="row">
+                <hr>
+                 <ngx-magic-search [strings]="configuracion" [facets_param]="choices" (textSearchEvent)="textSearch($event)" (searchUpdatedEvent)="searchUpdated($event)"></ngx-magic-search> 
+                <label>Busque el diagnostico:</label>
+                <br>
+                <input class="campoMediano" #txtFname type="search" name="busqueda" placeholder="Ingrese al menos 3 caracteres" width="100px" [(ngModel)]="evolucionAmbulatoria.diagn_problema_salud">
+                <br>
+            </div>
+            <div class="row" align="center">
+                <select name="seleccionado" [(ngModel)]="seleccionado" >
+                 <option value="" selected >Seleccione un medicamento</option>
+                <option value={{d.id}} *ngFor="let d of diagnosticos | searchfilter2: 'descripcion' : 'codigo' : txtFname.value : 3" >
+                    {{d.codigo}} -- {{d.descripcion}}
+                </option>
+            </select>
+        
+            </div> -->
+
+            <div class="row">
+            <label>Busque el diagnostico:</label>
+            <input class="campoLargo" max-num-list= 5 name="myData" auto-complete [(ngModel)]="myData" [source]="fuente" placeholder="Ingrese caracteres para iniciar la busqueda de diagnostico"/>
+            </div>
+
             <div class="row">
                 <hr>
                 <div class="col-md-6">
@@ -130,7 +161,7 @@
                         <strong><label> Consejer&iacute;as:</label></strong>
                     </div>
 
-                    <textarea rows="5" cols="50" name="consejerias" [(ngModel)]="evolucionAmbulatoria.consejerias"></textarea>
+                    <textarea rows="5" cols="50" name="consejerias"    [(ngModel)]="evolucionAmbulatoria.consejerias"></textarea>
                 </div>
 
             </div>

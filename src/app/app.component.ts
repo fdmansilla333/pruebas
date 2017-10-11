@@ -102,6 +102,23 @@ export class AppComponent implements OnInit {
     } 
   }
 
+  /* TODO ver inv
+
+  Observable.interval(100).subscribe(x => console.log(x));
+
+  .retry(10);
+
+  observable1.merge(observavle2);
+
+  Observable.fronEvent(this.search.nativeElement, 'keyup')
+  .debounceTime(1000)
+  distintcuntilchange
+  debe estar en ngonit ver input 
+
+  ? valores opcionales
+  .switchmap
+  */
+
 
 
 

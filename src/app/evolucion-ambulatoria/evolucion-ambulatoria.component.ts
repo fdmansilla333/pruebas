@@ -11,6 +11,7 @@ import { Atencion } from "../atencion";
 import { AtencionService } from "../atencion.service";
 import { Router } from "@angular/router";
 import { Diagnostico } from "../modelos/Diagnostico";
+import { Observable } from "rxjs/Observable";
 
 
 
@@ -65,12 +66,10 @@ export class EvolucionAmbulatoriaComponent implements OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        console.log('Cambios detectados');
     }
 
 
     onKey(value: string) {
-        console.log(value);
     }
 
     actualizarIMC(peso: any, talla: any) {
@@ -90,7 +89,6 @@ export class EvolucionAmbulatoriaComponent implements OnChanges {
             , error => console.log(error),
             () => {
                 if (codigoAtencionDevuelto) { // si tengo un codigo valido de inserción, inserto la atencion ambulatoria
-                    console.log('El codigo generado por la atencion es:' + codigoAtencionDevuelto);
                     this.evolucionAmbulatoria.atencion = codigoAtencionDevuelto;
                     console.log(this.evolucionAmbulatoria);
                     this.servicio.setEvolucionAmbulatoria(this.app.BASEURL, this.evolucionAmbulatoria)
@@ -98,14 +96,16 @@ export class EvolucionAmbulatoriaComponent implements OnChanges {
                         , error => {
                             console.log(error);
                             //TODO Damian Falta llamar a eliminar la atencion con el codigo proporcionado
-                            alert("hubo problemas al procesar la evolución ambulatoria");
+                            console.log('Eliminando atencion:' + this.evolucionAmbulatoria.atencion);
+                            this.servicio.deleteAtencion(this.app.BASEURL, this.evolucionAmbulatoria.atencion)
+                            .subscribe(x => console.log(x));
+                        alert("hubo problemas al procesar la evolución ambulatoria");
                         });
                 } else {
                     alert("No se pudo generar la atención");
                 }
 
             });
-
         this.router.navigateByUrl('/buscar/' + this.dniPaciente);
 
     }
@@ -113,9 +113,9 @@ export class EvolucionAmbulatoriaComponent implements OnChanges {
         return this.evolucionAmbulatoria.otras;
     }
 
-    configuracion = { remove: 'Remove facet', cancel: 'cancelar', prompt: 'Ingrese los diagnosticos por código o por descripcion', text: 'Ingresar diagnosticos' };
+   //configuracion = { remove: 'Remove facet', cancel: 'cancelar', prompt: 'Ingrese los diagnosticos por código o por descripcion', text: 'Ingresar diagnosticos' };
     
-  
+  /*
 
     searchUpdated(terms) {
         console.log(terms);
@@ -124,5 +124,6 @@ export class EvolucionAmbulatoriaComponent implements OnChanges {
     textSearch(customTerm) {
         console.log(customTerm);
     };
+    */
 
 }

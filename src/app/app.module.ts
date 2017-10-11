@@ -34,6 +34,7 @@ import { NgxSmartModalModule, NgxSmartModalService } from 'ngx-smart-modal';
 import {HttpClientModule} from '@angular/common/http';
 import {SearchFilterPipe} from './medicamentos-consume/medicamentos.filter';
 import {SearchFilter2Pipe} from './medicamentos-consume/medicamentos.filter2';
+import {BooleanFilterPipe} from './medicamentos-consume/medicamentos.filter.boolean';
 import {NgxMagicSearchComponent} from  'ngx-magicsearch';
 import { AngularFontAwesomeModule } from 'angular-font-awesome/angular-font-awesome';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
@@ -97,6 +98,7 @@ const appRoutes: Routes = [
     SalirComponent,
     SearchFilterPipe,//agregado para filtrar en grandes busquedas
     SearchFilter2Pipe, //agregado para dos parametros
+    BooleanFilterPipe, //pipe para parsear booleanos a mensajes español
     NgxMagicSearchComponent,
     
 

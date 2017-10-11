@@ -83,9 +83,11 @@ export class AntecedentesPerinatologicosComponent {
                             alert("Registrado correctamente");
                             this.router.navigateByUrl('/buscar/' + this.dniPaciente);
                         } else {
+                            
                             if (codigoAtencion) {
                                 this.servicio.deleteAtencion(this.app.BASEURL, codigoAtencion);
                             }
+                            alert("Hubo errores, reintente o cancele la operacion");
                         }
 
                     });

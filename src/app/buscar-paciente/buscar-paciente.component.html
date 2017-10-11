@@ -9,7 +9,7 @@
         <strong>Buscando...!</strong> buscando paciente y consultas realizadas ....
     </div>
 </div>
-<div *ngIf="!personaEncontrada() && !esPrimeraVez">
+<div *ngIf="pacienteNoEncontrado()">
     <div class="alert alert-warning">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         <strong>Paciente no encontrado</strong> Vuelva a introducir un n&uacute;mero de documento v&aacute;lido...
@@ -74,6 +74,7 @@
     </div>
     <hr>
     <div class="row" align="center">
+            <a routerLink="/evolucionAmbulatoria" routerLinkActive="active"><button type="button" class="btn btn-primary">Nueva Atenci&oacute;n</button></a>
         <button type="button" class="btn btn-primary" routerLink="/antecedentes_perinatologicos" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Antecedentes perinatol&oacute;gicos</button>
         <button type="button" class="btn btn-primary" routerLink="/antecedentes" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Antecedentes familiares y personales</button>
         <button type="button" class="btn btn-primary" routerLink="#" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Lista de problemas de salud</button>

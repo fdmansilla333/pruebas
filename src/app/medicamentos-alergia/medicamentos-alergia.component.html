@@ -51,17 +51,21 @@
 
   <h5>Medicamentos a los que tiene alergia</h5>
   <form #FormAlergia="ngForm">
+  
     <div class="form-group">
-      <label>Ingrese una descripción o motivo relacionados con la alergia a la droga:</label>
-      <input class="campoLargo" name="descripcion" type="text" [(ngModel)]="descripcion" required>
-    </div>
-    <div class="form-group">
+
+     <!--
       <select name="seleccionado" [(ngModel)]="codigoDrogaSeleccionado" required>
       <option value="" selected>Seleccione una droga</option>
     <option value={{d.codigo}} *ngFor="let d of drogas">{{d.descripcion}}
     </option>
     </select>
+  -->
     </div>
+    <div class="form-group">
+        <label>Ingrese una descripción o motivo relacionados con la alergia a la droga:</label>
+        <input class="campoLargo" name="descripcion" type="text" [(ngModel)]="descripcion" required>
+      </div>
 
     <button [disabled]="!FormAlergia.form.valid" (click)="guardar()">Guardar</button>
     <button (click)="drogaModal.close()">Cerrar</button>

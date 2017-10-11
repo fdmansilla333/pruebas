@@ -29,7 +29,7 @@ export class BuscarPacienteComponent implements OnInit, OnDestroy {
     buscando: Boolean;
     public DNIBuscado: Number;
     sinResultados: Boolean;
-    @Input() esPrimeraVez: Boolean=true;
+    @Input() esPrimeraVez: Boolean = true;
 
     public constructor(public servicio: AtencionService, public appconfig: AppComponent,
         public route: ActivatedRoute, public router: Router, public routlet: RouterOutlet) {
@@ -51,7 +51,6 @@ export class BuscarPacienteComponent implements OnInit, OnDestroy {
 
         route.params.subscribe(params => {
             this.DNIBuscado = params.id;
-            console.log(this.DNIBuscado);
 
             if (this.DNIBuscado) {
                 this.appconfig.DNIPERSONA = this.DNIBuscado;
@@ -66,19 +65,15 @@ export class BuscarPacienteComponent implements OnInit, OnDestroy {
     }
 
     buscarPorDni(dni: Number) {
-        //Se desactiva la primera vez de la instancia para que muestre mensaje
-        this.esPrimeraVez = false;
 
+        this.buscando = true;
         this.servicio.getDatosPersonaPorDni(this.appconfig.BASEURL, dni)
             .subscribe(datos => { // this.persona = datos,
 
                 if (!datos) {
-                    console.log('No tienen nada....');
                     this.sinResultados = true;
-                    
-                }else {
-                    console.log('Algo trae...');
-                    console.log(datos);
+
+                } else {
                     //datos = datos[0]; //TODO sacar esta linea en prerpoduccion
                     this.persona.numero_documento = datos.numero_documento;
                     this.persona.nombre = datos.nombre;
@@ -104,28 +99,38 @@ export class BuscarPacienteComponent implements OnInit, OnDestroy {
                     this.persona.tipo_documento = datos.tipo_documento;
 
                     // para que otros componentes tengan acceso a la persona
-                    this.appconfig.PERSONA = this.persona.codigo; 
-                    this.sinResultados = false;    
+                    this.appconfig.PERSONA = this.persona.codigo;
                     
+
                 }
-                
+
 
             },
-            error => console.log(error),
+            error => {
+                console.log(error);
+                this.buscando = false;
+                this.esPrimeraVez=false;
+                this.sinResultados = true;
+
+            },
             () => {
+
                 // Una vez finalizada la petición
                 //termine de buscar
                 this.buscando = false;
+                //Se desactiva la primera vez de la instancia para que muestre mensaje
+                this.esPrimeraVez = false;
+                this.sinResultados = false;
 
                 this.servicio.getLocalidad(this.appconfig.BASEURL, this.persona.dpersonal_localidad)
                     .subscribe(localidad => this.persona.datos_localidad = localidad);
-                
+
                 this.servicio.getPais(this.appconfig.BASEURL, this.persona.nacionalidad)
                     .subscribe(pais => this.persona.datos_nacionalidad = pais);
-                
+
                 this.servicio.getTipoDocumento(this.appconfig.BASEURL, this.persona.tipo_documento)
                     .subscribe(tipoDocumento => this.persona.datos_tipoDocumento = tipoDocumento);
-                
+
                 this.servicio.getAfiliado(this.appconfig.BASEURL, this.persona.numero_documento)
                     .subscribe(afiliado => this.persona.afiliado = afiliado,
                     error => console.log(error),
@@ -140,9 +145,9 @@ export class BuscarPacienteComponent implements OnInit, OnDestroy {
 
 
 
-                    //Una vez finalizado la recolección de la persona guardo datos para obtenerlo del modelo
-                    this.appconfig.OBJETO_PERSONA = this.persona;
-                    this.appconfig.codigoAtencion = 0; //TODO ver este nuevo cambio, seteado para que genere una neuva atencion
+                //Una vez finalizado la recolección de la persona guardo datos para obtenerlo del modelo
+                this.appconfig.OBJETO_PERSONA = this.persona;
+                this.appconfig.codigoAtencion = 0; //TODO ver este nuevo cambio, seteado para que genere una neuva atencion
             });
 
     }
@@ -173,26 +178,28 @@ export class BuscarPacienteComponent implements OnInit, OnDestroy {
         this.sinResultados = true;
     }
     ngOnDestroy(): void {
-        console.log('[Borrar] Ng destroy explicito');
     }
     ngOnInit(): void {
-        console.log('[Borrar log]NG On init');
         this.esPrimeraVez = true;
+    }
+
+    pacienteNoEncontrado(): Boolean {
+        return !this.personaEncontrada() && !this.esPrimeraVez;
     }
 
     activarBoton(): Boolean {
 
-        if (!this.buscando && this.sinResultados){
-        
+        if (!this.buscando && this.sinResultados) {
+
             return false; //activo el boton
-        }else{
-        
+        } else {
+
             return true; //desactivo el boton
         }
-        
+
     }
 
-      
+
 
 
 }

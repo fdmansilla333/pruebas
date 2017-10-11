@@ -31,39 +31,49 @@ export class EvolucionAmbulatoria {
   solicitud_de_derivacion: string = '';
   solicitud_de_derivacion_interconsulta = '';
   meses: Number = 0;
-  hipertension:boolean = false;
+  hipertension: boolean = false;
   diabetes: boolean = false;
   otras: boolean = false;
-  otrasTexto: string ='';
+  otrasTexto: string = '';
   primeraVez: boolean = false;
   consejerias: string = '';
   interconsulta: boolean = false;
   internacion: boolean = false;
   constructor(persona: Persona, hoy: Date) {
 
-    
-    let nacimiento:Date = new Date(persona.fecha_nacimiento); 
-    this.edad = hoy.getFullYear() - nacimiento.getFullYear() - 1; // TODO ver esto, dado que se necesita ver la cantidad de años y meses
+
+    let nacimiento: Date = new Date(persona.fecha_nacimiento);
+    this.edad = hoy.getFullYear() - nacimiento.getFullYear(); // TODO ver esto, dado que se necesita ver la cantidad de años y meses
     this.fecha = hoy;
     // agregando slice
     // "2017-09-28 17:10:24"
     // this.fecha = "'"+hoy.toISOString().slice(0, 10)+"'";
-    this.meses = hoy.getMonth()+1;
+    if (hoy.getMonth() > nacimiento.getMonth()) {
+      this.meses = hoy.getMonth() - nacimiento.getMonth();
+    } else {
+      if (hoy.getMonth() < nacimiento.getMonth()) {
+        this.meses = hoy.getMonth() + 1;
+      } else {
+        this.meses = hoy.getMonth() - nacimiento.getMonth();
+      }
+    }
+
+
     //Agregar calculo de meses
-  
+
 
   }
 
-  calcularIMC(){
+  calcularIMC() {
     //recordar que la talla viene en CM pasar a --> m
-    this.imc = Number(this.peso) / ((Number(this.talla)/100) * (Number(this.talla)/100));
+    this.imc = Number(this.peso) / ((Number(this.talla) / 100) * (Number(this.talla) / 100));
     console.log('IMC:' + this.imc);
-    if (this.imc >= 19 && this.imc <=25){
+    if (this.imc >= 19 && this.imc <= 25) {
       this.estado_nutricional = 'Normal';
-    }else{
-      if (this.imc < 19){
+    } else {
+      if (this.imc < 19) {
         this.estado_nutricional = 'Desnutrido';
-      }else{
+      } else {
         this.estado_nutricional = 'Sobrepeso';
       }
     }

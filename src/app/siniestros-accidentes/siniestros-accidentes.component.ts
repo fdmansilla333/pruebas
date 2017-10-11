@@ -22,16 +22,20 @@ export class SiniestrosAccidentesComponent {
   public hoy: Date;
   public motivo: string;
   public todosLosSiniestros: TipoAntecedenteSiniestro[];
-  public codigoTipoSiniestroSeleccionado: Number;
+  public codigoTipoSiniestroSeleccionado: String;
   public fechaDeHoy = new Date(); //utilizado para no permitir el ingreso de una fecha posterior
   public atencion;
+  public fuente = [];
 
   constructor(public atencionService: AtencionService, public accidentesService: SiniestrosAccidentesService, public appconfig: AppComponent, public ngxSmartModalService: NgxSmartModalService) {
     this.hoy = new Date();
     this.motivo = '';
     this.accidentes = new Array<Siniestro>();
     accidentesService.getTiposAntecedenesSiniestros()
-      .subscribe(res => this.todosLosSiniestros = res);
+      .subscribe(res => this.todosLosSiniestros = res, error=> console.log(error), ()=>{
+        //Al finalizar
+        this.todosLosSiniestros.map( a => this.fuente.push(a.codigo + " " + a.descripcion));        
+      });
     accidentesService.getAccidentesPorPersona(appconfig.PERSONA)
       .subscribe(objeto => {
         objeto.map(accidente => {
@@ -43,6 +47,8 @@ export class SiniestrosAccidentesComponent {
         );
       });
     this.atencion = this.appconfig.codigoAtencion;
+
+    //agregado para el autocompletado
 
   }
 
@@ -60,7 +66,6 @@ export class SiniestrosAccidentesComponent {
           this.accidentesService.getTipoAccidentes(accidente.tipo_antecedente_siniestro)
             .subscribe(tipoSiniestro => accidente.nombreTipoSiniestro = tipoSiniestro.descripcion);
           //agregar el accidente que no se encuentre en la coleccion
-
           this.accidentes.push(accidente);
 
         }
@@ -77,12 +82,13 @@ export class SiniestrosAccidentesComponent {
   //Guarda los datos del modal
   guardar() {
     this.ngxSmartModalService.closeLatestModal();
+    let codigoTipoSiniestroSeleccionado = parseInt(this.codigoTipoSiniestroSeleccionado.split(' ')[0]);
     if (this.atencion === this.appconfig.SINCODIGOATENCION) {
       //se debe crear una atencion
       this.atencionService.setAtencion(this.appconfig.BASEURL, new Atencion(new Date(), 'Antecedentes siniestro', this.appconfig.PERSONA, ''))
         .subscribe(res => this.atencion = res, error => console.log(error), () => {
           this.appconfig.codigoAtencion = this.atencion;
-          let tipoAntecedenteSiniestro = new TipoAntecedenteSiniestro(this.hoy, this.motivo, this.atencion, this.codigoTipoSiniestroSeleccionado);
+          let tipoAntecedenteSiniestro = new TipoAntecedenteSiniestro(this.hoy, this.motivo, this.atencion, codigoTipoSiniestroSeleccionado);
           let errorAntecedente = false;
           this.accidentesService.setTipoAntecedenteSiniestro(tipoAntecedenteSiniestro)
             .subscribe(res => console.log(res), error => errorAntecedente = true,
@@ -96,7 +102,7 @@ export class SiniestrosAccidentesComponent {
 
 
     } else {
-      let tipoAntecedenteSiniestro = new TipoAntecedenteSiniestro(this.hoy, this.motivo, this.atencion, this.codigoTipoSiniestroSeleccionado);
+      let tipoAntecedenteSiniestro = new TipoAntecedenteSiniestro(this.hoy, this.motivo, this.atencion, codigoTipoSiniestroSeleccionado);
       let errorAntecedente = false;
       this.accidentesService.setTipoAntecedenteSiniestro(tipoAntecedenteSiniestro)
         .subscribe(res => console.log(res), error => errorAntecedente = true,

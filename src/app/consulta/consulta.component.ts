@@ -3,6 +3,9 @@ import { AppComponent } from '../app.component';
 import { Atencion } from '../atencion';
 import { AtencionService } from '../atencion.service';
 import { Persona } from "../modelos/Persona";
+import { NgxSmartModalService } from "ngx-smart-modal";
+import { EvolucionAmbulatoria } from "../modelos/EvolucionAmbulatoria";
+
 @Component({
     moduleId: module.id,
     selector: 'app-consulta',
@@ -15,8 +18,9 @@ export class ConsultaComponent {
     @Input() persona: Persona;
     @Input() public ordenarASC: boolean = false;
     @Input() public orden: string = 'No ordenado';
+    public observacion_anulacion: string; // Valor de anulacion de observacion.
 
-    constructor(public appconfig: AppComponent, public serviceAtencion: AtencionService) {
+    constructor(public appconfig: AppComponent, public serviceAtencion: AtencionService, public ngxSmartModalService: NgxSmartModalService) {
         console.log('Se instancia consulta componente');
         this.atenciones = new Array;
         this.persona = new Persona();
@@ -34,6 +38,10 @@ export class ConsultaComponent {
     }
 
     ordenar() {
+        //antes de ordenarlos se filtran las atenciones
+        console.log(this.atenciones);
+        this.atenciones = this.atenciones.filter(a => a.observacion == 'Evolucion Ambulatoria');
+        console.log(this.atenciones);
         if (this.ordenarASC) { //orden ascendente
             //Se ordena por fecha
             //return negative if the first item is smaller; positive if it it's larger, or zero if they're equal.
@@ -50,7 +58,6 @@ export class ConsultaComponent {
             });
             this.orden = 'Ascendente'
         } else {
-            console.log('Reverse');
             this.atenciones = this.atenciones.reverse();
             this.orden = 'Descendente';
         }
@@ -72,5 +79,36 @@ export class ConsultaComponent {
                 this.atenciones = this.atenciones.filter(a => a !== atencion);
                 alert("La atención a sido anulada");
             });
+    }
+
+  
+    /**
+     * Guardar observacion de anulacion
+     */
+    guardar(atencion: Atencion, obs: string) {
+        this.ngxSmartModalService.closeLatestModal();
+        atencion.observacion_anulacion = obs;
+        this.observacion_anulacion = ''; //Limpiando el  modelo
+        //enviando la nueva modificacion
+        this.serviceAtencion.updateAtencion(this.appconfig.BASEURL,atencion).subscribe(res => atencion = res, error => alert('No se pudo actualizar la atencion...'), ()=>{
+            //Si finalizo la actualizacion, se saca de la colección.
+            this.atenciones = this.atenciones.filter( a => a.codigo !== atencion.codigo);
+        });
+    }
+
+    public log(msg: string) {
+        console.log(msg);
+    }
+    /**
+     * Metodo que se encarga de solicitar los datos de la atencion ambulatoria, dado una atencion
+     * @param atencion 
+     */
+    agregarDatosEvolucionAmbulatoria(atencion: Atencion){
+        let evolucion: EvolucionAmbulatoria;
+        this.serviceAtencion.getEvolucionAmbulatoria(this.appconfig.BASEURL, atencion.codigo)
+        .subscribe(res => evolucion = res, error => console.log(error), ()=>{
+            this.ngxSmartModalService.setModalData(evolucion, 'verAtencionModal');
+        });
+
     }
 }

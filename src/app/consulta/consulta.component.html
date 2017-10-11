@@ -12,15 +12,15 @@
             <th>Observaci&oacute;n</th>
             <th>Acciones</th>
             <tr *ngFor="let atencion of atenciones">
-              <div *ngIf="atencion.observacion === 'Evolucion Ambulatoria' "> <!--Ver esto-->
-                <td>{{atencion.codigo}}</td>
-                <td>{{atencion.fecha_atencion | date:'d MMM y jms'}}</td>
-                <td>{{atencion.observacion}}</td>
-                <td>
-                  <button type="button" class="btn btn-primary">Modificar</button>
-                  <button class="delete" (click)="delete(atencion); $event.stopPropagation()">Anular</button>
-                </td>
-              </div>
+              <td>{{atencion.codigo}}</td>
+              <td>{{atencion.fecha_atencion | date:'d MMM y jms'}}</td>
+              <td>{{atencion.observacion}}</td>
+              <td>
+                <button type type="button" class="btn btn-primary" (click)="ngxSmartModalService.getModal('atencionModal').open(); ngxSmartModalService.setModalData(atencion, 'atencionModal');">Agregar observacion</button>
+                <button type="button" class="btn btn-primary" (click)="ngxSmartModalService.getModal('verAtencionModal').open(); agregarDatosEvolucionAmbulatoria(atencion)">Ver</button>
+                <!--<button class="delete" (click)="delete(atencion); $event.stopPropagation()">Anular</button> -->
+              </td>
+
             </tr>
           </table>
           <!-- <button type="button" class="btn btn-primary" routerLink="/evolucionAmbulatoria" routerLinkActive="active" [routerLinkActiveOptions]="c">Agregar nueva atenci&oacute;n</button> -->
@@ -39,3 +39,64 @@
     width="100">
 </div>
 -->
+
+
+
+<ngx-smart-modal #atencionModal [identifier]="'atencionModal'">
+
+  <h5>Anulacion de la atenci&oacute;n</h5>
+  <form #FormAtencion="ngForm">
+    <label>Ingrese los motivos de anulacion:</label>
+    <br>
+    <input class="campoLargo" type="text" name="observacion_anulacion" [(ngModel)]="observacion_anulacion" placeholder="Explique los motivos de la anulaci&oacute;n"
+      required>
+    <br>
+    <button [disabled]="!FormAtencion.form.valid" (click)="guardar(atencionModal.getData()[0].data, observacion_anulacion)">Guardar</button>
+    <button (click)="atencionModal.close()">Cerrar</button>
+
+  </form>
+</ngx-smart-modal>
+
+
+<ngx-smart-modal #verAtencionModal [identifier]="'verAtencionModal'" (onOpen)="log('Visualizando datos')">
+
+  <div *ngIf="verAtencionModal.hasData()">
+    <!-- <pre>Atencion: {{verAtencionModal.getData() | json}}</pre> -->
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">Evolucion Ambulatoria</h3>
+      </div>
+      <div class="panel-body">
+        <div *ngFor="let e of verAtencionModal.getData()">
+
+          <ul class="list-group">
+            <h4> Datos </h4>
+            <li class="list-group-item"><label>Fecha atencion:</label>{{e.data.fecha | date}}</li>
+            <li class="list-group-item"><label>Edad:</label>{{e.data.edad}}</li>
+            <li class="list-group-item"><label>Peso:</label>{{e.data.peso}} kg</li>
+            <li class="list-group-item"><label>Altura:</label>{{e.data.talla}} cm</li>
+            <li class="list-group-item"><label>Presion:</label>{{e.data.presion_arterial}}/{{e.data.presion_arterial_den}} mmHg</li>
+            <li class="list-group-item"><label>vacunacion:</label>{{e.data.vacunacion | booleanFilterPipe: 'e.data.vacunacion'}}</li>
+            <li class="list-group-item"><label>Hipertension:</label>{{e.data.hipertension | booleanFilterPipe: 'e.data.hipertension'}}</li>
+            <li class="list-group-item"><label>Diabetes:</label>{{e.data.diabetes | booleanFilterPipe: 'e.data.diabetes'}}</li>
+            <li class="list-group-item"><label>Perimetro abdominal:</label>{{e.data.perimetro_abdominal}}/{{e.data.presion_arterial_den}} mmHg</li>
+            <li class="list-group-item"><label>Estado Nutricional:</label>{{e.data.estado_nutricional}}</li>
+            <h4> Indicaciones medicas </h4>
+            <li class="list-group-item"><label>Motivo: </label> {{e.data.motivo_de_consulta}}</li>
+            <li class="list-group-item"><label>Plan de tratamiento: </label> {{e.data.plan_tratamiento}}</li>
+            <li class="list-group-item"><label>Enfermedad actual: </label> {{e.data.enfermedad_actual}}</li>
+            <li class="list-group-item"><label>Diagnostico:</label>{{e.data.diagn_problema_salud}}</li>
+            <li class="list-group-item"><label>Medicacion:</label>{{e.data.indicacion_medicacion}}</li>
+
+            <!--TODO agregar otros campos -->
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <button align="center" (click)="verAtencionModal.close()">Cerrar</button>
+
+
+</ngx-smart-modal>

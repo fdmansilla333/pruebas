@@ -57,13 +57,24 @@
   <h5>Accidentes - Internaciones - Operaciones</h5>
   <form #Form="ngForm">
     <div class="form-group">
+
+      <strong><label>Seleccione el tipo de siniestro:</label></strong>
+      <!--
+      <select name="tipoSiniestro" [(ngModel)]="codigoTipoSiniestroSeleccionado" required>
+          <option value="" selected>Seleccione una opción</option>
+          <option  *ngFor="let siniestro of todosLosSiniestros" value={{siniestro.codigo}}>{{siniestro.descripcion}}</option>
+         </select>
+        -->
+      <input class="campoLargo" max-num-list=5 name="tipoSiniestro" auto-complete [(ngModel)]="codigoTipoSiniestroSeleccionado"
+        [source]="fuente" placeholder="Seleccione uno de los siniestros" />
+    </div>
+    <div class="form-group">
       <div class="row">
         <div class="col-md-2">
           <strong><label for="Fecha">Fecha:</label></strong>
         </div>
         <div class="col-md-10">
           <input class="campoMediano" name="hoy" type="date" [ngModel]="hoy | date:'y-MM-d'" (ngModelChange)="updatehoy($event)" required>
-          
         </div>
       </div>
     </div>
@@ -72,13 +83,7 @@
       <input class="campoLargo" type="text" name="motivo" [(ngModel)]="motivo" placeholder="Agregue una motivo de la internación, operación, o accidente"
         required>
     </div>
-    <div class="form-group">
-      <strong><label>Seleccione el tipo de siniestro:</label></strong>
-      <select name="tipoSiniestro" [(ngModel)]="codigoTipoSiniestroSeleccionado" required>
-      <option value="" selected>Seleccione una opción</option>
-      <option  *ngFor="let siniestro of todosLosSiniestros" value={{siniestro.codigo}}>{{siniestro.descripcion}}</option>
-     </select>
-    </div>
+
 
     <button [disabled]="!Form.form.valid" (click)="guardar()">Guardar</button>
     <button (click)="myModal.close()">Cerrar</button>

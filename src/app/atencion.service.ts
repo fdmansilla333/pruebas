@@ -2,13 +2,9 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { HttpHeaders } from '@angular/common/http';
 import {Headers} from '@angular/http';
-
-
-
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
 import { Atencion } from './atencion';
-
 import { Persona } from './modelos/Persona';
 import { Afiliado } from './modelos/Afiliado';
 import { Observable } from "rxjs/Observable";
@@ -49,7 +45,6 @@ export class AtencionService {
 
   getAtenciones(URL: string, persona: Number): Observable<Atencion[]> {
     return this.http.get(URL + '/atencion?persona=' + persona)
-      .do(x => console.log(x))
       .map(res => res.json());
   }
 
@@ -106,9 +101,7 @@ export class AtencionService {
     console.error('Un error a ocurrido...', error);
     return Promise.reject(error.message || error);
   }
-  //TODO revisar este set 
   setCodigoPersona(codigo:Number){
-    console.log('Cambiando codigo a:' + codigo);
     this.codigoPersonaConsultado = codigo;
   }
 
@@ -154,5 +147,14 @@ export class AtencionService {
     .map(res => res.json());
   }
 
+  updateAtencion(URL: string, atencion:Atencion): Observable <Atencion>{
+    return this.http.put(URL + '/atencion', atencion)
+    .map(res => res.json());
+  }
+
+  getEvolucionAmbulatoria(URL: string, codigoAtencion: Number): Observable<EvolucionAmbulatoria>{
+  return this.http.get(URL + '/evolucionAmbulatoria/' + codigoAtencion).
+  map(res => res.json());
+  }
 
 }

@@ -23,7 +23,7 @@ export class MedicamentoAlergiaService {
       .map(res => res.json());
   }
   getDroga(codigoDroga: Number): any {
-    return this.http.get(this.appconfig.BASEURL + '/droga/' + codigoDroga)
+    return this.http.get(this.appconfig.BASEURL + '/monodrogas/' + codigoDroga)
       .do(x => console.log(x))
       .map(res => res.json());
   }
@@ -36,7 +36,7 @@ export class MedicamentoAlergiaService {
   //Devuelve todas las drogas.
 
   getDrogas() {
-    return this.http.get(this.appconfig.BASEURL + '/drogas')
+    return this.http.get(this.appconfig.BASEURL + '/monodrogas')
       .map(res => res.json());
   }
 

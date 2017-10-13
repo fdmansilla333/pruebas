@@ -39,6 +39,7 @@ import {NgxMagicSearchComponent} from  'ngx-magicsearch';
 import { AngularFontAwesomeModule } from 'angular-font-awesome/angular-font-awesome';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NguiAutoCompleteModule } from '@ngui/auto-complete';
+import {ListarProblemasSaludComponent} from './listar-problemas-salud/listar-problemas-salud.component';
 /*Constantes utilizadas en la aplicación*/
 
 const appRoutes: Routes = [
@@ -53,6 +54,9 @@ const appRoutes: Routes = [
   {path: 'salir', component: SalirComponent },
   {path: 'HistoriaClinica', redirectTo: '/buscar', pathMatch: 'prefix'},
   {path: 'ng', redirectTo: '/buscar', pathMatch: 'prefix'},
+  {path: 'listado', redirectTo: '/listado', pathMatch: 'prefix'},
+  {path: 'listado', component: ListarProblemasSaludComponent },
+  
   // match con cualquier path, acceso desde afuera
  /* { path: ':id', component: BuscarPacienteComponent },
   { path: '', component: BuscarPacienteComponent },
@@ -100,6 +104,7 @@ const appRoutes: Routes = [
     SearchFilter2Pipe, //agregado para dos parametros
     BooleanFilterPipe, //pipe para parsear booleanos a mensajes español
     NgxMagicSearchComponent,
+    ListarProblemasSaludComponent,
     
 
 

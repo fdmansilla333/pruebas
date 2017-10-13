@@ -17,7 +17,9 @@ export class ConsultaComponent {
     @Input() atenciones: Atencion[];
     @Input() persona: Persona;
     @Input() public ordenarASC: boolean = false;
+    @Input() public habilitarAnulados: boolean = false;
     @Input() public orden: string = 'No ordenado';
+    @Input() public mensajeHabilitarAnuladas = 'Anuladas ocultas';
     public observacion_anulacion: string; // Valor de anulacion de observacion.
 
     constructor(public appconfig: AppComponent, public serviceAtencion: AtencionService, public ngxSmartModalService: NgxSmartModalService) {
@@ -28,6 +30,9 @@ export class ConsultaComponent {
             console.log('Haciendo consulta a :' + appconfig.BASEURL + ' y con la persona:' + appconfig.PERSONA);
             serviceAtencion.getAtenciones(appconfig.BASEURL, appconfig.PERSONA)
                 .subscribe(atenciones => this.atenciones = atenciones, error => console.log(error), () => {
+                    //Se filtran las atenciones, para mostrar solo las validas
+                    this.atenciones = this.atenciones.filter(a => a.observacion == 'Evolucion Ambulatoria' && a.anulada == false);
+
                     this.ordenar();
                 });
 
@@ -37,11 +42,26 @@ export class ConsultaComponent {
 
     }
 
+    habilitarAnuladas() {
+        if (this.habilitarAnulados) {
+            this.serviceAtencion.getAtenciones(this.appconfig.BASEURL, this.appconfig.PERSONA)
+                .subscribe(atenciones => this.atenciones = atenciones, error => console.log(error), () => {
+                    this.atenciones = this.atenciones.filter(a => a.observacion == 'Evolucion Ambulatoria');
+                    this.ordenar();
+                    this.mensajeHabilitarAnuladas = 'Anuladas visibles';
+                });
+        } else {
+            this.serviceAtencion.getAtenciones(this.appconfig.BASEURL, this.appconfig.PERSONA)
+                .subscribe(atenciones => this.atenciones = atenciones, error => console.log(error), () => {
+                    this.atenciones = this.atenciones.filter(a => a.observacion == 'Evolucion Ambulatoria' && a.anulada == false);
+                    this.ordenar();
+                    this.mensajeHabilitarAnuladas = 'Anuladas ocultas';
+                });
+        }
+
+    }
+
     ordenar() {
-        //antes de ordenarlos se filtran las atenciones
-        console.log(this.atenciones);
-        this.atenciones = this.atenciones.filter(a => a.observacion == 'Evolucion Ambulatoria');
-        console.log(this.atenciones);
         if (this.ordenarASC) { //orden ascendente
             //Se ordena por fecha
             //return negative if the first item is smaller; positive if it it's larger, or zero if they're equal.
@@ -81,7 +101,7 @@ export class ConsultaComponent {
             });
     }
 
-  
+
     /**
      * Guardar observacion de anulacion
      */
@@ -90,9 +110,9 @@ export class ConsultaComponent {
         atencion.observacion_anulacion = obs;
         this.observacion_anulacion = ''; //Limpiando el  modelo
         //enviando la nueva modificacion
-        this.serviceAtencion.updateAtencion(this.appconfig.BASEURL,atencion).subscribe(res => atencion = res, error => alert('No se pudo actualizar la atencion...'), ()=>{
+        this.serviceAtencion.updateAtencion(this.appconfig.BASEURL, atencion).subscribe(res => atencion = res, error => alert('No se pudo actualizar la atencion...'), () => {
             //Si finalizo la actualizacion, se saca de la colección.
-            this.atenciones = this.atenciones.filter( a => a.codigo !== atencion.codigo);
+            this.atenciones = this.atenciones.filter(a => a.codigo !== atencion.codigo);
         });
     }
 
@@ -103,12 +123,12 @@ export class ConsultaComponent {
      * Metodo que se encarga de solicitar los datos de la atencion ambulatoria, dado una atencion
      * @param atencion 
      */
-    agregarDatosEvolucionAmbulatoria(atencion: Atencion){
+    agregarDatosEvolucionAmbulatoria(atencion: Atencion) {
         let evolucion: EvolucionAmbulatoria;
         this.serviceAtencion.getEvolucionAmbulatoria(this.appconfig.BASEURL, atencion.codigo)
-        .subscribe(res => evolucion = res, error => console.log(error), ()=>{
-            this.ngxSmartModalService.setModalData(evolucion, 'verAtencionModal');
-        });
+            .subscribe(res => evolucion = res, error => console.log(error), () => {
+                this.ngxSmartModalService.setModalData(evolucion, 'verAtencionModal');
+            });
 
     }
 }

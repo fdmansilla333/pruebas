@@ -5,6 +5,7 @@ export class Atencion {
   public fecha_atencion: Date;
   public observacion_internacion: String;
   public observacion_anulacion: String='';
+  public anulada: boolean;
 
   constructor(fecha_atencion: Date, observacion: String, persona: Number, observacion_internacion: String ) {
     this.codigo = null;

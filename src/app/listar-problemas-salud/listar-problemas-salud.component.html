@@ -1,0 +1,42 @@
+<div *ngIf="cantidadEvolucionesAmbulatorias()>0">
+    <div class="page-header">
+        <h1>Lista de problemas de salud del paciente<small>     DNI:{{dniPaciente}}</small></h1>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Atencion</th>
+                    <th>Diagn&oacute;stico o problema de salud</th>
+                    <th>Enfermedad actual</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let e of evoluciones">
+                    <td>{{e.codigo}}</td>
+                    <td>{{e.diagn_problema_salud}}</td>
+                    <td>{{e.enfermedad_actual}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div *ngIf="cantidadEvolucionesAmbulatorias()==0">
+
+    <div class="jumbotron" align="center">
+        <div class="container">
+            <h3>Paciente sin problemas de salud</h3>
+            <div class="alert alert-info" align="center">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <strong>No existen problemas de salud</strong> El paciente no posee problemas de salud registrados.
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>
+<div class="row" align="center">
+    <a routerLink="/buscar/{{dniPaciente}}" routerLinkActive="active"><button type="button" class="btn btn-primary">Volver</button></a>
+</div>

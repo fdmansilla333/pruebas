@@ -8,3 +8,20 @@ width: 75%;
   padding: 10px 10px;
   width: 75%;
   }
+/*Compatibilidad para navegadores*/
+
+::-webkit-input-placeholder {
+  text-align: center;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+  text-align: center;  
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+  text-align: center;  
+}
+
+:-ms-input-placeholder {  
+  text-align: center; 
+}

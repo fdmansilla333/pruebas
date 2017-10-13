@@ -6,6 +6,8 @@ import { NgxSmartModalService } from 'ngx-smart-modal';
 import { Droga } from "../modelos/Droga";
 import { AtencionService } from '../atencion.service';
 import { Atencion } from "../atencion";
+import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
+
 
 @Component({
   moduleId: module.id,
@@ -19,9 +21,10 @@ export class MedicamentosAlergiaComponent {
   public descripcion: string = "";
   public drogas: Droga[];
   public codigoDrogaSeleccionado: number;
+  public objetoDrogaSeleccionado: Droga;
   public atencion: any;
 
-  constructor(public maService: MedicamentoAlergiaService, public appconfig: AppComponent, public ngxSmartModalService: NgxSmartModalService, public atencionService: AtencionService) {
+  constructor(public maService: MedicamentoAlergiaService, public appconfig: AppComponent, public ngxSmartModalService: NgxSmartModalService, public atencionService: AtencionService,  private _sanitizer: DomSanitizer) {
     this.medicamentosAlergia = new Array<MedicamentoAlergia>();
     this.drogas = new Array<Droga>();
 
@@ -39,7 +42,9 @@ export class MedicamentosAlergiaComponent {
         this.medicamentosAlergia.forEach(medicamento => {
           if (medicamento.droga !== null) {
             maService.getDroga(medicamento.droga)
-              .subscribe(droga => medicamento.drogaDescripcion = droga.descripcion);
+              .subscribe(droga => medicamento.drogaDescripcion = droga.descripcion, error => console.log(error), () => {
+                console.log(this.medicamentosAlergia);
+              });
           }
         });
       });
@@ -59,6 +64,8 @@ export class MedicamentosAlergiaComponent {
             }
           }
         });
+     
+        
       });
 
     this.atencion = this.appconfig.codigoAtencion;
@@ -104,34 +111,41 @@ export class MedicamentosAlergiaComponent {
   guardar() {
     this.ngxSmartModalService.closeLatestModal();
 
-    if (this.atencion == this.appconfig.SINCODIGOATENCION) { //Si no poseo atencion no puedo dar de alta medicacion alergia
+    if (this.atencion === this.appconfig.SINCODIGOATENCION) { //Si no poseo atencion no puedo dar de alta medicacion alergia
       //TODO subir al app conf obtener la atencion...
-      if (this.appconfig.codigoAtencion == undefined) { //TODO verificar que los post no se realicen con path undefined 
         this.atencionService.setAtencion(this.appconfig.BASEURL, new Atencion(new Date(), 'Medicamentos alergia', this.appconfig.PERSONA, ''))
           .subscribe(res => this.appconfig.codigoAtencion = res, error => console.log(error), () => {
             this.atencion = this.appconfig.codigoAtencion;
-            let mAlergia = new MedicamentoAlergia(0, this.atencion, this.descripcion, this.codigoDrogaSeleccionado, 0);
+            let mAlergia = new MedicamentoAlergia(0, this.atencion, this.descripcion, this.objetoDrogaSeleccionado.codigo, 0);
             let errorMedicamentoAlergia = false;
 
             this.maService.setAlergiaDroga(mAlergia).
               subscribe(res => console.log(res), error => errorMedicamentoAlergia = true, () => {
                 if (!errorMedicamentoAlergia) {
                   this.actualizar();
+                }else{
+                  //Si hubo error debe anularse la atencion generada.
+                  this.atencionService.deleteAtencion(this.appconfig.BASEURL, this.atencion).subscribe(res => console.log(res));
                 }
               });
           });
-      }
+      
     } else {
       //si poseo atecion genero el nuevo
-      let mAlergia = new MedicamentoAlergia(0, this.atencion, this.descripcion, this.codigoDrogaSeleccionado, 0);
+      let mAlergia = new MedicamentoAlergia(0, this.atencion, this.descripcion, this.objetoDrogaSeleccionado.codigo, 0);
       let errorMedicamentoAlergia = false;
-
+    
       this.maService.setAlergiaDroga(mAlergia).
-        subscribe(res => console.log(res), error => errorMedicamentoAlergia = true, () => {
+        subscribe(res => console.log(res), error => {console.log(error); errorMedicamentoAlergia = true}, () => {
           if (!errorMedicamentoAlergia) {
             this.actualizar();
           }
         });
     }
+  }
+
+  autocompleListFormatter = (data: any) : SafeHtml => {
+    let html = `<span>${data.descripcion}</span>`;
+    return this._sanitizer.bypassSecurityTrustHtml(html);
   }
 }

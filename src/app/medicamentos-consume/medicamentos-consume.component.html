@@ -52,13 +52,8 @@
 
   <h5>Medicamentos que consume</h5>
   <form #FormMedicamento="ngForm">
-    <div class="form-group">
-      <label>Ingrese una descripcion sobre el medicamento que consume</label>
-      <br>
-      <!-- <input name="descripcion" type="text" [(ngModel)]="descripcion" required> -->
-      <textarea rows="5" cols="50" name="descripcion" [(ngModel)]="descripcion" required></textarea>
 
-    </div>
+    <!--
     <hr>
     <div class="form-group">
       <label>Realice una busqueda de los medicamentos</label>
@@ -66,10 +61,14 @@
      
     </div>
     <hr>
+  -->
+    <label>Seleccione un medicamento que consume:</label>
+    <br>
+    <input class="campoLargo" max-num-list=5 name="seleccionado" auto-complete [(ngModel)]="objetoSeleccionado"
+    [source]="medicamentos" placeholder="Seleccione uno de los medicamentos" [list-formatter]="autocompleListFormatter" value-property-name="codigo"
+    display-property-name="nombre" required/>
 
-      <label>Seleccione un medicamento que consume:</label>
-      <br>
-      
+    <!--  
         <select name="seleccionado" [(ngModel)]="seleccionado" required>
           
     <option value="" selected >Seleccione un medicamento</option>
@@ -77,14 +76,20 @@
       {{m.nombre}} -- {{m.presentacion}}
     </option>
         </select>
-  
+      -->
 
+    <div class="form-group">
+      <label>Ingrese una descripcion sobre el medicamento que consume</label>
+      <br>
+      <!-- <input name="descripcion" type="text" [(ngModel)]="descripcion" required> -->
+      <textarea rows="5" cols="50" name="descripcion" [(ngModel)]="descripcion" required></textarea>
 
-    
-      <button class="btn btn-primary" [disabled]="!FormMedicamento.form.valid" (click)="guardar()">Guardar</button>
+    </div>
 
-      <button class="btn btn-danger" (click)="medicamentoModal.close()">Cerrar</button>
-    
+    <button class="btn btn-primary" [disabled]="!FormMedicamento.form.valid" (click)="guardar()">Guardar</button>
+
+    <button class="btn btn-danger" (click)="medicamentoModal.close()">Cerrar</button>
+
 
   </form>
 </ngx-smart-modal>

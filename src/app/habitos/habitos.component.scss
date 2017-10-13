@@ -1,1 +1,25 @@
 // component css goes here
+// component css goes here
+.campoLargo {
+    width: 95%;
+    padding-left: 5%;
+    padding-right: 5%;
+    
+}
+/*Compatibilidad para navegadores*/
+
+::-webkit-input-placeholder {
+    text-align: center;
+  }
+  
+  :-moz-placeholder { /* Firefox 18- */
+    text-align: center;  
+  }
+  
+  ::-moz-placeholder {  /* Firefox 19+ */
+    text-align: center;  
+  }
+  
+  :-ms-input-placeholder {  
+    text-align: center; 
+  }

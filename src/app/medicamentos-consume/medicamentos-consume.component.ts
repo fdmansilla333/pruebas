@@ -7,6 +7,8 @@ import { Producto } from "../modelos/Producto";
 import { AtencionService } from '../atencion.service';
 import { Atencion } from "../atencion";
 //import {SearchFilterPipe} from './medicamentos.filter';
+import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
+
 
 @Component({
   moduleId: module.id,
@@ -23,9 +25,10 @@ export class MedicamentosConsumeComponent {
   public descripcion: String;
   public busqueda: string;
   public atencion: any;
+  public objetoSeleccionado: Producto;
 
 
-  constructor(public mcService: MedicamentosConsumeService, public appconfig: AppComponent, public ngxSmartModalService: NgxSmartModalService, public atencionService: AtencionService) {
+  constructor(public mcService: MedicamentosConsumeService, public appconfig: AppComponent, public ngxSmartModalService: NgxSmartModalService, public atencionService: AtencionService, private _sanitizer: DomSanitizer) {
     this.medicamentosConsume = new Array<MedicamentoConsume>();
 
     this.medicamentos = new Array<Producto>();
@@ -62,7 +65,23 @@ export class MedicamentosConsumeComponent {
 
     this.mcService.getMedicamentosConsume(this.appconfig.PERSONA)
       .subscribe(x => x.map(y => y.map(z =>
-        this.medicamentosConsume.push(z))));
+        this.medicamentosConsume.push(z))), error => console.log(error), () => {
+          //Al finalizar la incorporacion de los productos que consume la persona,
+          //se trae la presentacion, dosificacion
+          //Se recorre todos los medicamentos
+          this.medicamentosConsume = this.medicamentosConsume.map(m => {
+            this.mcService.getProductoPorCodigo(m.producto)
+              .subscribe(res => {
+                //esto me devuelve un producto
+                m.nombre = res.nombre;
+                m.presentacion = res.presentacion;
+
+
+              });
+            return m;
+          });
+        });
+
   }
 
   getCantidadMedicamentosConsume(): Number {
@@ -93,20 +112,34 @@ export class MedicamentosConsumeComponent {
       this.atencionService.setAtencion(this.appconfig.BASEURL, new Atencion(new Date(), 'Medicamentos Consume', this.appconfig.PERSONA, ''))
         .subscribe(res => this.appconfig.codigoAtencion = res, error => console.log(error), () => {
           this.atencion = this.appconfig.codigoAtencion;
-          let medicamento = new MedicamentoConsume(null, this.atencion, this.seleccionado, this.descripcion, null, null, null)
+          let medicamento = new MedicamentoConsume(null, this.atencion, this.objetoSeleccionado.codigo, this.descripcion, null, null, null)
           this.mcService.setMedicamentosConsume(medicamento)
-            .subscribe(res => console.log(res), error => console.log(error), () => {
+            .subscribe(res => console.log(res), error => {
+              console.log(error);
+              this.atencionService.deleteAtencion(this.appconfig.BASEURL, this.atencion).subscribe(res => console.log(res));
+            }, () => {
+              //Limpiando el modelo, llevar luego al actualizar
+              this.objetoSeleccionado = undefined;
+              this.descripcion = '';
               this.actualizar();
             });
         });
 
     } else {
       //Si poseo atencion se realiza directamente.
-      let medicamento = new MedicamentoConsume(null, this.atencion, this.seleccionado, this.descripcion, null, null, null)
+      let medicamento = new MedicamentoConsume(null, this.atencion, this.objetoSeleccionado.codigo, this.descripcion, null, null, null)
       this.mcService.setMedicamentosConsume(medicamento)
         .subscribe(res => console.log(res), error => console.log(error), () => {
+          //Limpiando el modelo
+          this.objetoSeleccionado = undefined;
+          this.descripcion = '';
           this.actualizar();
         });
     }
+
+  }
+  autocompleListFormatter = (data: any): SafeHtml => {
+    let html = `<span>${data.nombre} - ${data.presentacion}</span>`;
+    return this._sanitizer.bypassSecurityTrustHtml(html);
   }
 }

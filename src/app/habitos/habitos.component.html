@@ -60,11 +60,18 @@
   <form #FormHabito="ngForm">
     <div class="form-group">
       <label>Seleccione un habito</label>
+
+      <input class="campoLargo" max-num-list=5 name="seleccionado" auto-complete [(ngModel)]="objetoSeleccionado"
+      [source]="tipoHabitosDisponibles" placeholder="Seleccione uno de los habitos" [list-formatter]="autocompleListFormatter" value-property-name="codigo"
+      display-property-name="nombre_corto" required/>
+  
+      <!--
       <select name="seleccionado" [(ngModel)]="codigoHabitoSeleccionado" required>
     <option value="" selected>Seleccione un habito</option>
   <option value={{h.codigo}} *ngFor="let h of tipoHabitosDisponibles">{{h.nombre_corto}}
   </option>
   </select>
+-->
     </div>
 
     <div class="form-group">

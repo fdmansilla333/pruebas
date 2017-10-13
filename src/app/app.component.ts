@@ -29,28 +29,29 @@ export class AppComponent implements OnInit {
     private atencionService: AtencionService, elementRef: ElementRef, public route: ActivatedRoute) {
 
     this.codigoAtencion = this.SINCODIGOATENCION;
-    console.log('Codigo seros te cuida:' + elementRef.nativeElement.getAttribute('CodigoSerosTeCuida'));
-    console.log('Hostname:' + elementRef.nativeElement.getAttribute('hostname'));
+    console.log('nombreDominio:' + elementRef.nativeElement.getAttribute('hostname'));
     console.log('Localname:' + elementRef.nativeElement.getAttribute('localname'));
     route.params.subscribe(params => {param => console.log(param)});
 
-    let codigoSerosTeCuida = elementRef.nativeElement.getAttribute('CodigoSerosTeCuida');
+    //let codigoSerosTeCuida = elementRef.nativeElement.getAttribute('CodigoSerosTeCuida');
     //this.BASEURL = 'http://localhost:8080/SerosTeCuidaMaven/api/';
     // Trabajo con servidor fake
     //this.BASEURL = 'http://localhost:8080';
     
-    this.BASEURL = '/api'; // configurado el proxy para que apunte a localhost:8080/SerosTeCuidaMaven/api/  
+    this.BASEURL = '/api'; // configurado el proxy conf 2 para que apunte a localhost:8080/SerosTeCuidaMaven/api/  y trabajar con el frontend en caliente 
     //this.BASEURL = ''; servidor fake2
-    if (codigoSerosTeCuida) {
+    /*
+    if (codigoSerosTeCuida !== undefined) {
       console.log('tiene algo seros te cuida:' + codigoSerosTeCuida);
       this.CODIGOSEROS = codigoSerosTeCuida;
     }
+    */
 
-    let hostname = elementRef.nativeElement.getAttribute('hostname');
-    if (hostname) {
+    let hostname = elementRef.nativeElement.getAttribute('nombreDominio');
+    if (hostname !== null) {
       
-       this.BASEURL = 'http://' + hostname + ':8080/SerosTeCuidaMaven/api/'; // para local
-      // this.BASEURL = 'http://' + hostname + '/SerosTeCuidaMaven/api/'; //para preproduccion
+       //this.BASEURL = 'http://' + hostname + ':8080/SerosTeCuidaMaven/api'; // para pruebas en local
+       this.BASEURL = 'http://' + hostname + '/SerosTeCuidaMaven/api'; //para preproduccion
       console.log('Tiene algo hostname: ' + hostname);
 
     }
@@ -66,10 +67,11 @@ export class AppComponent implements OnInit {
   }
 
   getAtenciones(): void {
-    /*this.atencionService.getAtencion().then(
+    /*
+    this.atencionService.getAtencion().then(
       atenciones => this.atenciones = atenciones
-    );
-    */
+    );*/
+    
   }
 
   ngOnInit(): void {

@@ -103,3 +103,36 @@ body {
   #contenedorGeneral {
     clear: both;
   }
+
+  .campoMediano {
+    width: 50%;
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+
+  .campoLargo {
+    width: 95%;
+    padding-left: 5%;
+    padding-right: 5%;
+    
+  }
+  input.placeholder {
+    text-align: center;
+}
+/*Compatibilidad para navegadores*/
+
+::-webkit-input-placeholder {
+  text-align: center;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+  text-align: center;  
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+  text-align: center;  
+}
+
+:-ms-input-placeholder {  
+  text-align: center; 
+}

@@ -1,3 +1,6 @@
+/**
+ * Modelo de datos Habito
+ */
 import {TipoHabito} from './TipoHabito';
 export class Habitos {
   codigo: Number;

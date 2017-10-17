@@ -1,3 +1,6 @@
+/**
+ * Modelo de datos antecedentes perinatologicos
+ */
 export class AntecedentePerinatologico {
   public codigo: Number;
   public atencion: Number;
@@ -23,12 +26,7 @@ export class AntecedentePerinatologico {
   public descripcion_tipo_presentacion: String = '';
   public descripcion_tipo_terminacion: String = '';
 
-
-
-  // completar modelo de antecedentes personales
   constructor() {
-    console.log('Construyendo antecedente perinatologico');
-    console.log('Construir un listado en caso de que exista');
   }
 
 }

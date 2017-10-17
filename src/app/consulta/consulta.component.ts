@@ -22,6 +22,14 @@ export class ConsultaComponent {
     @Input() public mensajeHabilitarAnuladas = 'Anuladas ocultas';
     public observacion_anulacion: string; // Valor de anulacion de observacion.
 
+    /**
+     * instancia al componente, obtiene todas las atenciones que tiene una persona, 
+     * filtrandolas por evolucion ambulatoria,
+     * ordeńandolas y obteniendo los datos del paciente
+     * @param appconfig 
+     * @param serviceAtencion 
+     * @param ngxSmartModalService 
+     */
     constructor(public appconfig: AppComponent, public serviceAtencion: AtencionService, public ngxSmartModalService: NgxSmartModalService) {
         console.log('Se instancia consulta componente');
         this.atenciones = new Array;
@@ -32,7 +40,6 @@ export class ConsultaComponent {
                 .subscribe(atenciones => this.atenciones = atenciones, error => console.log(error), () => {
                     //Se filtran las atenciones, para mostrar solo las validas
                     this.atenciones = this.atenciones.filter(a => a.observacion == 'Evolucion Ambulatoria' && a.anulada == false);
-
                     this.ordenar();
                 });
 
@@ -42,6 +49,11 @@ export class ConsultaComponent {
 
     }
 
+    /**
+     * Metodo que se encarga de visualizar todas las atenciones anuladas
+     * Que pertenezcan a evolucion ambulatorias realizadas por el paciente
+     * Ademas muestra un mensaje aclaratorio en la vista
+     */
     habilitarAnuladas() {
         if (this.habilitarAnulados) {
             this.serviceAtencion.getAtenciones(this.appconfig.BASEURL, this.appconfig.PERSONA)
@@ -61,6 +73,9 @@ export class ConsultaComponent {
 
     }
 
+    /**
+     * metodo que ordena de forma ascedente o descendente una coleccion
+     */
     ordenar() {
         if (this.ordenarASC) { //orden ascendente
             //Se ordena por fecha
@@ -83,14 +98,26 @@ export class ConsultaComponent {
         }
     }
 
+    /**
+     * Verifica que exista una persona
+     * utilizada en la vista
+     */
     getPersona(): boolean {
         return this.persona.nombre !== undefined && this.persona.codigo != 0;
     }
 
+    /**
+     * devuelve la cantidad de atenciones
+     * Utilizada en la vista
+     */
     getCantidadAtenciones(): Number {
         return this.atenciones.length;
     }
 
+    /**
+     * Anula una atencion
+     * @param atencion 
+     */
     delete(atencion: Atencion): void {
         this.serviceAtencion.deleteAtencion(this.appconfig.BASEURL, atencion.codigo).subscribe(res => console.log(res)
             , error => console.log(error)
@@ -104,6 +131,8 @@ export class ConsultaComponent {
 
     /**
      * Guardar observacion de anulacion
+     * @param atencion 
+     * @param obs 
      */
     guardar(atencion: Atencion, obs: string) {
         this.ngxSmartModalService.closeLatestModal();
@@ -116,6 +145,10 @@ export class ConsultaComponent {
         });
     }
 
+    /**
+     * metodo utilizado en el modal [DEBUG]
+     * @param msg 
+     */
     public log(msg: string) {
         console.log(msg);
     }

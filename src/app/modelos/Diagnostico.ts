@@ -1,3 +1,6 @@
+/**
+ * Modelo de datos diagnostico
+ */
 export class Diagnostico {
   constructor(
     public codigo: Number, 

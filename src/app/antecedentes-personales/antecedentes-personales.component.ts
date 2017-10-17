@@ -19,6 +19,13 @@ export class AntecedentesPersonalesComponent {
   @Input() todosTiposAfeccionesPersonales: TipoAfeccionPersonal[];
   poseeTiposAfeccionesPersonales: TipoAfeccionPersonal[];
 
+  /**
+   * Obtiene todos los tipos de afecciones personales que existen y que posee una persona
+   * Luego filtra los que tiene un determinado paciente.
+   * @param app 
+   * @param atencionService 
+   * @param servicesTiposAfeccionesPersonales 
+   */
   constructor(public app: AppComponent, public atencionService: AtencionService, public servicesTiposAfeccionesPersonales: TipoAfeccionesPersonalService) {
     this.todosTiposAfeccionesPersonales = new Array<TipoAfeccionPersonal>();
 

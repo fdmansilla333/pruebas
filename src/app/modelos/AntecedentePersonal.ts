@@ -1,3 +1,6 @@
+/**
+ * Modelo de datos AntecedentePersonal
+ */
 export class AntecedentePersonal {
   public codigo: Number;
   public persona: Number;

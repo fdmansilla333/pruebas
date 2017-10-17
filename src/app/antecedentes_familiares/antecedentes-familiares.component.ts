@@ -126,6 +126,9 @@ export class AntecedentesFamiliaresComponent  {
     }
   }
 
+  /**
+   * Envia para almacenar los antecedentes familiares con una atencion seteada.
+   */
   enviarAntecedentesFamiliares2(){
      //por cada afeccion controlo y envío los cambios
      this.todosTiposAfeccionesFamiliares.map(a => {

@@ -17,6 +17,9 @@ import { Atencion } from "../atencion";
   providers: [SiniestrosAccidentesService, AtencionService]
 })
 
+/**
+ * Componente que gestiona los antecedentes siniestros de un paciente
+ */
 export class SiniestrosAccidentesComponent {
   @Input() accidentes: Siniestro[];
   public hoy: Date;
@@ -27,6 +30,14 @@ export class SiniestrosAccidentesComponent {
   public atencion;
   public fuente = [];
 
+  /**
+   * El constructor obtiene todos los tipos de antecedentes siniestros que existen,
+   * , los antecedentes_siniestros que posee una persona y establece la atencion
+   * @param atencionService Servicio de las atenciones
+   * @param accidentesService Servicio de los antecedentes siniestros
+   * @param appconfig configuraciones de la APP
+   * @param ngxSmartModalService Servicio para el modal
+   */
   constructor(public atencionService: AtencionService, public accidentesService: SiniestrosAccidentesService, public appconfig: AppComponent, public ngxSmartModalService: NgxSmartModalService) {
     this.hoy = new Date();
     this.motivo = '';
@@ -48,15 +59,20 @@ export class SiniestrosAccidentesComponent {
       });
     this.atencion = this.appconfig.codigoAtencion;
 
-    //agregado para el autocompletado
 
   }
 
+  /**
+   * Metodo que utiliza el modal para DEBUG
+   * @param msg 
+   */
   public log(msg: string) {
     console.log(msg);
   }
-  //vuelve a solicitar los datos y elimna la coleccion
-  //llamar desde el contructor
+
+  /**
+   * Actualiza la coleccion de accidentes y vuelve a actualizar desde la BD
+   */ 
   actualizar() {
     this.accidentes.map(e => this.accidentes.pop());
     this.accidentesService.getAccidentesPorPersona(this.appconfig.PERSONA)
@@ -73,13 +89,26 @@ export class SiniestrosAccidentesComponent {
       });
   }
 
+  /**
+   * Metodo del Modal DEBUG
+   */
   mostrar() {
     this.ngxSmartModalService.closeLatestModal();
   }
+
+  /**
+   * Devuelve la cantidad de accidentes que posee una persona
+   * Este metodo es utilizado en la vista para determinar si debe mostrar una tabla
+   * o debe mostrar la posibilidad de registro
+   */
   getCantidadAccidentes(): Number {
     return this.accidentes.length;
   }
-  //Guarda los datos del modal
+  /**
+   * Metodo invocado desde el modal:
+   * Almacena una antecedente siniestro nuevo.
+   * En caso de no existir una atencion vinculada, la genera.
+   */
   guardar() {
     this.ngxSmartModalService.closeLatestModal();
     let codigoTipoSiniestroSeleccionado = parseInt(this.codigoTipoSiniestroSeleccionado.split(' ')[0]);
@@ -117,6 +146,10 @@ export class SiniestrosAccidentesComponent {
 
   }
 
+  /**
+   * Actualiza la hora
+   * @param event 
+   */
   updatehoy(event: Date) {
     console.log(event);
     this.hoy = event;

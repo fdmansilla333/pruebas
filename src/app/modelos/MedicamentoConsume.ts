@@ -1,3 +1,6 @@
+/**
+ * Modelo de datos medicamento consume
+ */
 export class MedicamentoConsume {
 
   constructor(

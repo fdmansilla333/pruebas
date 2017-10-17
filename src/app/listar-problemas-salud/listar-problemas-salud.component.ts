@@ -10,12 +10,20 @@ import { EvolucionAmbulatoria } from "../modelos/EvolucionAmbulatoria";
     templateUrl: 'listar-problemas-salud.component.html',
     styleUrls: ['listar-problemas-salud.component.scss']
 })
+/**
+ * Componente que se encarga de listar los problemas de salud
+ */
 export class ListarProblemasSaludComponent {
 
     public atenciones: Atencion[];
     public evoluciones: EvolucionAmbulatoria[];
     public dniPaciente: Number;
     
+/**
+ * Obtiene las atenciones no anuladas de una persona, y las evoluciones ambulatorias
+ * @param atencionService 
+ * @param app 
+ */
     constructor(public atencionService: AtencionService, public app: AppComponent) {
 
         if(app.DNIPERSONA){ //Esto deberia ser siempre verdadero, dado que solo se activa cuando se busca un paciente
@@ -43,6 +51,10 @@ export class ListarProblemasSaludComponent {
 
     }
 
+    /**
+     * Devuelve la cantidad de evoluciones ambulatorias
+     * Utilizado en html (vista)
+     */
     cantidadEvolucionesAmbulatorias(): Number {
         return this.evoluciones.length;
     }

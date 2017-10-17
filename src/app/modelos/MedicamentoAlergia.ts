@@ -1,3 +1,6 @@
+/**
+ * Modelo de datos medicamento alergia
+ */
 export class MedicamentoAlergia {
   public codigo: Number;
   public atencion: Number; 

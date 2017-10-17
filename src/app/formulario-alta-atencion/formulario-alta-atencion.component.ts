@@ -17,6 +17,11 @@ export class FormularioAltaAtencionComponent {
   @Input() persona: Number;
 
 
+  /**
+   * Componente de ejemplo
+   * @param http 
+   * @param route 
+   */
   public constructor(private http: Http, private route: ActivatedRoute) {
     this.route.params.subscribe(params => console.log(params));
   }

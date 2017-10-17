@@ -16,6 +16,9 @@ import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
   styleUrls: ['medicamentos-alergia.component.scss'],
   providers: [MedicamentoAlergiaService, AtencionService],
 })
+/**
+ * Componente que gestiona los medicamentos alergia
+ */
 export class MedicamentosAlergiaComponent {
   @Input() medicamentosAlergia: MedicamentoAlergia[];
   public descripcion: string = "";
@@ -24,6 +27,15 @@ export class MedicamentosAlergiaComponent {
   public objetoDrogaSeleccionado: Droga;
   public atencion: any;
 
+  /**
+   * Genera el componente con, todos los medicamentos a los que es alergico el paciente,
+   * con todas las drogas disponibles, y setea la atencion
+   * @param maService 
+   * @param appconfig 
+   * @param ngxSmartModalService 
+   * @param atencionService 
+   * @param _sanitizer 
+   */
   constructor(public maService: MedicamentoAlergiaService, public appconfig: AppComponent, public ngxSmartModalService: NgxSmartModalService, public atencionService: AtencionService,  private _sanitizer: DomSanitizer) {
     this.medicamentosAlergia = new Array<MedicamentoAlergia>();
     this.drogas = new Array<Droga>();
@@ -69,25 +81,35 @@ export class MedicamentosAlergiaComponent {
       });
 
     this.atencion = this.appconfig.codigoAtencion;
-    console.log('Usando atencion:' + this.atencion);
   }
 
+  /**
+   * Devuelve la cantidad de medicamentos alergia que posee
+   */
   getCantidadMedicamentosAlergia(): Number {
     return this.medicamentosAlergia.length;
   }
 
+  /**
+   * Metodo utilizado en el modal [DEBUG]
+   * @param msg 
+   */
   public log(msg: string) {
     console.log(msg);
   }
 
+  /**
+   * Metodo utilizado en el modal [DEBUG]
+   */
   mostrar() {
     this.ngxSmartModalService.closeLatestModal();
   }
 
+  /**
+   * Actualiza la coleccion de los medicamentos a los que es alergico una persona
+   */
   actualizar() {
-    //Sacar los elementos de medicamentos alergioa para actualizar el modelo
     this.medicamentosAlergia.map(e => this.medicamentosAlergia.pop());
-
     this.maService.getMedicamentosAlergia(this.appconfig.PERSONA)
       .subscribe(objeto => {
         objeto.map(medicamento => {
@@ -106,8 +128,10 @@ export class MedicamentosAlergiaComponent {
           }
         });
       });
-
   }
+  /**
+   * Almacena los datos del modal, una instancia de medicamentos alergia (modelo)
+   */
   guardar() {
     this.ngxSmartModalService.closeLatestModal();
 
@@ -144,6 +168,10 @@ export class MedicamentosAlergiaComponent {
     }
   }
 
+  /**
+   * Metodo para formatear el cuadro auto-complete (select)
+   * El parametro data, es un elemento de tipo droga (model).
+   */
   autocompleListFormatter = (data: any) : SafeHtml => {
     let html = `<span>${data.descripcion}</span>`;
     return this._sanitizer.bypassSecurityTrustHtml(html);

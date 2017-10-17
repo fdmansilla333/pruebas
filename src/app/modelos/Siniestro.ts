@@ -1,3 +1,6 @@
+/**
+ * Modelo de datos siniestro
+ */
 export class Siniestro {
   public codigo: Number;
   public motivo: String;

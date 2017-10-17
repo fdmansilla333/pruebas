@@ -62,7 +62,9 @@ export class AntecedentesPerinatologicosComponent {
 
     }
 
-
+    /**
+     * Almacena el formulario de antecedentes perinatologicos
+     */
     guardar() {
         console.log(this.antecedentePerinatologico);
         let codigoAtencion;

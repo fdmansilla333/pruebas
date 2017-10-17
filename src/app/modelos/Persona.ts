@@ -1,3 +1,6 @@
+/**
+ * Modelo de datos Persona
+ */
 import { Localidad } from './Localidad';
 import { Parentesco } from './Parentesco';
 import { TipoDocumento } from './TipoDocumento';

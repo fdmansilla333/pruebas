@@ -1,3 +1,6 @@
+/**
+ * Modelo de datos Antecedente Familiar
+ */
 export class AntecedenteFamiliar {
   public observacion: string;
   public atencion: number;

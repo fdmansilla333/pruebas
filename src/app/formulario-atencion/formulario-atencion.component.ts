@@ -9,6 +9,9 @@ import { Atencion } from '../atencion';
     templateUrl: 'formulario-atencion.component.html',
 
 })
+/**
+ * Componente de ejemplo
+ */
 export class FormularioAtencionComponent {
 
   @Input() atencion: Atencion = new Atencion(null, null, null, null);

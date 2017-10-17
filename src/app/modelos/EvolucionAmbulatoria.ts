@@ -1,3 +1,6 @@
+/**
+ * Modelo de datos evolucion ambulatoria
+ */
 import { Persona } from "./Persona";
 
 export class EvolucionAmbulatoria {

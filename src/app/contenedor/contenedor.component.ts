@@ -7,6 +7,9 @@ import { Component } from '@angular/core';
     templateUrl: 'contenedor.component.html',
     styleUrls: ['contenedor.component.scss']
 })
+/**
+ * Componente que sirve de contenedor de los otros componentes
+ */
 export class ContenedorComponent {
 
 }

@@ -1,3 +1,6 @@
+/**
+ * Modelo de datos tipo de antecedente siniestro
+ */
 export class TipoAntecedenteSiniestro {
   public codigo: Number;
   public descripcion: String;

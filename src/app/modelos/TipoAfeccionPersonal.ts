@@ -1,3 +1,6 @@
+/**
+ * Modelo de datos tipo afeccion personal
+ */
 export class TipoAfeccionPersonal {      
   codigoAntecedentePersonal: any;
 

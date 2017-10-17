@@ -6,7 +6,9 @@ import { Component, Input } from '@angular/core';
   templateUrl: 'encabezado.component.html',
   styleUrls: ['encabezado.component.scss']
 })
-
+/**
+ * Componente que sirve de encabezado en la APP
+ */
 export class EncabezadoComponent {
   @Input() titulo: String = 'Historia Clinica';
   public subtitulo: String;

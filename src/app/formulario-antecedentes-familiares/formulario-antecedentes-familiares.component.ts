@@ -8,14 +8,15 @@ import { AntecedenteFamiliar } from '../antecedente_familiar';
   templateUrl: 'formulario-antecedentes-familiares.component.html',
   styleUrls: ['formulario-antecedentes-familiares.component.scss']
 })
+/**
+ * Componente de ejemplo
+ */
 export class FormularioAntecedentesFamiliaresComponent {
   @Input() antecedente: AntecedenteFamiliar = new AntecedenteFamiliar(null, null, null);
   submitted = false;
 
   onSubmit() {
     this.submitted = true;
-    alert('Enviando');
-    // debería hacer el post
   }
 
 }

@@ -8,14 +8,15 @@ import { Atencion } from '../../app/atencion';
 import { AntecedenteFamiliar } from '../modelos/AntecedenteFamiliar';
 import {AppComponent} from '../app.component';
 
-
+/**
+ * Servicio que se encarga de las peticiones entre los tipos de antecedentes familiares BD
+ */
 @Injectable()
 export class TipoAfeccionesAntecedentesService {
 
 
   private CODIGOSEROS;
   constructor( public compPrincipal: AppComponent,  private http: Http) {
-    
    
     if (compPrincipal.CODIGOSEROS){
       this.CODIGOSEROS = compPrincipal.CODIGOSEROS;
@@ -44,7 +45,11 @@ export class TipoAfeccionesAntecedentesService {
       .then(response => response.json())
       .catch(this.handleError);
   }
-  /*Devuelve e */
+  
+  /**
+   * Devuelve los antecedentes que existen por atencion 
+   * @param atencion 
+   */
   public getAntecedentePorAtencion(atencion: Number): Promise<AntecedenteFamiliar> {
     return this.http.get(this.compPrincipal.BASEURL + '/antecedentes_familiares?atencion=' + atencion)
       .toPromise()
@@ -52,6 +57,10 @@ export class TipoAfeccionesAntecedentesService {
       .catch(this.handleError);
   }
 
+  /**
+   * Devuelve todos las tipos de afecciones familiares que existen
+   * @param codigo_tipo_afeccion_familiar 
+   */
   public getTipoAfeccionPorAntecedente(codigo_tipo_afeccion_familiar: Number): Promise<TipoAfeccionFamiliar> {
     return this.http.get(this.compPrincipal.BASEURL + '/tipo_afeccion_familiar/' + codigo_tipo_afeccion_familiar)
       .toPromise()
@@ -59,6 +68,10 @@ export class TipoAfeccionesAntecedentesService {
       .catch(this.handleError);
   }
 
+  /**
+   * Devuelve todas las tipos de afecciones personales que tiene una determinado persona
+   * @param persona 
+   */
   public getTipoAfeccionesQuePoseePersona(persona: Number): any {
 
     return this.http.get(this.compPrincipal.BASEURL + '/tipos_afecciones_familiares/' + persona)
@@ -66,12 +79,21 @@ export class TipoAfeccionesAntecedentesService {
       .map(res => res.json());
   }
 
+  /**
+   * Almacena un tipo de antecedente familiar.
+   * @param codigoAtencion 
+   * @param tipoAfeccionFamiliar tipo de antecedente familiar modelo
+   */
   public setTipoAtencionFamiliar(codigoAtencion: Number, tipoAfeccionFamiliar: TipoAfeccionFamiliar){
     tipoAfeccionFamiliar.atencion = codigoAtencion;
     return this.http.post(this.compPrincipal.BASEURL + '/antecedentes_familiares',tipoAfeccionFamiliar);
 
   }
 
+  /**
+   * Actualiza un tipo de antecedente familiar
+   * @param tipoAfeccionFamiliar 
+   */
   public putTipoAtencionFamiliar(tipoAfeccionFamiliar: TipoAfeccionFamiliar){
     
     return this.http.put(this.compPrincipal.BASEURL + '/antecedentes_familiares/', tipoAfeccionFamiliar);

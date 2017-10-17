@@ -23,6 +23,9 @@ import { NgModel } from '@angular/forms';
     providers: [AtencionService],
 })
 
+/**
+ * componente que se encarga de buscar un paciente
+ */
 export class BuscarPacienteComponent implements OnInit, OnDestroy {
 
     @Input() persona: Persona;
@@ -31,14 +34,23 @@ export class BuscarPacienteComponent implements OnInit, OnDestroy {
     sinResultados: Boolean;
     @Input() esPrimeraVez: Boolean = true;
 
+/**
+ * Obtiene los datos del paciente si es encontrado
+ * Almacena el dni del paciente, 
+ * y puede instanciarse con parametros
+ * 
+ * @param servicio 
+ * @param appconfig 
+ * @param route 
+ * @param router 
+ * @param routlet 
+ */
     public constructor(public servicio: AtencionService, public appconfig: AppComponent,
         public route: ActivatedRoute, public router: Router, public routlet: RouterOutlet) {
-
         this.buscando = false;
         this.sinResultados = true;
         this.DNIBuscado = undefined;
         this.appconfig.DNIPERSONA = undefined;
-
         if (!this.persona) {
             this.persona = new Persona();
             this.persona.afiliado = new Afiliado();
@@ -48,7 +60,6 @@ export class BuscarPacienteComponent implements OnInit, OnDestroy {
             this.persona.datos_tipoDocumento = new TipoDocumento();
             this.persona.datos_parentesco = new Parentesco();
         }
-
         route.params.subscribe(params => {
             this.DNIBuscado = params.id;
 
@@ -58,12 +69,12 @@ export class BuscarPacienteComponent implements OnInit, OnDestroy {
             }
 
         });
-
-
-
-
     }
 
+    /**
+     * Buscar personas por dni
+     * @param dni 
+     */
     buscarPorDni(dni: Number) {
 
         this.buscando = true;
@@ -152,6 +163,10 @@ export class BuscarPacienteComponent implements OnInit, OnDestroy {
 
     }
 
+    /**
+     * Utiliza el formulario para buscar
+     * @param f 
+     */
     buscar(f: NgForm) {
         this.buscando = true;
         if (f.valid) {
@@ -159,34 +174,59 @@ export class BuscarPacienteComponent implements OnInit, OnDestroy {
         }
     }
 
+    /**
+     * Devuelve verdadero si existe una persona instanciada Modelo persona
+     */
     personaEncontrada(): Boolean {
         if (this.persona !== undefined) {
             if (this.persona.nombre !== '' && this.persona.codigo !== 0) {
                 return true;
             }
-
         }
         return false;
     }
 
+    /**
+     * Bandera que sirve a la vista, para determinar si se encuentra buscando un paciente
+     * 
+     */
     buscandoPaciente(): Boolean {
         return this.buscando;
     }
 
+    /**
+     * Devuelve el estado original al salir
+     */
     salir() {
         this.buscando = false;
         this.sinResultados = true;
     }
+
+    /**
+     * Ciclo de vida de Angular4, cuando el componente se destruye
+     * [DEBUG]
+     */
     ngOnDestroy(): void {
     }
+    /**
+     * Ciclo de vida de Angular4, cuando el componente se inicio
+     * necesario para determinar si es primera vez.
+     */
     ngOnInit(): void {
         this.esPrimeraVez = true;
     }
 
+    /**
+     * Paciente no encontrado, si finaliza la busqueda y no se encuentra por dni.
+     */
     pacienteNoEncontrado(): Boolean {
         return !this.personaEncontrada() && !this.esPrimeraVez;
     }
 
+    /**
+     * Metodo utilizado para activar boton
+     * Usado en la vista
+     */
     activarBoton(): Boolean {
 
         if (!this.buscando && this.sinResultados) {

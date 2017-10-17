@@ -11,6 +11,9 @@ import { Component } from '@angular/core';
     `,
     styleUrls: ['pagina-no-encontrada.component.scss']
 })
+/**
+ * Componente para visualizar cuando la pagina buscada no existe
+ */
 export class PaginaNoEncontradaComponent {
 
 }

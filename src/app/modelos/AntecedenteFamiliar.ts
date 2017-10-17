@@ -1,3 +1,6 @@
+/**
+ * Modelo de datos antecedente familiar
+ */
 export class AntecedenteFamiliar {
   public codigo: Number;
   public persona: Number;
@@ -6,7 +9,6 @@ export class AntecedenteFamiliar {
   public observacion_internacion: String;
   public tipo_afeccion_familiar: Number;
 
-  // completar modelo de antecedentes familiares.
   constructor(codigo: Number, persona: Number, observacion: String, fecha_atencion: Date, observacion_internacion: String) {
     this.codigo = codigo;
     this.fecha_atencion = fecha_atencion;

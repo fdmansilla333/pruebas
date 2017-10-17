@@ -1,3 +1,6 @@
+/**
+ * Modelo de datos tipo afeccion familiar
+ */
 export class TipoAfeccionFamiliar {
   public atencion: Number;
   public codigo: Number; //se refiere al codigo de la afeccion y no del antecedente

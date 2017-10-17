@@ -1,3 +1,6 @@
+/**
+ * Modelo de datos Atencion
+ */
 export class Atencion {
   public codigo: Number;
   public persona: Number;

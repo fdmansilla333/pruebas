@@ -1,3 +1,6 @@
+/**
+ * Modelo de datos tipo Habito
+ */
 export class TipoHabito {
     constructor(
       public codigo: Number, 

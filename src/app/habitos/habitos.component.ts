@@ -17,6 +17,9 @@ import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
   styleUrls: ['habitos.component.scss'],
   providers: [HabitosService, AtencionService],
 })
+/**
+ * Componente que gestiona los habitos de un paciente
+ */
 export class HabitosComponent {
   @Input() habitos: Habitos[];
   public codigoHabitoSeleccionado: Number;
@@ -26,6 +29,14 @@ export class HabitosComponent {
   public cantidad: number;
   public objetoSeleccionado: TipoHabito;
 
+  /**
+   * Se obtienen los tipos de habitos disponibles y los habitos que posee un paciente.
+   * @param atencionService 
+   * @param habitoService 
+   * @param appconfig 
+   * @param ngxSmartModalService 
+   * @param _sanitizer 
+   */
   constructor(public atencionService: AtencionService, public habitoService: HabitosService,
     public appconfig: AppComponent, public ngxSmartModalService: NgxSmartModalService, private _sanitizer: DomSanitizer) {
 
@@ -50,8 +61,6 @@ export class HabitosComponent {
     } else {
       console.log('No es posible buscar sin el codigo de la persona ');
     }
-
-
   }
 
 

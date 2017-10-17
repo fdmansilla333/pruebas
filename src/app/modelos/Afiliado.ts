@@ -1,3 +1,6 @@
+/**
+ * Modelo de datos Afiliado
+ */
 export class Afiliado {
   codigo: Number;
   tipo_documento: String;

@@ -7,6 +7,13 @@ import { AppComponent } from "../app.component";
     templateUrl: 'antecedentes.component.html',
     styleUrls: ['antecedentes.component.scss']
 })
+/**
+ * Componente que agrupa los antecedentes familiares y personales,
+ * los habitos
+ * los accidentes, internaciones y operaciones
+ * las alergias y
+ * los medicamentos que consume.
+ */
 export class AntecedentesComponent {
     @Input() public dniPaciente: Number;
     

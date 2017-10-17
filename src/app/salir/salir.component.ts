@@ -9,11 +9,12 @@ import { Router } from "@angular/router";
     templateUrl: 'salir.component.html',
     styleUrls: ['salir.component.scss']
 })
+/**
+ * Componente llamado para salir.
+ */
 export class SalirComponent {
     
     constructor(appconfig: AppComponent, @Inject(DOCUMENT) private document: Document, private router: Router) {
-        console.log('Saliendo...cambiando build');
-        //document.location.href = appconfig.BASEURL + '../';
     this.router.navigateByUrl('/buscar');
     }
     

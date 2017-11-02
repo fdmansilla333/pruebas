@@ -1,0 +1,6 @@
+{
+    "/api": {
+       "target": "http://intranet-preproduccion.issys.gov.ar/SerosTeCuidaMaven",
+       "secure": false
+    }
+ }

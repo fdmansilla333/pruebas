@@ -59,17 +59,21 @@
                         <td><input type="number" min="0" name="percentilos_talla_edad" [(ngModel)]="evolucionAmbulatoria.percentilos_talla_edad"></td>
                         <td><input type="number" min="0" name="percentilos_imc_edad" [(ngModel)]="evolucionAmbulatoria.percentilos_imc_edad"></td>
 
-                        <td><input #presion_arterial_num type="number" min="0" name="presion_arterial_num" [(ngModel)]="evolucionAmbulatoria.presion_arterial"
+                        <td><input #presion_arterial_num="ngModel" type="number" min="0" name="presion_arterial_num" [(ngModel)]="evolucionAmbulatoria.presion_arterial"
                                 size="3" required> /
-                            <input #presion_arterial_den type="number" min="=" name="presion_arterial_den" [(ngModel)]="evolucionAmbulatoria.presion_arterial_den"
-                                required>
+                            <input #presion_arterial_den="ngModel" type="number" min="0" name="presion_arterial_den" [(ngModel)]="evolucionAmbulatoria.presion_arterial_den"
+                                size="3" required>
+                            <div [hidden]="presion_arterial_num.valid || presion_arterial_num.pristine" class="alert alert-danger">
+                                El numerador de la presion arterial es obligatoria
+                            </div>
+                            <div [hidden]="presion_arterial_den.valid || presion_arterial_den.pristine" class="alert alert-danger">
+                                El denominador de la presion arterial es obligatoria
+                            </div>
                         </td>
                         <td><input #perimetro_abdominal type="number" min="0" name="perimetro_abdominal" [(ngModel)]="evolucionAmbulatoria.perimetro_abdominal"
                                 size="3"></td>
-                        <td><input #vacunacion type="radio" name="vacunacion" value="true" [(ngModel)]="evolucionAmbulatoria.vacunacion"
-                                required></td>
-                        <td><input #vacunacion type="radio" name="vacunacion" value="falso" [(ngModel)]="evolucionAmbulatoria.vacunacion"
-                                required></td>
+                        <td><input #vacunacion type="radio" name="vacunacion" value="true" [(ngModel)]="evolucionAmbulatoria.vacunacion"></td>
+                        <td><input #vacunacion type="radio" name="vacunacion" value="falso" [(ngModel)]="evolucionAmbulatoria.vacunacion"></td>
                     </tr>
 
 
@@ -99,8 +103,12 @@
             </div>
             <div class="row">
                 <hr>
-                <strong><label> Motivo de la consulta:</label></strong>
-                <input class="campoLargo" type="text" name="motivoConsulta" [(ngModel)]="evolucionAmbulatoria.motivo_de_consulta" required>
+                <strong><label>*Motivo de la consulta:</label></strong>
+                <input class="campoLargo" type="text" name="motivoConsulta" [(ngModel)]="evolucionAmbulatoria.motivo_de_consulta" required
+                    #motivo_de_consulta="ngModel">
+                <div [hidden]="motivo_de_consulta.valid || motivo_de_consulta.pristine" class="alert alert-danger">
+                    El motivo debe ser suministrado
+                </div>
             </div>
             <div class="row">
                 <hr>
@@ -113,38 +121,14 @@
                 <strong><label> Examen f&iacute;sico:</label></strong>
                 <input class="campoLargo" type="text" name="examenFisico" [(ngModel)]="evolucionAmbulatoria.examen_fisico">
             </div>
-            
-            <!--
-            <div class="row">
-                <hr>
-                <strong><label> Diagn&oacute;stico o Problema de salud:</label></strong>
-                <input class="campoLargo" type="text" name="diagn_problema_salud" [(ngModel)]="evolucionAmbulatoria.diagn_problema_salud"
-                    required>
-
-
-            </div>
-        -->
-           <!-- <div class="row">
-                <hr>
-                 <ngx-magic-search [strings]="configuracion" [facets_param]="choices" (textSearchEvent)="textSearch($event)" (searchUpdatedEvent)="searchUpdated($event)"></ngx-magic-search> 
-                <label>Busque el diagnostico:</label>
-                <br>
-                <input class="campoMediano" #txtFname type="search" name="busqueda" placeholder="Ingrese al menos 3 caracteres" width="100px" [(ngModel)]="evolucionAmbulatoria.diagn_problema_salud">
-                <br>
-            </div>
-            <div class="row" align="center">
-                <select name="seleccionado" [(ngModel)]="seleccionado" >
-                 <option value="" selected >Seleccione un medicamento</option>
-                <option value={{d.id}} *ngFor="let d of diagnosticos | searchfilter2: 'descripcion' : 'codigo' : txtFname.value : 3" >
-                    {{d.codigo}} -- {{d.descripcion}}
-                </option>
-            </select>
-        
-            </div> -->
 
             <div class="row">
-            <label>Busque el diagnostico:</label>
-            <input class="campoLargo" max-num-list= 5 name="diagn_problema_salud" auto-complete [(ngModel)]="evolucionAmbulatoria.diagn_problema_salud" [source]="fuente" placeholder="Ingrese caracteres para iniciar la busqueda de diagnostico"/>
+                <label>*Busque el diagnostico:</label>
+                <input class="campoLargo" max-num-list=5 name="diagn_problema_salud" auto-complete [(ngModel)]="evolucionAmbulatoria.diagn_problema_salud"
+                    [source]="fuente" placeholder="Ingrese caracteres para iniciar la busqueda de diagnostico" required #diagn_problema_salud="ngModel">
+                <div [hidden]="diagn_problema_salud.valid || diagn_problema_salud.pristine" class="alert alert-danger">
+                    El diagnostico debe ser suministrado
+                </div>
             </div>
 
             <div class="row">
@@ -161,7 +145,7 @@
                         <strong><label> Consejer&iacute;as:</label></strong>
                     </div>
 
-                    <textarea rows="5" cols="50" name="consejerias"    [(ngModel)]="evolucionAmbulatoria.consejerias"></textarea>
+                    <textarea rows="5" cols="50" name="consejerias" [(ngModel)]="evolucionAmbulatoria.consejerias"></textarea>
                 </div>
 
             </div>
@@ -194,7 +178,7 @@
                 <strong><label>Sello / Aclaraci&oacute;n</label></strong>
             </div>
             <div class="row" align="center">
-                <button type="button" class="btn btn-primary" id="botonGuardar" (click)="guardar(f)">Confirmar</button>
+                <button type="button" class="btn btn-primary" id="botonGuardar" [disabled]="!f.form.valid" (click)="guardar(f)">Confirmar</button>
                 <button type="button" class="btn btn-primary" routerLink="/buscar/{{dniPaciente}}" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Cancelar</button>
             </div>
         </form>

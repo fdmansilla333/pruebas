@@ -1,14 +1,15 @@
 <div *ngIf="getPersona()">
   <div class="panel panel-primary">
     <div class="panel-heading">
-      <h3 class="panel-title">Atenciones</h3>
+      <h3 class="panel-title">Atenciones</h3>{{mensajeHabilitarAnuladas}}<input #mostrarAnulados type="checkbox" [(ngModel)]="habilitarAnulados" (change)="habilitarAnuladas()">
     </div>
     <div class="panel-body">
       <div class="row" align="center">
+          
         <div *ngIf="getCantidadAtenciones()>0">
           <table class="table table-striped table-bordered table-hover" id="tablaAtencion">
             <th>Anulado?</th>
-            <th>Codigo    {{mensajeHabilitarAnuladas}}<input #mostrarAnulados type="checkbox" [(ngModel)]="habilitarAnulados" (change)="habilitarAnuladas()"></th>
+            <th>Codigo</th>
             <th>Fecha Atenci&oacute;n   {{orden}}<input #ordenamiento type="checkbox" [(ngModel)]="ordenarASC" (change)="ordenar()"></th>
             <th>Observaci&oacute;n</th>
             <th *ngIf="habilitarAnulados">Observacion de anulaciones</th>
@@ -20,7 +21,7 @@
               <td>{{atencion.observacion}}</td>
               <td *ngIf="habilitarAnulados">{{atencion.observacion_anulacion}} </td>
               <td>
-                <button type type="button" class="btn btn-primary" (click)="ngxSmartModalService.getModal('atencionModal').open(); ngxSmartModalService.setModalData(atencion, 'atencionModal');">Agregar observacion</button>
+                <button type type="button" class="btn btn-primary" (click)="ngxSmartModalService.getModal('atencionModal').open(); ngxSmartModalService.setModalData(atencion, 'atencionModal');">Anular</button>
                 <button type="button" class="btn btn-primary" (click)="ngxSmartModalService.getModal('verAtencionModal').open(); agregarDatosEvolucionAmbulatoria(atencion)">Ver</button>
                 <!--<button class="delete" (click)="delete(atencion); $event.stopPropagation()">Anular</button> -->
               </td>

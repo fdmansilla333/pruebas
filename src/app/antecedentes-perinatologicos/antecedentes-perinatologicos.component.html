@@ -187,10 +187,10 @@
                                 <th><strong><label>OEA:</label></strong></th>
                                 <th><strong><label>Resultado:</label></strong></th>
                                 <tr>
-                                    <td>Normal <input type="radio" name="OEA" value="1" [(ngModel)]="antecedentePerinatologico.otoemisiones_acusticas">
+                                    <td>Normal <br> <input type="radio" name="OEA" value="1" [(ngModel)]="antecedentePerinatologico.otoemisiones_acusticas">
                                         <br> Anormal <input type="radio" name="OEA" value="0" [(ngModel)]="antecedentePerinatologico.otoemisiones_acusticas"></td>
 
-                                    <td>Normal <input type="radio" name="resultadoOEA" value="1" [(ngModel)]="antecedentePerinatologico.otoemisiones_acusticas_resultado">
+                                    <td>Normal <br> <input type="radio" name="resultadoOEA" value="1" [(ngModel)]="antecedentePerinatologico.otoemisiones_acusticas_resultado">
                                         <br> Anormal <input type="radio" name="resultadoOEA" value="0" [(ngModel)]="antecedentePerinatologico.otoemisiones_acusticas_resultado"></td>
                                 </tr>
                             </table>
@@ -204,14 +204,14 @@
                         <div class="col-md-4">
                             <strong><label>Grupo y factor:</label></strong>
                             <select name="grupofactor" [(ngModel)]="antecedentePerinatologico.grupo_y_factor">
-                    <option   value="AB+">AB Positivo</option>
-                    <option  value="B+">B Positivo</option>
-                    <option   value="A+">A Positivo</option>
-                    <option   value="0+">Cero Positivo</option>
-                    <option   value="AB-">AB Negativo</option>
-                    <option   value="B-" >B Negativo</option>
-                    <option   value="A-">A Negativo</option>
-                    <option  value="0-" >Cero Negativo</option>
+                    <option   value="AB+">AB +</option>
+                    <option  value="B+">B +</option>
+                    <option   value="A+">A +</option>
+                    <option   value="0+">Cero +</option>
+                    <option   value="AB-">AB -</option>
+                    <option   value="B-" >B -</option>
+                    <option   value="A-">A -</option>
+                    <option  value="0-" >Cero -</option>
                   </select>
                         </div>
                         <div class="col-md-4">
@@ -225,7 +225,7 @@
                                 <th><strong><label>Resultado pesquisa:</label></strong></th>
                                 <tr>
                                     <td>Si <input type="radio" name="pesquisa" value="1" [(ngModel)]="antecedentePerinatologico.pesquisa_enf_congenitas_metabolicas">                                        No <input type="radio" name="pesquisa" value="0" [(ngModel)]="antecedentePerinatologico.pesquisa_enf_congenitas_metabolicas"></td>
-                                    <td>Normal <input type="radio" name="resultadoPesquisa" value="1" [(ngModel)]="antecedentePerinatologico.pesquisa_enf_congenitas_metabolicas_resultado">                                        Anormal <input type="radio" name="resultadoPesquisa" value="0" [(ngModel)]="antecedentePerinatologico.pesquisa_enf_congenitas_metabolicas_resultado"></td>
+                                    <td>Normal <br><input type="radio" name="resultadoPesquisa" value="1" [(ngModel)]="antecedentePerinatologico.pesquisa_enf_congenitas_metabolicas_resultado">                                        <br>Anormal <br><input type="radio" name="resultadoPesquisa" value="0" [(ngModel)]="antecedentePerinatologico.pesquisa_enf_congenitas_metabolicas_resultado"></td>
                                 </tr>
                             </table>
                         </div>

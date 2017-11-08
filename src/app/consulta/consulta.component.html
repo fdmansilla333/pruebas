@@ -21,7 +21,7 @@
               <td>{{atencion.observacion}}</td>
               <td *ngIf="habilitarAnulados">{{atencion.observacion_anulacion}} </td>
               <td>
-                <button type type="button" class="btn btn-primary" (click)="ngxSmartModalService.getModal('atencionModal').open(); ngxSmartModalService.setModalData(atencion, 'atencionModal');">Anular</button>
+                <button type="button" class="btn btn-primary" *ngIf="!atencion.anulada" (click)="ngxSmartModalService.getModal('atencionModal').open(); ngxSmartModalService.setModalData(atencion, 'atencionModal');">Anular</button>
                 <button type="button" class="btn btn-primary" (click)="ngxSmartModalService.getModal('verAtencionModal').open(); agregarDatosEvolucionAmbulatoria(atencion)">Ver</button>
                 <!--<button class="delete" (click)="delete(atencion); $event.stopPropagation()">Anular</button> -->
               </td>

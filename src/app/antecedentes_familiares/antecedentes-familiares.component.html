@@ -10,25 +10,14 @@
             <div class="row text-left" style="padding-left: 20px">
               <div class="checkbox">
                 <label>
-            <input type="checkbox" name="activado" [(ngModel)]="afeccion.activado"> <!--value="{{afeccion.nombre}}" -->
+            <input type="checkbox" name="activado" [(ngModel)]="afeccion.activado"> 
             {{afeccion.descripcion}}
+         
           </label>
               </div>
             </div>
           </div>
-          <!--
-          <div *ngFor="let afeccion of faltanTiposAfeccionesFamiliares">
-            <div class="row text-left" style="padding-left: 20px">
-              <div class="checkbox">
-                <label>
-            <input type="checkbox" name="activado1" [(ngModel)]="afeccion.activado">
-            {{afeccion.descripcion}}
-          </label>
-              </div>
-            </div>
           </div>
-        -->
-        </div>
         <button class="btn btn-primary" type="submit" [disabled]="!f.form.valid" id="botonGuardar">Modificar antecedentes familiares</button>
       </form>
     </div>

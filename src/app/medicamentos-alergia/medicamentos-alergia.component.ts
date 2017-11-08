@@ -36,7 +36,7 @@ export class MedicamentosAlergiaComponent {
    * @param atencionService 
    * @param _sanitizer 
    */
-  constructor(public maService: MedicamentoAlergiaService, public appconfig: AppComponent, public ngxSmartModalService: NgxSmartModalService, public atencionService: AtencionService,  private _sanitizer: DomSanitizer) {
+  constructor(public maService: MedicamentoAlergiaService, public appconfig: AppComponent, public ngxSmartModalService: NgxSmartModalService, public atencionService: AtencionService, private _sanitizer: DomSanitizer) {
     this.medicamentosAlergia = new Array<MedicamentoAlergia>();
     this.drogas = new Array<Droga>();
 
@@ -76,8 +76,8 @@ export class MedicamentosAlergiaComponent {
             }
           }
         });
-     
-        
+
+
       });
 
     this.atencion = this.appconfig.codigoAtencion;
@@ -109,6 +109,8 @@ export class MedicamentosAlergiaComponent {
    * Actualiza la coleccion de los medicamentos a los que es alergico una persona
    */
   actualizar() {
+    this.objetoDrogaSeleccionado.codigo = 0;
+    this.objetoDrogaSeleccionado.descripcion = '';
     this.medicamentosAlergia.map(e => this.medicamentosAlergia.pop());
     this.maService.getMedicamentosAlergia(this.appconfig.PERSONA)
       .subscribe(objeto => {
@@ -137,30 +139,30 @@ export class MedicamentosAlergiaComponent {
 
     if (this.atencion === this.appconfig.SINCODIGOATENCION) { //Si no poseo atencion no puedo dar de alta medicacion alergia
       //TODO subir al app conf obtener la atencion...
-        this.atencionService.setAtencion(this.appconfig.BASEURL, new Atencion(new Date(), 'Medicamentos alergia', this.appconfig.PERSONA, ''))
-          .subscribe(res => this.appconfig.codigoAtencion = res, error => console.log(error), () => {
-            this.atencion = this.appconfig.codigoAtencion;
-            let mAlergia = new MedicamentoAlergia(0, this.atencion, this.descripcion, this.objetoDrogaSeleccionado.codigo, 0);
-            let errorMedicamentoAlergia = false;
+      this.atencionService.setAtencion(this.appconfig.BASEURL, new Atencion(new Date(), 'Medicamentos alergia', this.appconfig.PERSONA, ''))
+        .subscribe(res => this.appconfig.codigoAtencion = res, error => console.log(error), () => {
+          this.atencion = this.appconfig.codigoAtencion;
+          let mAlergia = new MedicamentoAlergia(0, this.atencion, this.descripcion, this.objetoDrogaSeleccionado.codigo, 0);
+          let errorMedicamentoAlergia = false;
 
-            this.maService.setAlergiaDroga(mAlergia).
-              subscribe(res => console.log(res), error => errorMedicamentoAlergia = true, () => {
-                if (!errorMedicamentoAlergia) {
-                  this.actualizar();
-                }else{
-                  //Si hubo error debe anularse la atencion generada.
-                  this.atencionService.deleteAtencion(this.appconfig.BASEURL, this.atencion).subscribe(res => console.log(res));
-                }
-              });
-          });
-      
+          this.maService.setAlergiaDroga(mAlergia).
+            subscribe(res => console.log(res), error => errorMedicamentoAlergia = true, () => {
+              if (!errorMedicamentoAlergia) {
+                this.actualizar();
+              } else {
+                //Si hubo error debe anularse la atencion generada.
+                this.atencionService.deleteAtencion(this.appconfig.BASEURL, this.atencion).subscribe(res => console.log(res));
+              }
+            });
+        });
+
     } else {
       //si poseo atecion genero el nuevo
       let mAlergia = new MedicamentoAlergia(0, this.atencion, this.descripcion, this.objetoDrogaSeleccionado.codigo, 0);
       let errorMedicamentoAlergia = false;
-    
+
       this.maService.setAlergiaDroga(mAlergia).
-        subscribe(res => console.log(res), error => {console.log(error); errorMedicamentoAlergia = true}, () => {
+        subscribe(res => console.log(res), error => { console.log(error); errorMedicamentoAlergia = true }, () => {
           if (!errorMedicamentoAlergia) {
             this.actualizar();
           }
@@ -172,8 +174,10 @@ export class MedicamentosAlergiaComponent {
    * Metodo para formatear el cuadro auto-complete (select)
    * El parametro data, es un elemento de tipo droga (model).
    */
-  autocompleListFormatter = (data: any) : SafeHtml => {
+  autocompleListFormatter = (data: any): SafeHtml => {
     let html = `<span>${data.descripcion}</span>`;
     return this._sanitizer.bypassSecurityTrustHtml(html);
   }
+
+
 }

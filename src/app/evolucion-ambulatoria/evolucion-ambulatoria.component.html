@@ -13,8 +13,21 @@
                     <span>{{persona?.nombre}}</span>
                 </div>
                 <div class="col-md-6" align="right">
+                    <!--
                     <strong><label for="Fecha">Fecha:</label></strong>
                     <input class="campoMediano" name="hoy" type="date" [ngModel]="hoy | date:'y-MM-d'" (ngModelChange)="updatehoy($event)">
+                    -->
+
+                    <input class="campoMediano" placeholder="Ingrese una fecha" ngx-mydatepicker name="mydate" [(ngModel)]="hoy" [options]="myOptions"
+                        #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" (click)="dp.clearDate()">
+                            <i class="glyphicon glyphicon-remove"></i>
+                        </button>
+                        <button type="button" class="btn btn-default" (click)="dp.toggleCalendar()">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
                 </div>
             </div>
             <hr>
@@ -52,23 +65,29 @@
                         <td><input #peso type="number" min="0" name="peso" [(ngModel)]="evolucionAmbulatoria.peso" size="3">                            </td>
                         <td><input #talla type="number" min="0" name="talla" [(ngModel)]="evolucionAmbulatoria.talla" size="3"></td>
                         <td><input type="number" min="0" name="pc" [(ngModel)]="evolucionAmbulatoria.pc" size="3"></td>
+
                         <td> <button (click)="actualizarIMC(peso.value, talla.value)" type="button" class="btn btn-sm btn-primary">Calcular</button>
                             <span>{{evolucionAmbulatoria.imc | number:'2.1-2'}}</span></td>
+
                         <td><input type="number" min="0" name="percentilos_pc_edad" [(ngModel)]="evolucionAmbulatoria.percentilos_pc_edad"></td>
                         <td><input type="number" min="0" name="percentilos_peso_edad" [(ngModel)]="evolucionAmbulatoria.percentilos_peso_edad"></td>
                         <td><input type="number" min="0" name="percentilos_talla_edad" [(ngModel)]="evolucionAmbulatoria.percentilos_talla_edad"></td>
                         <td><input type="number" min="0" name="percentilos_imc_edad" [(ngModel)]="evolucionAmbulatoria.percentilos_imc_edad"></td>
 
-                        <td><input #presion_arterial_num="ngModel" type="number" min="0" name="presion_arterial_num" [(ngModel)]="evolucionAmbulatoria.presion_arterial"
-                                size="3" required> /
-                            <input #presion_arterial_den="ngModel" type="number" min="0" name="presion_arterial_den" [(ngModel)]="evolucionAmbulatoria.presion_arterial_den"
+                        <td><input #presion_arterial_num="ngModel" type="number" min="50" name="presion_arterial_num" [(ngModel)]="evolucionAmbulatoria.presion_arterial"
+                                size="3" required autofocus> /
+                            <input #presion_arterial_den="ngModel" type="number" min="50" name="presion_arterial_den" [(ngModel)]="evolucionAmbulatoria.presion_arterial_den"
                                 size="3" required>
                             <div [hidden]="presion_arterial_num.valid || presion_arterial_num.pristine" class="alert alert-danger">
-                                El numerador de la presion arterial es obligatoria
+                                El numerador de la presion arterial es obligatoria y debe ser como mínimo 50
                             </div>
                             <div [hidden]="presion_arterial_den.valid || presion_arterial_den.pristine" class="alert alert-danger">
-                                El denominador de la presion arterial es obligatoria
+                                El denominador de la presion arterial es obligatoria y debe ser como mínimo 50
                             </div>
+                            <div [hidden]="presion_arterial_den.pristine || (presion_arterial_den.value < presion_arterial_num.value)" class="alert alert-danger">
+                                La mínima debe ser menor que la máxima (Presión Arterial)
+                            </div>
+
                         </td>
                         <td><input #perimetro_abdominal type="number" min="0" name="perimetro_abdominal" [(ngModel)]="evolucionAmbulatoria.perimetro_abdominal"
                                 size="3"></td>
@@ -79,104 +98,193 @@
 
                 </table>
             </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <strong><label>ENFERMEDADES CRONICAS:</label></strong>
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Enfermedades cr&oacute;nicas</h3>
                 </div>
-                <div class="col-md-6">
-                    <span>
-                    <strong>  HTA  <input name="HTA" type="checkbox" [(ngModel)]="evolucionAmbulatoria.hipertension"></strong>
-                    <strong>  DB  <input name="DB" type="checkbox" [(ngModel)]="evolucionAmbulatoria.diabetes"></strong>
-                    <strong>  Otras:  <input name="Otras" type="checkbox" [(ngModel)]="evolucionAmbulatoria.otras"></strong>
-                    <div *ngIf="mostrar()">
-                        <br>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span>
+                                    <strong>  HTA  <input name="HTA" type="checkbox" [(ngModel)]="evolucionAmbulatoria.hipertension"></strong>
+                                    <strong>  DB  <input name="DB" type="checkbox" [(ngModel)]="evolucionAmbulatoria.diabetes"></strong>
+                                    <strong>  Otras:  <input name="Otras" type="checkbox" [(ngModel)]="evolucionAmbulatoria.otras"></strong>
+                                    <div *ngIf="mostrar()">
+                                        <br>
+                                        <hr>
+                                        <label> Ingrese otro antecedente no listado: </label>
+                                        <strong><input class="campoLargo" name ="campoOtras" type="text"></strong>
+                                    </div>
+                                </span>
+                        </div>
+                        <div class="col-md-6" align="right">
+                            <strong>Primera vez <input type="radio" name="primeraVez" ></strong>
+                            <strong>Ulterior <input type="radio" name="primeraVez" ></strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Sección de atenci&oacute;n</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
                         <hr>
-                        <label> Ingrese otro antecedente no listado: </label>
-                        <strong><input class="campoLargo" name ="campoOtras" type="text"></strong>
+
+                        <div class="well well-sm">
+                            <strong><label>*Motivo de la consulta:</label></strong>
+                        </div>
+
+                        <input class="campoLargo" type="text" name="motivoConsulta" [(ngModel)]="evolucionAmbulatoria.motivo_de_consulta" required
+                            #motivo_de_consulta="ngModel" placeholder="Ingrese el motivo de la consulta">
+                        <div [hidden]="motivo_de_consulta.valid || motivo_de_consulta.pristine" class="alert alert-danger">
+                            El motivo debe ser suministrado
+                        </div>
                     </div>
-                </span>
-                </div>
-                <div class="col-md-3">
-                    <strong>  Primera vez  <input type="radio" name="primeraVez" ></strong>
-                    <strong>  Ulterior  <input type="radio" name="primeraVez" ></strong>
-                </div>
-            </div>
-            <div class="row">
-                <hr>
-                <strong><label>*Motivo de la consulta:</label></strong>
-                <input class="campoLargo" type="text" name="motivoConsulta" [(ngModel)]="evolucionAmbulatoria.motivo_de_consulta" required
-                    #motivo_de_consulta="ngModel">
-                <div [hidden]="motivo_de_consulta.valid || motivo_de_consulta.pristine" class="alert alert-danger">
-                    El motivo debe ser suministrado
-                </div>
-            </div>
-            <div class="row">
-                <hr>
-                <strong><label> Enfermedad Actual:</label></strong>
-                <input class="campoLargo" type="text" name="enfermedadActual" [(ngModel)]="evolucionAmbulatoria.enfermedad_actual">
-            </div>
-
-            <div class="row">
-                <hr>
-                <strong><label> Examen f&iacute;sico:</label></strong>
-                <input class="campoLargo" type="text" name="examenFisico" [(ngModel)]="evolucionAmbulatoria.examen_fisico">
-            </div>
-
-            <div class="row">
-                <label>*Busque el diagnostico:</label>
-                <input class="campoLargo" max-num-list=5 name="diagn_problema_salud" auto-complete [(ngModel)]="evolucionAmbulatoria.diagn_problema_salud"
-                    [source]="fuente" placeholder="Ingrese caracteres para iniciar la busqueda de diagnostico" required #diagn_problema_salud="ngModel">
-                <div [hidden]="diagn_problema_salud.valid || diagn_problema_salud.pristine" class="alert alert-danger">
-                    El diagnostico debe ser suministrado
-                </div>
-            </div>
-
-            <div class="row">
-                <hr>
-                <div class="col-md-6">
                     <div class="row">
-                        <strong><label> Plan de tratamiento:</label></strong>
+                        <hr>
+                        <div class="well well-sm">
+
+                            <strong><label> Enfermedad Actual:</label></strong>
+                        </div>
+                        <input class="campoLargo" type="text" name="enfermedadActual" [(ngModel)]="evolucionAmbulatoria.enfermedad_actual" placeholder="Ingrese la enfermedad actual">
                     </div>
 
-                    <textarea rows="5" cols="50" name="plan_tratamiento" [(ngModel)]="evolucionAmbulatoria.plan_tratamiento"></textarea>
-                </div>
-                <div class="col-md-6">
                     <div class="row">
-                        <strong><label> Consejer&iacute;as:</label></strong>
+                        <hr>
+
+                        <div class="well well-sm">
+                            <strong><label> Examen f&iacute;sico:</label></strong>
+                        </div>
+
+
+                        <input class="campoLargo" type="text" name="examenFisico" [(ngModel)]="evolucionAmbulatoria.examen_fisico" placeholder="Ingrese el examen fisico realizado">
                     </div>
 
-                    <textarea rows="5" cols="50" name="consejerias" [(ngModel)]="evolucionAmbulatoria.consejerias"></textarea>
+                    <div class="row">
+
+                        <div class="well well-sm">
+                            <label>*Busque el diagnostico:</label>
+
+                        </div>
+
+                        <input class="campoLargo" max-num-list=10 name="diagn_problema_salud" auto-complete [(ngModel)]="diagnosticoSeleccionado"
+                            [source]="diagnosticos" no-match-found-text="La busqueda no arroja resultados. Pruebe otra entrada"
+                            loading-text="Cargando..." [list-formatter]="autocompleListFormatterDiagnosticos" placeholder="Ingrese caracteres para iniciar la busqueda de diagnosticos"
+                            required #diagn_problema_salud="ngModel" display-property-name="descripcion" value-property-name="descripcion">
+                        <div [hidden]="diagn_problema_salud.valid || diagn_problema_salud.pristine" class="alert alert-danger">
+                            El diagnostico debe ser suministrado
+                        </div>
+                    </div>
+
+
                 </div>
-
             </div>
 
-            <div class="row">
-                <hr>
-                <strong><label> Indicaci&oacute;n de Lab o Estudios complementarios:</label></strong>
-                <input class="campoLargo" type="text" name="indicacionLab" [(ngModel)]="evolucionAmbulatoria.indicacion_lab">
-            </div>
-            <div class="row">
-                <strong><label> Indicaci&oacute;n de medicaci&oacute;n</label></strong>
-                <input class="campoLargo" type="text" name="indicacion_medicacion" [(ngModel)]="evolucionAmbulatoria.indicacion_medicacion">
-            </div>
-            <div class="row">
-                <strong><label> Solicitud de derivaci&oacute;n</label></strong> Interconsulta
-                <input type="checkbox" name="interconsulta" [(ngModel)]="evolucionAmbulatoria.interconsulta">Internaci&oacute;n
-                <input type="checkbox" name="internacion" [(ngModel)]="evolucionAmbulatoria.internacion">
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Sección de tratamiento e indicaciones</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <hr>
+                        <div class="col-md-6">
+                            <div class="row">
+
+                                <div class="well well-sm">
+                                    <strong><label> Plan de tratamiento:</label></strong>
+                                </div>
+
+
+                            </div>
+
+                            <textarea rows="5" cols="50" name="plan_tratamiento" [(ngModel)]="evolucionAmbulatoria.plan_tratamiento" placeholder="Ingrese un plan de tratamiento una descripcion"> </textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+
+                                <div class="well well-sm">
+                                    <strong><label> Consejer&iacute;as:</label></strong>
+                                </div>
+
+
+                            </div>
+
+                            <textarea rows="5" cols="50" name="consejerias" [(ngModel)]="evolucionAmbulatoria.consejerias" placeholder="Ingrese los consejos suministrados al paciente"></textarea>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <hr>
+
+                        <div class="well well-sm">
+                            <strong><label> Indicaci&oacute;n de Lab o Estudios complementarios:</label></strong>
+                        </div>
+
+
+                        <input class="campoLargo" type="text" name="indicacionLab" [(ngModel)]="evolucionAmbulatoria.indicacion_lab" placeholder="Ingrese las indicaciones de laboratorio solicitadas">
+                    </div>
+                    <div class="row">
+                        <!-- Modificacion [7] 6 - 11 - 2017
+                                        <strong><label> Indicaci&oacute;n de medicaci&oacute;n</label></strong>
+                                        <input class="campoLargo" type="text" name="indicacion_medicacion" [(ngModel)]="evolucionAmbulatoria.indicacion_medicacion">
+                                        -->
+
+                        <div class="well well-sm">
+                            <strong><label> Indicaci&oacute;n de medicaci&oacute;n</label></strong>
+                        </div>
+
+
+
+                        <input class="campoLargo" max-num-list=5 name="indicacion_medicacion" auto-complete [(ngModel)]="medicamentoSeleccionado"
+                            [source]="medicamentos" no-match-found-text="La busqueda no arroja resultados. Pruebe otra entrada"
+                            loading-text="Cargando..." placeholder="Seleccione uno de los medicamentos" [list-formatter]="autocompleListFormatter"
+                            value-property-name="nombre" display-property-name="nombre" />
+
+                    </div>
+
+                    <div class="row" align="center">
+
+                        <div class="well well-sm">
+                            <strong><label> Solicitud de derivaci&oacute;n</label></strong>
+                        </div>
+
+                        Interconsulta
+                        <input type="checkbox" name="interconsulta" [(ngModel)]="evolucionAmbulatoria.interconsulta">Internaci&oacute;n
+                        <input type="checkbox" name="internacion" [(ngModel)]="evolucionAmbulatoria.internacion">
+                    </div>
+                </div>
             </div>
 
-            <div class="row" align="right">
 
+
+
+
+            <!-- <div class="row" align="right"> -->
+            <!-- Debe verse el usuario que realiza la consulta (prestador)
                 <img src='../../issys-media/issys/firma-ejemplo.jpg' class="img-responsive img-thumbnail" alt="Responsive image" height="100"
                     width="100">
 
                 <input id="sello" type="text" name="prestador" value="Sello o Nombre del Prestador" height="200px" width="100px">
+                
+
 
             </div>
             <div class="row" align="right">
                 <strong><label padding-right="100px">Firma:</label></strong>
                 <strong><label>Sello / Aclaraci&oacute;n</label></strong>
+            -->
+            <!--
+                <label id="prestador" type="text" name="prestador" height="200px" width="100px">Dr. Pizzi Adrian</label>
+                <label id="matricula" type="text" name="matricula" height="200px" width="100px">Matricula:123456</label>
             </div>
+        -->
             <div class="row" align="center">
                 <button type="button" class="btn btn-primary" id="botonGuardar" [disabled]="!f.form.valid" (click)="guardar(f)">Confirmar</button>
                 <button type="button" class="btn btn-primary" routerLink="/buscar/{{dniPaciente}}" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Cancelar</button>

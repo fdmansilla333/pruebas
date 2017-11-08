@@ -65,7 +65,7 @@
     <label>Seleccione un medicamento que consume:</label>
     <br>
     <input class="campoLargo" max-num-list=5 name="seleccionado" auto-complete [(ngModel)]="objetoSeleccionado"
-    [source]="medicamentos" placeholder="Seleccione uno de los medicamentos" [list-formatter]="autocompleListFormatter" value-property-name="codigo"
+    [source]="medicamentos" no-match-found-text="La busqueda no arroja resultados. Pruebe otra entrada" loading-text="Cargando..." placeholder="Seleccione uno de los medicamentos" [list-formatter]="autocompleListFormatter" value-property-name="codigo"
     display-property-name="nombre" required/>
 
     <!--  
@@ -82,7 +82,7 @@
       <label>Ingrese una descripcion sobre el medicamento que consume</label>
       <br>
       <!-- <input name="descripcion" type="text" [(ngModel)]="descripcion" required> -->
-      <textarea rows="5" cols="50" name="descripcion" [(ngModel)]="descripcion" required></textarea>
+      <textarea rows="5" cols="50" name="descripcion" [(ngModel)]="descripcion"></textarea>
 
     </div>
 

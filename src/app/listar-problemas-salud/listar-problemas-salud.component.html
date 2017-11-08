@@ -9,6 +9,7 @@
                     <th>Atencion</th>
                     <th>Diagn&oacute;stico o problema de salud</th>
                     <th>Enfermedad actual</th>
+                    <th>Fecha</th>
                 </tr>
             </thead>
             <tbody>
@@ -16,6 +17,7 @@
                     <td>{{e.codigo}}</td>
                     <td>{{e.diagn_problema_salud}}</td>
                     <td>{{e.enfermedad_actual}}</td>
+                    <td>{{e.fecha | date: 'd-MM-y'}}</td> <!-- |  date:'y-MM-d'"-->
                 </tr>
             </tbody>
         </table>

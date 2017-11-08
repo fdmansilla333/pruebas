@@ -46,7 +46,7 @@
 </div>
 
 
-<ngx-smart-modal #drogaModal [identifier]="'drogaModal'" (onOpen)="log('Modal opened!')" (onClose)="log('Modal closed!')"
+<ngx-smart-modal #drogaModal [identifier]="'drogaModal'" (onOpen)="log('Modal opened!')"
   (onDismiss)="log('Modal dismissed!')">
 
   <h5>Medicamentos a los que tiene alergia</h5>
@@ -62,17 +62,17 @@
     </select>
   -->
       <input class="campoLargo" max-num-list=5 name="seleccionado" auto-complete [(ngModel)]="objetoDrogaSeleccionado"
-        [source]="drogas" placeholder="Seleccione una de las drogas" [list-formatter]="autocompleListFormatter" value-property-name="codigo"
+        [source]="drogas" placeholder="Seleccione una de las drogas" no-match-found-text="La busqueda no arroja resultados. Pruebe otra entrada" loading-text="Cargando..." [list-formatter]="autocompleListFormatter" value-property-name="codigo"
         display-property-name="descripcion" required/>
 
     </div>
     <div class="form-group">
       <label>Ingrese una descripción o motivo relacionados con la alergia a la droga:</label>
-      <input class="campoLargo" name="descripcion" type="text" [(ngModel)]="descripcion" required>
+      <input class="campoLargo" name="descripcion" type="text" [(ngModel)]="descripcion" >
     </div>
 
-    <button [disabled]="!FormAlergia.form.valid" (click)="guardar()">Guardar</button>
-    <button (click)="drogaModal.close()">Cerrar</button>
+    <button class="btn btn-info" [disabled]="!FormAlergia.form.valid" (click)="guardar()">Guardar</button>
+    <button class="btn btn-danger" (click)="drogaModal.close()">Cerrar</button>
 
   </form>
 </ngx-smart-modal>

@@ -32,8 +32,9 @@
               <tr>
                 <th>Nombre</th>
                 <th>Descripcion</th>
-                <th>unidad de medida</th>
+                <th>Observaci&oacute;n</th>
                 <th>Cantidad</th>
+                <th>Unidad de medida </th>
               </tr>
             </thead>
             <tbody>
@@ -42,6 +43,7 @@
                 <td>{{habito.tipo_habito_dato.descripcion}}</td>
                 <td>{{habito.observacion}}</td>
                 <td>{{habito.cantidad}}</td>
+                <td>{{habito.unidad}}</td>
               </tr>
             </tbody>
           </table>
@@ -61,31 +63,34 @@
     <div class="form-group">
       <label>Seleccione un habito</label>
 
-      <input class="campoLargo" max-num-list=5 name="seleccionado" auto-complete [(ngModel)]="objetoSeleccionado"
-      [source]="tipoHabitosDisponibles" placeholder="Seleccione uno de los habitos" [list-formatter]="autocompleListFormatter" value-property-name="codigo"
-      display-property-name="nombre_corto" required/>
-  
-      <!--
-      <select name="seleccionado" [(ngModel)]="codigoHabitoSeleccionado" required>
-    <option value="" selected>Seleccione un habito</option>
-  <option value={{h.codigo}} *ngFor="let h of tipoHabitosDisponibles">{{h.nombre_corto}}
-  </option>
-  </select>
--->
+      <input class="campoLargo" max-num-list=5 name="seleccionado" auto-complete [(ngModel)]="objetoSeleccionado" [source]="tipoHabitosDisponibles"
+        placeholder="Seleccione uno de los habitos" [list-formatter]="autocompleListFormatter" no-match-found-text="La busqueda no arroja resultados. Pruebe otra entrada" loading-text="Cargando..." value-property-name="codigo"
+        display-property-name="nombre_corto" required/>
+
     </div>
 
     <div class="form-group">
       <label>Descripción del habito:</label>
       <br>
-      <textarea rows="5" cols="50" name="observacion" [(ngModel)]="observacion" required></textarea>
+      <textarea rows="5" cols="50" name="observacion" [(ngModel)]="observacion"></textarea>
     </div>
+    <!--Debería crearse una relacion con las unidades permitidas para cada tipo-->
     <div class="form-group">
+      <strong><label>Unidad:</label></strong>
+        <select name="unidadSeleccionada" [(ngModel)]="unidadSeleccionada" required>
+        <option   value="CigarrillosDia">Cigarrillos por d&iacute;a</option>
+        <option  value="litrosDia">Litros por d&iacute;a</option>
+        <option  value="horasSemana">Horas por semana</option>
+        </select>
       <label>Cantidad </label>
       <input type="number" min="0" name="cantidad" [(ngModel)]="cantidad" required>
     </div>
 
-    <button [disabled]="!FormHabito.form.valid" (click)="guardar()">Guardar</button>
-    <button (click)="habitoModal.close()">Cerrar</button>
+    
+    
+    
+    <button class="btn btn-info" [disabled]="!FormHabito.form.valid" (click)="guardar()">Guardar</button>
+    <button class="btn btn-danger" (click)="habitoModal.close()">Cerrar</button>
 
   </form>
 </ngx-smart-modal>

@@ -66,7 +66,7 @@
          </select>
         -->
       <input class="campoLargo" max-num-list=5 name="tipoSiniestro" auto-complete [(ngModel)]="codigoTipoSiniestroSeleccionado"
-        [source]="fuente" placeholder="Seleccione uno de los siniestros" />
+        [source]="fuente" no-match-found-text="La busqueda no arroja resultados. Pruebe otra entrada" loading-text="Cargando..." placeholder="Seleccione uno de los siniestros" />
     </div>
     <div class="form-group">
       <div class="row">
@@ -85,8 +85,8 @@
     </div>
 
 
-    <button [disabled]="!Form.form.valid" (click)="guardar()">Guardar</button>
-    <button (click)="myModal.close()">Cerrar</button>
+    <button class="btn btn-info" [disabled]="!Form.form.valid" (click)="guardar()">Guardar</button>
+    <button class="btn btn-danger" (click)="myModal.close()">Cerrar</button>
 
   </form>
 </ngx-smart-modal>

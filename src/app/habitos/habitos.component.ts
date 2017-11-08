@@ -28,6 +28,8 @@ export class HabitosComponent {
   public atencion: any;
   public cantidad: number;
   public objetoSeleccionado: TipoHabito;
+  public unidadSeleccionada: String;
+
 
   /**
    * Se obtienen los tipos de habitos disponibles y los habitos que posee un paciente.
@@ -112,7 +114,8 @@ export class HabitosComponent {
       this.atencionService.setAtencion(this.appconfig.BASEURL, new Atencion(new Date(), 'Habito nuevo', this.appconfig.PERSONA, ''))
         .subscribe( res => this.appconfig.codigoAtencion = res, error => console.log(error), () => {
           this.atencion = this.appconfig.codigoAtencion;
-          let h = new Habitos(null, this.codigoHabitoSeleccionado, this.atencion, this.observacion, this.cantidad, new TipoHabito(this.codigoHabitoSeleccionado, null, null));
+          let h = new Habitos(null, this.codigoHabitoSeleccionado, this.atencion, this.observacion,this.cantidad,this.unidadSeleccionada, new TipoHabito(this.codigoHabitoSeleccionado, null, null));
+          
           h.tipo_habito = this.codigoHabitoSeleccionado;
           if (h.tipo_habito !== null) {
             this.habitoService.setHabito(h).subscribe(res => console.log(res), error => {
@@ -126,7 +129,7 @@ export class HabitosComponent {
     } else {
       //al poseer la atencion, se setea el nuevo habito
       console.log('DEBUG: Enviando desde habito con atencion');
-      let h = new Habitos(null, this.codigoHabitoSeleccionado, this.atencion, this.observacion, this.cantidad, new TipoHabito(this.codigoHabitoSeleccionado, null, null));
+      let h = new Habitos(null, this.codigoHabitoSeleccionado, this.atencion, this.observacion, this.cantidad,this.unidadSeleccionada, new TipoHabito(this.codigoHabitoSeleccionado, null, null));
       h.tipo_habito = this.codigoHabitoSeleccionado;
       if (h.tipo_habito !== null) {
         this.habitoService.setHabito(h).subscribe(res => console.log(res), error => console.log(error), () => {

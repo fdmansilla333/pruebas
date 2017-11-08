@@ -42,6 +42,8 @@ import { NguiAutoCompleteModule } from '@ngui/auto-complete';
 import {ListarProblemasSaludComponent} from './listar-problemas-salud/listar-problemas-salud.component';
 /*Constantes utilizadas en la aplicación*/
 
+import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
+
 const appRoutes: Routes = [
   {path: '', redirectTo: '/buscar' , pathMatch: 'full'},
   {path: 'buscar/evolucionAmbulatoria', redirectTo: '/evolucionAmbulatoria', pathMatch: 'prefix'},
@@ -112,6 +114,7 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     NgxSmartModalModule.forRoot(),
+    NgxMyDatePickerModule.forRoot(),
     FormsModule,
     CustomFormsModule, // Agregado para validaciones especificas
     NguiAutoCompleteModule, // autocomplete module

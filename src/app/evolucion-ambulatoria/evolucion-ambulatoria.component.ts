@@ -12,6 +12,11 @@ import { AtencionService } from "../atencion.service";
 import { Router } from "@angular/router";
 import { Diagnostico } from "../modelos/Diagnostico";
 import { Observable } from "rxjs/Observable";
+import { Producto } from "../modelos/Producto";
+import { MedicamentosConsumeService } from "../medicamentos-consume/medicamentos-consume.service";
+import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
+// Agregado para la compatibilidad de los DATES
+import { INgxMyDpOptions, IMyDateModel } from 'ngx-mydatepicker';
 
 
 
@@ -20,7 +25,8 @@ import { Observable } from "rxjs/Observable";
     moduleId: module.id,
     selector: 'evolucion-ambulatoria',
     templateUrl: 'evolucion-ambulatoria.component.html',
-    styleUrls: ['evolucion-ambulatoria.component.scss']
+    styleUrls: ['evolucion-ambulatoria.component.scss'],
+    providers: [MedicamentosConsumeService]
 })
 /**
  * componente que gestiona la evolucion ambulatoria de un paciente
@@ -29,7 +35,7 @@ export class EvolucionAmbulatoriaComponent implements OnChanges {
 
     @Input() public dniPaciente: Number;
     @Input() public persona: Persona;
-    public hoy: Date;
+    //public hoy: Date;
     public evolucionAmbulatoria: EvolucionAmbulatoria;
     public peso: Number = 0;
     public diagnosticos: Diagnostico[];
@@ -37,6 +43,16 @@ export class EvolucionAmbulatoriaComponent implements OnChanges {
     public seleccionado: any;
     public myData: any;
     public fuente = [];
+    public medicamentos: Producto[];
+    public diagnosticoSeleccionado: Diagnostico;
+    public medicamentoSeleccionado: Producto;
+
+    
+    public hoy: any = { jsdate: new Date() };
+  
+    myOptions: INgxMyDpOptions = {
+      dateFormat: 'dd/mm/yyyy', // ver https://github.com/kekeh/ngx-mydatepicker/blob/master/README.md
+    };
 
     /**
      * Genera el formulario con los datos calculados en el modelo y obtenidos de la BD.
@@ -45,31 +61,47 @@ export class EvolucionAmbulatoriaComponent implements OnChanges {
      * @param servicio 
      * @param router 
      */
-    constructor(public app: AppComponent, public servicio: AtencionService, public router: Router) {
+    constructor(public app: AppComponent, public mcService: MedicamentosConsumeService, public servicio: AtencionService, public router: Router, private _sanitizer: DomSanitizer) {
         if (app.DNIPERSONA) {
             this.dniPaciente = app.DNIPERSONA;
             //console.log(app.OBJETO_PERSONA);
             this.persona = app.OBJETO_PERSONA;
-            this.hoy = new Date();
-            this.evolucionAmbulatoria = new EvolucionAmbulatoria(this.persona, this.hoy);
-            this.diagnosticos = new Array;
+            //this.hoy = new Date();
+            this.evolucionAmbulatoria = new EvolucionAmbulatoria(this.persona);
+            this.diagnosticos = new Array<Diagnostico>();
             this.servicio.getDiagnosticos(this.app.BASEURL)
                 .subscribe(res => this.diagnosticos = res, error => console.log(error), () => {
-                    this.diagnosticos.map(d => {
-                        this.fuente.push(d.codigo + " " + d.descripcion);
-                        /*let item =  {
-                            'name': d.descripcion,
-                            'label': d.descripcion,
-                            'options': [
-                              {'key': d.id, 'label': d.codigo}
-                              
-                            ]
-                          };
-                          
-                        this.choices.push(item);
-                        */
+                    /*this.diagnosticos.map(d => {
+                        this.fuente.push(d.codigo +' '+ d.descripcion);
+                        
+                   
                     });
+                    */
+                    this.diagnosticos= this.diagnosticos.sort((d1, d2) => {
+                        if (d1.descripcion < d2.descripcion) {
+                            return -1;
+                        } else {
+                            if (d1.descripcion > d2.descripcion) {
+                                return 1;
+                            } else {
+                                return 0;
+                            }
+                        }
+                    });
+
+                    console.log(this.diagnosticos);
                 });
+            this.medicamentos = new Array<Producto>();
+            mcService.getMedicamentos()
+                .subscribe(res => this.medicamentos = res, error=>{}, () => {
+                    console.log(this.medicamentos);
+                    
+                });
+
+                
+
+            
+
 
 
         }
@@ -81,6 +113,12 @@ export class EvolucionAmbulatoriaComponent implements OnChanges {
      */
     ngOnChanges(changes: SimpleChanges): void {
     }
+
+    onDateChanged(changes: Event): void {
+        
+    }
+
+ 
 
     /**
      * Metodo ejecutado al presionarse una tecla
@@ -117,12 +155,14 @@ export class EvolucionAmbulatoriaComponent implements OnChanges {
             () => {
                 if (codigoAtencionDevuelto) { // si tengo un codigo valido de inserción, inserto la atencion ambulatoria
                     this.evolucionAmbulatoria.atencion = codigoAtencionDevuelto;
+                    this.evolucionAmbulatoria.diagn_problema_salud = this.diagnosticoSeleccionado.descripcion;
+                    this.evolucionAmbulatoria.indicacion_medicacion = this.medicamentoSeleccionado.nombre + ' ' + this.medicamentoSeleccionado.presentacion;
+                    this.evolucionAmbulatoria.fecha = this.hoy.jsdate; // El objeto es un contenedor de date
                     console.log(this.evolucionAmbulatoria);
                     this.servicio.setEvolucionAmbulatoria(this.app.BASEURL, this.evolucionAmbulatoria)
                         .subscribe(resultado => console.log(resultado)
                         , error => {
                             console.log(error);
-                            //TODO Damian Falta llamar a eliminar la atencion con el codigo proporcionado
                             console.log('Eliminando atencion:' + this.evolucionAmbulatoria.atencion);
                             this.servicio.deleteAtencion(this.app.BASEURL, this.evolucionAmbulatoria.atencion)
                                 .subscribe(x => console.log(x));
@@ -143,5 +183,14 @@ export class EvolucionAmbulatoriaComponent implements OnChanges {
         return this.evolucionAmbulatoria.otras;
     }
 
+    autocompleListFormatter = (data: any): SafeHtml => {
+        let html = `<span>${data.nombre} - ${data.presentacion}</span>`;
+        return this._sanitizer.bypassSecurityTrustHtml(html);
+    }
+
+    autocompleListFormatterDiagnosticos = (data: any): SafeHtml => {
+        let html = `<span>${data.codigo} - ${data.descripcion}</span>`;
+        return this._sanitizer.bypassSecurityTrustHtml(html);
+    }
 
 }

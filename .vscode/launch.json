@@ -1,13 +1,21 @@
 {
         "version": "0.2.0",
         "configurations": [
-               {
-                "name": "Attach",
-                "type": "chrome",
+            {
+                "type": "node",
                 "request": "attach",
+                "name": "Attach",
                 "port": 9222,
+                "url": "http://localhost:4200/"
+                
+            },
+            {
+                "name": "Launch localhost",
+                "type": "chrome",
+                "request": "launch",
+                "port": 9222,                
                 "url": "http://localhost:4200/",
-                "webRoot": "${workspaceRoot}"
+                "webRoot": "${workspaceRoot}/wwwroot"
             }
         ]
     }

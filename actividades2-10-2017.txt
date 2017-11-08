@@ -1,0 +1,20 @@
+Estas son los cambios a realizar, que observó Adrián Pizzi.
+
+1) Modificar la visualización del grupo sanguíneo: debe aparecer el signo. Sección Antecedentes Perinatológicos[Visual]
+2) La descripción deja de ser obligatoria. Sección Medicamentos alergia [Visual]
+3) Limpiar el modelo. Sección Medicamentos Alergia [Lógica]
+4) La descripción deja de ser obligatoria. Sección Medicamentos consume [Visual]
+5) Debe aparecer los datos del prestador y la matrícula. Sección Evolución Ambulatoria [visual]
+6) Agregar las distintas unidades. En cigarrillos (cigarrillos por dia), en alcohol (litros por dia), en actividad física(semanas/horas) Sección Habitos [visual y lógica]
+7) Agregar control en el campo presión sanguínea. la presión mínima debe ser 50. La mínima debse ser menos que la máxima y no deben ser iguales. Sección Evolución ambulatoria
+8) Probar los diagnósticos "asma" algunos no los encuentra. Sección Evolución Ambulatoria
+9) Agregar en indicación de medicación un listado de medicamentos a través de los productos. (ver si es posible que sea múltiple la selección) Sección Ambulatoria [lógica y visual]
+10) Modificar el diseño para hacerlo más accesible, y que se reconozcan mayormente las secciones de carga[visual]
+11) No permitir la expansión de plan de tratamiento y consejería. Limitarlos horizontal y verticalmente . Sección evolución ambulatoria [visual]
+12) Sacar sello / nombre del prestador reemplazar por 5.
+
+Para realizar 5) debe almacenarse las firmas. Por ahora puede aparecer el nombre y matricula del prestador que cargó la evolución ambulatoria. Si se expande a todos los antecedentes se debe modificar en la BD para almacenar el usuario. De esta forma se vincula la modificación.
+
+Estos cambios estaban pactados para el martes 7-11
+
+Lunes 13 de Octubre presentación de la app con la gente de Comodoro Rivadavia. 

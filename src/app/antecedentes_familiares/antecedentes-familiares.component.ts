@@ -134,24 +134,22 @@ export class AntecedentesFamiliaresComponent  {
      this.todosTiposAfeccionesFamiliares.map(a => {
       //Caso en que desmarca
       //Se actualiza la atencion
+  
       if (!a.activado && a.posee) {
-        console.log('actualizando...');
-        console.log(a);
+      
         this.servicesTiposAfeccionesFamiliares.putTipoAtencionFamiliar(a)
           .subscribe(res => { console.log(res); a.posee = false }, error => { a.activado = true; alert('Hubo error al procesar ' + a.descripcion) });
 
       } else {
 
         //caso en que marca uno nuevo
-        //se genera un nuevo registro en antecedentes personales
+        //se genera un nuevo registro en antecedentes familiares
         if (a.activado && !a.posee) {
-          console.log('Agregando...');
-          console.log(a);
+       
           //Al agregar uno nuevo se debe traer el nuevo id.
           this.servicesTiposAfeccionesFamiliares.setTipoAtencionFamiliar(this.app.codigoAtencion, a)
             .subscribe(res => { console.log(res); a.posee = true; a.codigoAntecedenteFamiliar = res.json().codigo }, error => { a.activado = false; alert('Hubo error al procesar ' + a.descripcion) });
-            console.log('queda:');
-            console.log(a);
+         
         }
       }
 

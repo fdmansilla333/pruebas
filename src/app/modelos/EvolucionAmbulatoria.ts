@@ -42,7 +42,8 @@ export class EvolucionAmbulatoria {
   consejerias: string = '';
   interconsulta: boolean = false;
   internacion: boolean = false;
-  constructor(persona: Persona, hoy: Date) {
+  constructor(persona: Persona) {
+    let hoy = new Date();
 
 
     let nacimiento: Date = new Date(persona.fecha_nacimiento);

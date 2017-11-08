@@ -19,6 +19,7 @@ input#sello {
     width: 95%;
     padding-left: 5%;
     padding-right: 5%;
+    height: 30px;
     
 }
 .campoMediano {
@@ -27,12 +28,18 @@ input#sello {
     padding-right: 5%;
     
 }
+textarea {
+    resize: none;
+} /*Para cumplir con el requerimiento de que no se deben expandir*/
 label{
     padding-left: 1%;
     padding-right: 1%;
 }
 input {
     width: 50px;
+}
+.well{
+    background-color: lightblue;
 }
 /*Compatibilidad para navegadores*/
 

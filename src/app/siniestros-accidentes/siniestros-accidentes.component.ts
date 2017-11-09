@@ -8,6 +8,8 @@ import { NgxSmartModalService } from 'ngx-smart-modal';
 import { NgForm } from "@angular/forms";
 import { AtencionService } from '../atencion.service';
 import { Atencion } from "../atencion";
+import { INgxMyDpOptions, IMyDateModel } from 'ngx-mydatepicker';
+
 
 @Component({
   moduleId: module.id,
@@ -22,13 +24,19 @@ import { Atencion } from "../atencion";
  */
 export class SiniestrosAccidentesComponent {
   @Input() accidentes: Siniestro[];
-  public hoy: Date;
+  //public hoy: Date;
   public motivo: string;
   public todosLosSiniestros: TipoAntecedenteSiniestro[];
   public codigoTipoSiniestroSeleccionado: String;
   public fechaDeHoy = new Date(); //utilizado para no permitir el ingreso de una fecha posterior
   public atencion;
   public fuente = [];
+
+  public hoy: any = { jsdate: new Date() };
+  
+    myOptions: INgxMyDpOptions = {
+      dateFormat: 'dd/mm/yyyy', // ver https://github.com/kekeh/ngx-mydatepicker/blob/master/README.md
+    };
 
   /**
    * El constructor obtiene todos los tipos de antecedentes siniestros que existen,
@@ -39,7 +47,7 @@ export class SiniestrosAccidentesComponent {
    * @param ngxSmartModalService Servicio para el modal
    */
   constructor(public atencionService: AtencionService, public accidentesService: SiniestrosAccidentesService, public appconfig: AppComponent, public ngxSmartModalService: NgxSmartModalService) {
-    this.hoy = new Date();
+    //this.hoy = new Date();
     this.motivo = '';
     this.accidentes = new Array<Siniestro>();
     accidentesService.getTiposAntecedenesSiniestros()
@@ -74,7 +82,7 @@ export class SiniestrosAccidentesComponent {
    * Actualiza la coleccion de accidentes y vuelve a actualizar desde la BD
    */ 
   actualizar() {
-    this.accidentes.map(e => this.accidentes.pop());
+    this.accidentes = [];
     this.accidentesService.getAccidentesPorPersona(this.appconfig.PERSONA)
       .subscribe(objeto => {
         objeto.map(accidente => {
@@ -117,7 +125,7 @@ export class SiniestrosAccidentesComponent {
       this.atencionService.setAtencion(this.appconfig.BASEURL, new Atencion(new Date(), 'Antecedentes siniestro', this.appconfig.PERSONA, ''))
         .subscribe(res => this.atencion = res, error => console.log(error), () => {
           this.appconfig.codigoAtencion = this.atencion;
-          let tipoAntecedenteSiniestro = new TipoAntecedenteSiniestro(this.hoy, this.motivo, this.atencion, codigoTipoSiniestroSeleccionado);
+          let tipoAntecedenteSiniestro = new TipoAntecedenteSiniestro(this.hoy.jsdate, this.motivo, this.atencion, codigoTipoSiniestroSeleccionado);
           let errorAntecedente = false;
           this.accidentesService.setTipoAntecedenteSiniestro(tipoAntecedenteSiniestro)
             .subscribe(res => console.log(res), error => errorAntecedente = true,
@@ -131,7 +139,7 @@ export class SiniestrosAccidentesComponent {
 
 
     } else {
-      let tipoAntecedenteSiniestro = new TipoAntecedenteSiniestro(this.hoy, this.motivo, this.atencion, codigoTipoSiniestroSeleccionado);
+      let tipoAntecedenteSiniestro = new TipoAntecedenteSiniestro(this.hoy.jsdate, this.motivo, this.atencion, codigoTipoSiniestroSeleccionado);
       let errorAntecedente = false;
       this.accidentesService.setTipoAntecedenteSiniestro(tipoAntecedenteSiniestro)
         .subscribe(res => console.log(res), error => errorAntecedente = true,

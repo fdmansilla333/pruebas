@@ -46,6 +46,7 @@
         <hr>
         <div class="row">
           <button class="btn btn-primary" (click)="ngxSmartModalService.getModal('myModal').open()">Agregar</button>
+          <button class="btn btn-primary" (click)="actualizar()">Actualizar</button>
         </div>
       </div>
     </div>
@@ -66,7 +67,8 @@
          </select>
         -->
       <input class="campoLargo" max-num-list=5 name="tipoSiniestro" auto-complete [(ngModel)]="codigoTipoSiniestroSeleccionado"
-        [source]="fuente" no-match-found-text="La busqueda no arroja resultados. Pruebe otra entrada" loading-text="Cargando..." placeholder="Seleccione uno de los siniestros" />
+        [source]="fuente" no-match-found-text="La busqueda no arroja resultados. Pruebe otra entrada" loading-text="Cargando..."
+        placeholder="Seleccione uno de los siniestros" />
     </div>
     <div class="form-group">
       <div class="row">
@@ -74,7 +76,18 @@
           <strong><label for="Fecha">Fecha:</label></strong>
         </div>
         <div class="col-md-10">
-          <input class="campoMediano" name="hoy" type="date" [ngModel]="hoy | date:'y-MM-d'" (ngModelChange)="updatehoy($event)" required>
+
+          <!--<input class="campoMediano" name="hoy" type="date" [ngModel]="hoy | date:'y-MM-d'" (ngModelChange)="updatehoy($event)" required> -->
+          <input class="campoMediano" placeholder="Ingrese una fecha" ngx-mydatepicker name="mydate" [(ngModel)]="hoy" [options]="myOptions"
+            #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" />
+          <span class="input-group-btn">
+          <button type="button" class="btn btn-default" (click)="dp.clearDate()">
+              <i class="glyphicon glyphicon-remove"></i>
+          </button>
+          <button type="button" class="btn btn-default" (click)="dp.toggleCalendar()">
+              <i class="glyphicon glyphicon-calendar"></i>
+          </button>
+      </span>
         </div>
       </div>
     </div>

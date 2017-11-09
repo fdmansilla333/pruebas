@@ -87,7 +87,8 @@ export class HabitosComponent {
   }
 
   actualizar() {
-    this.habitos.map(m => this.habitos.pop());
+    //this.habitos.map(m => this.habitos.pop());
+    this.habitos = [];
     this.objetoSeleccionado = undefined;
     this.observacion = '';
     this.cantidad = 0;

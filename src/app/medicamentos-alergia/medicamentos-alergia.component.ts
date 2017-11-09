@@ -111,7 +111,8 @@ export class MedicamentosAlergiaComponent {
   actualizar() {
     this.objetoDrogaSeleccionado.codigo = 0;
     this.objetoDrogaSeleccionado.descripcion = '';
-    this.medicamentosAlergia.map(e => this.medicamentosAlergia.pop());
+    //this.medicamentosAlergia.map(e => this.medicamentosAlergia.pop());
+    this.medicamentosAlergia = [];
     this.maService.getMedicamentosAlergia(this.appconfig.PERSONA)
       .subscribe(objeto => {
         objeto.map(medicamento => {

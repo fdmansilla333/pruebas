@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import { TipoAntecedenteSiniestro } from "../modelos/tipoAntecedenteSiniestro";
 import { Observable } from "rxjs/Observable";
+import { Siniestro } from "../modelos/Siniestro";
 
 /**
  * Servicio que se encarga de los siniestros [Accidentes, Operaciones, Internaciones] de un determinado paciente
@@ -26,7 +27,7 @@ export class SiniestrosAccidentesService {
    * Devuelve los accidentes que posee una persona
    * @param persona codigo identificatorio de la relacion persona
    */
-  getAccidentesPorPersona(persona: Number): any {
+  getAccidentesPorPersona(persona: Number): Observable <Siniestro[]> {
     return this.http.get(this.appconfig.BASEURL + '/siniestros/' + persona)
     .map(res => res.json());
   }
@@ -53,6 +54,7 @@ export class SiniestrosAccidentesService {
  * @param tipoAntecedenteSiniestro 
  */
   setTipoAntecedenteSiniestro(tipoAntecedenteSiniestro: TipoAntecedenteSiniestro): Observable < TipoAntecedenteSiniestro> {
+    console.log(tipoAntecedenteSiniestro);
     return this.http.post(this.appconfig.BASEURL + '/antecedente_tipo_siniestros', tipoAntecedenteSiniestro)
     .map(res => res.json());
   }

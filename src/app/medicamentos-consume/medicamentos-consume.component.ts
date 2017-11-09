@@ -61,7 +61,7 @@ export class MedicamentosConsumeComponent {
     console.log('Usando atencion:' + this.atencion);
   }
   actualizar() {
-    this.medicamentosConsume.map(m => this.medicamentosConsume.pop());
+    this.medicamentosConsume = [];
 
     this.mcService.getMedicamentosConsume(this.appconfig.PERSONA)
       .subscribe(x => x.map(y => y.map(z =>

@@ -93,8 +93,10 @@ export class AntecedentesPersonalesComponent {
       //Caso en que desmarca
       //Se actualiza la atencion
       if (!a.activado && a.posee) {
-        console.log('actualizando...');
-        console.log(a);
+        if(a.observacion.length > 0){ // Limpiando el modelo de otros
+          a.observacion = '';
+        }
+ 
         this.servicesTiposAfeccionesPersonales.putTipoAfeccionPersonal(a)
           .subscribe(res => { console.log(res); a.posee = false }, error => { a.activado = true; alert('Hubo error al procesar ' + a.descripcion) });
 
@@ -116,6 +118,12 @@ export class AntecedentesPersonalesComponent {
     });
 
   }
-
+  mostrar(afeccion: TipoAfeccionPersonal): boolean {
+    
+        if (afeccion.descripcion === 'Otros' && afeccion.activado) {
+          return true;
+        }
+        return false;
+      }
 
 }

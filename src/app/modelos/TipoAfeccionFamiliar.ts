@@ -8,6 +8,8 @@ export class TipoAfeccionFamiliar {
   public descripcion: String;
   public activado: boolean;
   public posee: boolean=false;
+  public observacion: String;
+
   codigoAntecedenteFamiliar: any;
 
   constructor(codigo: Number, nombre: String, descripcion: String) {

@@ -10,14 +10,20 @@
             <div class="row text-left" style="padding-left: 20px">
               <div class="checkbox">
                 <label>
-            <input type="checkbox" name="activado" [(ngModel)]="afeccion.activado"> 
-            {{afeccion.descripcion}}
-         
-          </label>
+                  <input type="checkbox" name="activado" [(ngModel)]="afeccion.activado"> {{afeccion.descripcion}}
+                  <div *ngIf="mostrar(afeccion)">
+                    <br>
+                    <hr>
+                   
+                    <strong>
+                      <input class="campoLargo" name="campoOtras" type="text" [(ngModel)]="afeccion.observacion">
+                    </strong>
+                  </div>
+                </label>
               </div>
             </div>
           </div>
-          </div>
+        </div>
         <button class="btn btn-primary" type="submit" [disabled]="!f.form.valid" id="botonGuardar">Modificar antecedentes familiares</button>
       </form>
     </div>

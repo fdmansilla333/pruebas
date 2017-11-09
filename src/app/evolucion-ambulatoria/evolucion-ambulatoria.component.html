@@ -74,15 +74,15 @@
                         <td><input type="number" min="0" name="percentilos_talla_edad" [(ngModel)]="evolucionAmbulatoria.percentilos_talla_edad"></td>
                         <td><input type="number" min="0" name="percentilos_imc_edad" [(ngModel)]="evolucionAmbulatoria.percentilos_imc_edad"></td>
 
-                        <td><input #presion_arterial_num="ngModel" type="number" min="50" name="presion_arterial_num" [(ngModel)]="evolucionAmbulatoria.presion_arterial"
+                        <td><input #presion_arterial_num="ngModel" type="number" min="30" name="presion_arterial_num" [(ngModel)]="evolucionAmbulatoria.presion_arterial"
                                 size="3" required autofocus> /
-                            <input #presion_arterial_den="ngModel" type="number" min="50" name="presion_arterial_den" [(ngModel)]="evolucionAmbulatoria.presion_arterial_den"
+                            <input #presion_arterial_den="ngModel" type="number" min="30" name="presion_arterial_den" [(ngModel)]="evolucionAmbulatoria.presion_arterial_den"
                                 size="3" required>
                             <div [hidden]="presion_arterial_num.valid || presion_arterial_num.pristine" class="alert alert-danger">
-                                El numerador de la presion arterial es obligatoria y debe ser como mínimo 50
+                                El numerador de la presion arterial es obligatoria y debe ser como mínimo 30
                             </div>
                             <div [hidden]="presion_arterial_den.valid || presion_arterial_den.pristine" class="alert alert-danger">
-                                El denominador de la presion arterial es obligatoria y debe ser como mínimo 50
+                                El denominador de la presion arterial es obligatoria y debe ser como mínimo 30
                             </div>
                             <div [hidden]="presion_arterial_den.pristine || (presion_arterial_den.value < presion_arterial_num.value)" class="alert alert-danger">
                                 La mínima debe ser menor que la máxima (Presión Arterial)
@@ -272,7 +272,7 @@
                     width="100">
 
                 <input id="sello" type="text" name="prestador" value="Sello o Nombre del Prestador" height="200px" width="100px">
-                
+
 
 
             </div>

@@ -18,10 +18,11 @@ import 'rxjs/add/operator/filter';
   styleUrls: ['antecedentes-familiares.component.scss'],
   providers: [TipoAfeccionesAntecedentesService, AtencionService],
 })
-export class AntecedentesFamiliaresComponent  {
+export class AntecedentesFamiliaresComponent {
   @Input() todosTiposAfeccionesFamiliares: TipoAfeccionFamiliar[];
   @Input() poseeTiposAfeccionesFamiliares: TipoAfeccionFamiliar[];
   @Input() faltanTiposAfeccionesFamiliares: TipoAfeccionFamiliar[];
+
 
 
   constructor(public servicesTiposAfeccionesFamiliares: TipoAfeccionesAntecedentesService,
@@ -34,30 +35,11 @@ export class AntecedentesFamiliaresComponent  {
     servicesTiposAfeccionesFamiliares.getTiposAfeccionesFamiliares()
       .subscribe(objeto => {
         objeto.map(afeccion => this.todosTiposAfeccionesFamiliares.push(afeccion));
-      }); // nuevo cambio adaptandolo equivalente al personal
-      /*,
-      error => console.log(error),
-      () => {
-        servicesTiposAfeccionesFamiliares.getTipoAfeccionesQuePoseePersona(app.PERSONA)
-          .subscribe(objeto => {
-            console.log(objeto);
-            objeto.map(afeccion => {
-              console.log(afeccion);
-              afeccion.activado = true; //TODO ver este nuevo cambio
-              this.poseeTiposAfeccionesFamiliares.push(afeccion)
-            });
-          },
-          error => console.log(error),
-          () => {
-            this.faltanTiposAfeccionesFamiliares =
-              this.verificarDuplicados(this.todosTiposAfeccionesFamiliares, this.poseeTiposAfeccionesFamiliares);
-          });
-
-      });*/
+      });
 
 
-      //cambio traido de antecedentes personales
-      servicesTiposAfeccionesFamiliares.getTipoAfeccionesQuePoseePersona(app.PERSONA)
+    //cambio traido de antecedentes personales
+    servicesTiposAfeccionesFamiliares.getTipoAfeccionesQuePoseePersona(app.PERSONA)
       .subscribe(res => this.poseeTiposAfeccionesFamiliares = res, error => console.log(error), () => {
         //Una vez finalizado el proceso busco en la lista de los que posee
         //TODO agregar los elementos no duplicados...
@@ -73,12 +55,12 @@ export class AntecedentesFamiliaresComponent  {
           }
 
         );
-      }); 
+      });
 
   }
 
 
- 
+
 
   verificarDuplicados(origen: TipoAfeccionFamiliar[], comparador: TipoAfeccionFamiliar[]): any {
     return origen.filter(x => !this.buscarObjeto(comparador, x.codigo));
@@ -129,14 +111,17 @@ export class AntecedentesFamiliaresComponent  {
   /**
    * Envia para almacenar los antecedentes familiares con una atencion seteada.
    */
-  enviarAntecedentesFamiliares2(){
-     //por cada afeccion controlo y envío los cambios
-     this.todosTiposAfeccionesFamiliares.map(a => {
+  enviarAntecedentesFamiliares2() {
+    //por cada afeccion controlo y envío los cambios
+    this.todosTiposAfeccionesFamiliares.map(a => {
       //Caso en que desmarca
       //Se actualiza la atencion
-  
+
       if (!a.activado && a.posee) {
-      
+        if(a.observacion.length > 0){ // Limpiando el modelo de otros
+          a.observacion = '';
+        }
+
         this.servicesTiposAfeccionesFamiliares.putTipoAtencionFamiliar(a)
           .subscribe(res => { console.log(res); a.posee = false }, error => { a.activado = true; alert('Hubo error al procesar ' + a.descripcion) });
 
@@ -145,14 +130,21 @@ export class AntecedentesFamiliaresComponent  {
         //caso en que marca uno nuevo
         //se genera un nuevo registro en antecedentes familiares
         if (a.activado && !a.posee) {
-       
+
           //Al agregar uno nuevo se debe traer el nuevo id.
           this.servicesTiposAfeccionesFamiliares.setTipoAtencionFamiliar(this.app.codigoAtencion, a)
             .subscribe(res => { console.log(res); a.posee = true; a.codigoAntecedenteFamiliar = res.json().codigo }, error => { a.activado = false; alert('Hubo error al procesar ' + a.descripcion) });
-         
+
         }
       }
 
     });
+  }
+  mostrar(afeccion: TipoAfeccionFamiliar): boolean {
+
+    if (afeccion.descripcion === 'Otras' && afeccion.activado) {
+      return true;
+    }
+    return false;
   }
 }
